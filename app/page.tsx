@@ -1,69 +1,86 @@
-import Image from "next/image";
+import { Navbar } from '@/components/navbar';
+import { KPICards } from '@/components/dashboard/kpi-cards';
+import { MonthlyTrendChart } from '@/components/dashboard/monthly-trend-chart';
+import { YearlyComparisonChart } from '@/components/dashboard/yearly-comparison-chart';
+import { DataMatrixTable } from '@/components/dashboard/data-matrix-table';
+import {
+  getDashboardKPIs,
+  getMonthlyTrendData,
+  getYearlyComparisonData,
+  getYearMonthlyMatrix,
+} from '@/lib/services/analytics';
+import { getSession } from '@/lib/auth/session';
+import Link from 'next/link';
+import { Download, Shield, FileSpreadsheet } from 'lucide-react';
 
-export default function Home() {
+export const dynamic = 'force-dynamic';
+
+export default async function DashboardPage() {
+  const session = await getSession();
+  const [kpis, monthlyTrends, yearlyComparison, matrixRows] = await Promise.all([
+    getDashboardKPIs(),
+    getMonthlyTrendData(),
+    getYearlyComparisonData(),
+    getYearMonthlyMatrix(),
+  ]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
+    <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900">
+      <Navbar user={session} />
+
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        {/* Header / Sub-nav */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-2 border-b border-slate-200">
+          <div>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+              แดชบอร์ดติดตามและวิเคราะห์ค่าไฟฟ้า
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+              สำนักงานเขตสุขภาพที่ 7 ข้อมูลสะสมปี พ.ศ. 2562 ถึง ปัจจุบัน (2569)
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2.5">
             <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="/api/export?format=xlsx"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-md shadow-2xs transition-colors"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
+              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+              ส่งออก Excel (.xlsx)
+            </a>
             <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="/api/export?format=csv"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-md shadow-2xs transition-colors"
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              <Download className="w-3.5 h-3.5 text-blue-600" />
+              ส่งออก CSV
+            </a>
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md shadow-2xs transition-colors"
+            >
+              <Shield className="w-3.5 h-3.5" />
+              จัดการข้อมูล
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Section 1: KPI Summary Cards */}
+        <KPICards kpis={kpis} />
+
+        {/* Section 2: Visual Charts (Grid) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <MonthlyTrendChart data={monthlyTrends} />
+          <YearlyComparisonChart data={yearlyComparison} />
         </div>
+
+        {/* Section 3: Data Matrix Table */}
+        <DataMatrixTable rows={matrixRows} />
       </main>
+
+      <footer className="border-t border-slate-200 bg-white py-4 text-center text-xs text-slate-500">
+        ระบบติดตามและจัดการข้อมูลค่าไฟฟ้า สำนักงานเขตสุขภาพที่ 7 &bull; ข้อมูลจริงจากระบบฐานข้อมูล PostgreSQL
+      </footer>
     </div>
   );
 }

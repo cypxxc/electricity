@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx';
 import { db, pool } from '../lib/db';
 import { electricityRecords, users } from '../lib/db/schema';
 import { eq } from 'drizzle-orm';
+import bcrypt from 'bcryptjs';
 
 async function seed() {
   console.log('--- Starting Seed Process ---');
@@ -83,10 +84,7 @@ async function seed() {
   // Seed Admin user
   const adminUsername = process.env.ADMIN_USERNAME || 'admin';
   const adminPassword = process.env.ADMIN_PASSWORD || 'adminpassword123';
-  const passwordHash = await Bun.password.hash(adminPassword, {
-    algorithm: 'bcrypt',
-    cost: 10,
-  });
+  const passwordHash = await bcrypt.hash(adminPassword, 10);
 
   const existingAdmin = await db
     .select()

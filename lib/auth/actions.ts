@@ -5,6 +5,7 @@ import { users } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { setSessionCookie, clearSessionCookie } from './session';
 import { redirect } from 'next/navigation';
+import bcrypt from 'bcryptjs';
 
 export interface ActionResult {
   success: boolean;
@@ -34,7 +35,7 @@ export async function loginAction(
       return { success: false, error: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง' };
     }
 
-    const isValid = await Bun.password.verify(password, user.passwordHash);
+    const isValid = await bcrypt.compare(password, user.passwordHash);
     if (!isValid) {
       return { success: false, error: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง' };
     }

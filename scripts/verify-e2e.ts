@@ -1,9 +1,10 @@
 import { db, pool } from '../lib/db';
 import { electricityRecords, users } from '../lib/db/schema';
-import { eq, and } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { checkDuplicateRecord, createRecord } from '../lib/services/records';
 import { getDashboardKPIs } from '../lib/services/analytics';
 import { generateExcelWorkbook, generateCsvString, parseExcelBuffer } from '../lib/services/excel';
+import bcrypt from 'bcryptjs';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -25,7 +26,7 @@ async function verifyE2E() {
   if (!adminUser) {
     throw new Error('Default admin user not found in database');
   }
-  const isPasswordValid = await Bun.password.verify('adminpassword123', adminUser.passwordHash);
+  const isPasswordValid = await bcrypt.compare('adminpassword123', adminUser.passwordHash);
   if (!isPasswordValid) {
     throw new Error('Admin password hash verification failed');
   }

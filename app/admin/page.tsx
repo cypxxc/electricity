@@ -17,16 +17,17 @@ export default async function AdminPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900">
+    <div className="min-h-screen bg-slate-50/60 flex flex-col text-slate-900 antialiased">
       <Navbar user={session} />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         <AdminHeader totalRecords={records.length} />
         <RecordsTable initialRecords={records} distinctYears={distinctYears} />
       </main>
 
-      <footer className="border-t border-slate-200 bg-white py-4 text-center text-xs text-slate-500">
-        ระบบจัดการข้อมูลค่าไฟฟ้า สำนักงานเขตสุขภาพที่ 7 &bull; เข้าสู่ระบบในฐานะ {session.username} ({session.role})
+      <footer className="border-t border-slate-200 bg-white py-4 px-4 sm:px-8 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <span>ระบบจัดการข้อมูลค่าไฟฟ้า สำนักงานเขตสุขภาพที่ 7 &bull; เข้าสู่ระบบในฐานะ {session.username} ({session.role})</span>
+        <span className="text-slate-400">PostgreSQL Container &bull; Drizzle ORM</span>
       </footer>
     </div>
   );

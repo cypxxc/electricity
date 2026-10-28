@@ -1,6 +1,6 @@
 import { db } from '../db';
 import { electricityRecords } from '../db/schema';
-import { asc, desc, sql } from 'drizzle-orm';
+import { asc, sql } from 'drizzle-orm';
 import { THAI_MONTHS } from '../validations/record';
 
 export interface DashboardKPIs {

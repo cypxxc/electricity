@@ -21,20 +21,20 @@ export function Navbar({ user }: NavbarProps) {
   const isAdmin = pathname.startsWith('/admin');
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur-sm shadow-2xs">
+      <div className="w-full max-w-[1640px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex h-14 items-center justify-between">
           {/* Brand */}
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm transition-transform group-hover:scale-105">
-                <Zap className="h-5 w-5 fill-current" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white shadow-xs transition-transform group-hover:scale-105">
+                <Zap className="h-4 w-4 fill-current" />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-bold text-slate-900 tracking-tight leading-none">
+                <span className="text-xs sm:text-sm font-bold text-slate-900 tracking-tight leading-none">
                   สำนักงานเขตสุขภาพที่ 7
                 </span>
-                <span className="text-[11px] font-medium text-slate-500 leading-tight mt-1">
+                <span className="text-[10px] sm:text-[11px] font-medium text-slate-500 leading-tight mt-0.5">
                   ระบบติดตามและวิเคราะห์ค่าไฟฟ้า
                 </span>
               </div>
@@ -51,7 +51,7 @@ export function Navbar({ user }: NavbarProps) {
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
-              <LayoutDashboard className="h-4 w-4" />
+              <LayoutDashboard className="h-3.5 w-3.5" />
               แดชบอร์ดวิเคราะห์
             </Link>
 
@@ -63,7 +63,7 @@ export function Navbar({ user }: NavbarProps) {
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
-              <Shield className="h-4 w-4" />
+              <Shield className="h-3.5 w-3.5" />
               จัดการข้อมูล (Admin)
             </Link>
           </nav>
@@ -86,7 +86,7 @@ export function Navbar({ user }: NavbarProps) {
                     title="ออกจากระบบ"
                     className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
                   >
-                    <LogOut className="h-4 w-4" />
+                    <LogOut className="h-3.5 w-3.5" />
                   </button>
                 </form>
               </div>
@@ -105,7 +105,7 @@ export function Navbar({ user }: NavbarProps) {
           <div className="flex md:hidden items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md focus:outline-none"
+              className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md focus:outline-none"
               aria-label="Toggle Menu"
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -116,11 +116,11 @@ export function Navbar({ user }: NavbarProps) {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-4 space-y-2">
+        <div className="md:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-3 space-y-1.5">
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
-            className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md ${
+            className={`flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md ${
               isDashboard ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-slate-700 hover:bg-slate-50'
             }`}
           >
@@ -130,7 +130,7 @@ export function Navbar({ user }: NavbarProps) {
           <Link
             href="/admin"
             onClick={() => setMobileMenuOpen(false)}
-            className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md ${
+            className={`flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md ${
               isAdmin ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-slate-700 hover:bg-slate-50'
             }`}
           >
@@ -159,7 +159,7 @@ export function Navbar({ user }: NavbarProps) {
               <Link
                 href="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center py-2 px-3 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                className="w-full text-center py-1.5 px-3 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
               >
                 เข้าสู่ระบบ Admin
               </Link>

@@ -20,12 +20,12 @@ export default async function AdminPage() {
     <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900">
       <Navbar user={session} />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <main className="flex-1 w-full max-w-[1640px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 space-y-4">
         <AdminHeader totalRecords={records.length} />
         <RecordsTable initialRecords={records} distinctYears={distinctYears} />
       </main>
 
-      <footer className="border-t border-slate-200 bg-white py-4 text-center text-xs text-slate-500">
+      <footer className="border-t border-slate-200 bg-white py-3 text-center text-xs text-slate-500">
         ระบบจัดการข้อมูลค่าไฟฟ้า สำนักงานเขตสุขภาพที่ 7 &bull; เข้าสู่ระบบในฐานะ {session.username} ({session.role})
       </footer>
     </div>

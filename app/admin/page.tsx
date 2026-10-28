@@ -5,8 +5,6 @@ import { AdminHeader } from '@/components/admin/admin-header';
 import { RecordsTable } from '@/components/admin/records-table';
 import { getAllRecordsForExport, getDistinctYears } from '@/lib/services/records';
 
-export const dynamic = 'force-dynamic';
-
 export default async function AdminPage() {
   const session = await getSession();
   if (!session) {

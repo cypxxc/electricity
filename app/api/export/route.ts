@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAllRecordsForExport } from '@/lib/services/records';
 import { generateExcelWorkbook, generateCsvString } from '@/lib/services/excel';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const format = searchParams.get('format') || 'xlsx';
@@ -31,7 +29,7 @@ export async function GET(request: NextRequest) {
 
     // Default: xlsx
     const buffer = generateExcelWorkbook(records);
-    return new NextResponse(buffer, {
+    return new NextResponse(new Uint8Array(buffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

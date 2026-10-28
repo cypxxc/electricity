@@ -13,8 +13,6 @@ import { getSession } from '@/lib/auth/session';
 import Link from 'next/link';
 import { Download, Shield, FileSpreadsheet } from 'lucide-react';
 
-export const dynamic = 'force-dynamic';
-
 export default async function DashboardPage() {
   const session = await getSession();
   const [kpis, monthlyTrends, yearlyComparison, matrixRows] = await Promise.all([

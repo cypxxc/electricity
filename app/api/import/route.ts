@@ -8,8 +8,6 @@ import { recordInputSchema } from '@/lib/validations/record';
 import { revalidatePath } from 'next/cache';
 import { and, eq } from 'drizzle-orm';
 
-export const dynamic = 'force-dynamic';
-
 export async function POST(request: NextRequest) {
   const session = await getSession();
   if (!session) {

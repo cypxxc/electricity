@@ -1,6 +1,9 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# ==============================================================================
+# .gitignore for Next.js + Bun + PostgreSQL Project
+# ==============================================================================
 
-# dependencies
+# Dependencies
+# ------------------------------------------------------------------------------
 /node_modules
 /.pnp
 .pnp.*
@@ -10,33 +13,95 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
-
-# next.js
+# Next.js Build Outputs & Caches
+# ------------------------------------------------------------------------------
 /.next/
 /out/
+/build/
+/dist/
+/.turbo/
+.cache/
 
-# production
-/build
-
-# misc
-.DS_Store
+# Environment Variables & Secrets (NEVER COMMIT SENSITIVE KEYS)
+# ------------------------------------------------------------------------------
+.env
+.env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 *.pem
+*.key
+*.crt
 
-# debug
+# Allow committing template env file
+!.env.example
+
+# Database Backups & Volume Directories
+# ------------------------------------------------------------------------------
+/pgdata/
+/data/
+backup*.sql
+*_backup.sql
+*.dump
+*.sql.gz
+
+# Microsoft Office / Excel Temporary Lock Files
+# (สร้างขึ้นอัตโนมัติเมื่อเปิดไฟล์ Excel เช่น ~$สรุปค่าไฟฟ้า 62-69.xlsx)
+# ------------------------------------------------------------------------------
+~$*.xlsx
+~$*.xls
+~$*.csv
+~$*.docx
+
+# Operating System Files
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Thumbs.db:encryptable
+Desktop.ini
+
+# IDE & Editor Specific Files
+# ------------------------------------------------------------------------------
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# Debugging & Logs
+# ------------------------------------------------------------------------------
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
-!.env.example
+# Testing & Coverage
+# ------------------------------------------------------------------------------
+/coverage/
+/.nyc_output/
 
-# vercel
-.vercel
-
-# typescript
+# TypeScript Build Info
+# ------------------------------------------------------------------------------
 *.tsbuildinfo
 next-env.d.ts
+
+# Temporary & Vercel
+# ------------------------------------------------------------------------------
+.vercel/
+/tmp/
+/temp/

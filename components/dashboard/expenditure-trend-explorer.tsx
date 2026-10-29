@@ -31,8 +31,8 @@ export function ExpenditureTrendExplorer({
   onSelectYear,
   onResetFilters,
 }: ExpenditureTrendExplorerProps) {
-  // 1. Chart View Mode
-  const [viewMode, setViewMode] = useState<ChartViewMode>('monthly');
+  // 1. Chart View Mode (Default: Yearly Trend as requested)
+  const [viewMode, setViewMode] = useState<ChartViewMode>('yearly');
 
   // Distinct Calendar Years (2569, 2568, ... 2562)
   const availableYears = useMemo(() => {

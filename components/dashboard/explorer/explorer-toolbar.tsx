@@ -70,9 +70,9 @@ export function ExplorerToolbar({
             onChange={(e) => setViewMode(e.target.value as ChartViewMode)}
             className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
           >
+            <option value="yearly">รายปี (Yearly Trend)</option>
             <option value="monthly">รายเดือน (Monthly Trend)</option>
             <option value="yoy">เปรียบเทียบรายเดือนระหว่างปี (Year-over-Year Comparison)</option>
-            <option value="yearly">รายปี (Yearly Trend)</option>
           </select>
         </div>
 

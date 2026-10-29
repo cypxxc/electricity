@@ -105,3 +105,13 @@ next-env.d.ts
 .vercel/
 /tmp/
 /temp/
+
+# Python Virtual Environments & Bytecode
+# ------------------------------------------------------------------------------
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class

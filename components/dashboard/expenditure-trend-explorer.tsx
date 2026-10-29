@@ -391,7 +391,7 @@ export function ExpenditureTrendExplorer({
               id="chart-view-mode"
               value={viewMode}
               onChange={(e) => setViewMode(e.target.value as ChartViewMode)}
-              className="text-xs font-semibold border border-[#0f2744] bg-[#0f2744] text-white rounded-xs px-2.5 py-1 focus:outline-none shadow-2xs cursor-pointer"
+              className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1 focus:outline-none focus:ring-1 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
             >
               <option value="monthly">รายเดือน (Monthly Trend)</option>
               <option value="yoy">เปรียบเทียบรายเดือนระหว่างปี (Year-over-Year Comparison)</option>

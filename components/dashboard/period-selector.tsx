@@ -57,7 +57,7 @@ export function PeriodSelector({
           <button
             onClick={onReset}
             type="button"
-            className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-mono font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 border border-slate-300 rounded-xs transition-colors self-start sm:self-auto cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors self-start sm:self-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
             title="ล้างตัวกรองและแสดงภาพรวมทั้งหมด"
           >
             <RotateCcw className="w-3 h-3 text-slate-500" />

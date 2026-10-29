@@ -41,10 +41,12 @@ export function RecordsTableView({
                 <p className="font-medium text-slate-700">ไม่พบระเบียนข้อมูลที่ตรงกับเงื่อนไขการค้นหา</p>
                 {isFilterActive && (
                   <button
+                    type="button"
                     onClick={onResetFilters}
-                    className="mt-2 inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-[#0f2744] hover:underline cursor-pointer"
+                    className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors cursor-pointer"
                   >
-                    <RotateCcw className="w-3 h-3" /> ล้างตัวกรองทั้งหมด
+                    <RotateCcw className="w-3 h-3 text-slate-500" />
+                    <span>ล้างตัวกรองทั้งหมด</span>
                   </button>
                 )}
               </td>

@@ -68,7 +68,7 @@ export function ExplorerToolbar({
             id="chart-view-mode"
             value={viewMode}
             onChange={(e) => setViewMode(e.target.value as ChartViewMode)}
-            className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1 focus:outline-none focus:ring-1 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
+            className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
           >
             <option value="monthly">รายเดือน (Monthly Trend)</option>
             <option value="yoy">เปรียบเทียบรายเดือนระหว่างปี (Year-over-Year Comparison)</option>
@@ -82,7 +82,7 @@ export function ExplorerToolbar({
             <select
               value={selectedCalendarYear}
               onChange={(e) => setSelectedCalendarYear(e.target.value)}
-              className="text-xs border border-slate-300 rounded-xs px-2 py-1 bg-white text-slate-800 font-medium focus:outline-none shadow-2xs"
+              className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
             >
               <option value="all">
                 แสดงต่อเนื่องทุกปี ({availableYears[availableYears.length - 1] || 2562} - {availableYears[0] || 2569})
@@ -94,14 +94,14 @@ export function ExplorerToolbar({
               ))}
             </select>
 
-            <div className="inline-flex rounded-xs border border-slate-300 p-0.5 bg-slate-50 text-[11px]">
+            <div className="inline-flex rounded-xs border border-slate-300 p-0.5 bg-slate-100 shadow-2xs text-[11px]">
               <button
                 type="button"
                 onClick={() => setMonthlyMetric('amount')}
-                className={`px-2 py-0.5 rounded-2xs font-medium transition-colors ${
+                className={`px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
                   monthlyMetric === 'amount'
-                    ? 'bg-slate-800 text-white font-semibold'
-                    : 'text-slate-700 hover:text-slate-900'
+                    ? 'bg-[#0f2744] text-white shadow-2xs font-semibold'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
                 รายงวด
@@ -109,10 +109,10 @@ export function ExplorerToolbar({
               <button
                 type="button"
                 onClick={() => setMonthlyMetric('cumulative')}
-                className={`px-2 py-0.5 rounded-2xs font-medium transition-colors ${
+                className={`px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
                   monthlyMetric === 'cumulative'
-                    ? 'bg-slate-800 text-white font-semibold'
-                    : 'text-slate-700 hover:text-slate-900'
+                    ? 'bg-[#0f2744] text-white shadow-2xs font-semibold'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
                 ยอดสะสมในรอบปี
@@ -125,11 +125,11 @@ export function ExplorerToolbar({
         {viewMode === 'yoy' && (
           <div className="flex items-center gap-1.5">
             <div className="flex items-center gap-1 text-[11px]">
-              <span className="text-slate-500 font-medium">ปีหลัก:</span>
+              <span className="text-slate-600 font-semibold">ปีหลัก:</span>
               <select
                 value={yoyPrimaryYear}
                 onChange={(e) => setYoyPrimaryYear(parseInt(e.target.value, 10))}
-                className="text-xs border border-slate-300 rounded-xs px-1.5 py-1 bg-white text-slate-900 font-semibold focus:outline-none shadow-2xs"
+                className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
               >
                 {availableYears.map((y) => (
                   <option key={y} value={y}>
@@ -140,11 +140,11 @@ export function ExplorerToolbar({
             </div>
 
             <div className="flex items-center gap-1 text-[11px]">
-              <span className="text-slate-500 font-medium">ปีเทียบ:</span>
+              <span className="text-slate-600 font-semibold">ปีเทียบ:</span>
               <select
                 value={yoyBenchmarkYear}
                 onChange={(e) => setYoyBenchmarkYear(parseInt(e.target.value, 10))}
-                className="text-xs border border-slate-300 rounded-xs px-1.5 py-1 bg-white text-slate-900 font-semibold focus:outline-none shadow-2xs"
+                className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
               >
                 {availableYears.map((y) => (
                   <option key={y} value={y} disabled={y === yoyPrimaryYear}>
@@ -154,14 +154,14 @@ export function ExplorerToolbar({
               </select>
             </div>
 
-            <div className="inline-flex rounded-xs border border-slate-300 p-0.5 bg-slate-50 text-[11px]">
+            <div className="inline-flex rounded-xs border border-slate-300 p-0.5 bg-slate-100 shadow-2xs text-[11px]">
               <button
                 type="button"
                 onClick={() => setYoyChartType('bar')}
-                className={`px-2 py-0.5 rounded-2xs font-medium transition-colors ${
+                className={`px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
                   yoyChartType === 'bar'
-                    ? 'bg-slate-800 text-white font-semibold'
-                    : 'text-slate-700 hover:text-slate-900'
+                    ? 'bg-[#0f2744] text-white shadow-2xs font-semibold'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
                 แท่งคู่
@@ -169,10 +169,10 @@ export function ExplorerToolbar({
               <button
                 type="button"
                 onClick={() => setYoyChartType('line')}
-                className={`px-2 py-0.5 rounded-2xs font-medium transition-colors ${
+                className={`px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
                   yoyChartType === 'line'
-                    ? 'bg-slate-800 text-white font-semibold'
-                    : 'text-slate-700 hover:text-slate-900'
+                    ? 'bg-[#0f2744] text-white shadow-2xs font-semibold'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
                 เส้นคู่
@@ -187,20 +187,20 @@ export function ExplorerToolbar({
             <select
               value={yearlyRange}
               onChange={(e) => setYearlyRange(e.target.value as '5' | 'all')}
-              className="text-xs border border-slate-300 rounded-xs px-2 py-1 bg-white text-slate-800 font-medium focus:outline-none shadow-2xs"
+              className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
             >
               <option value="all">ทุกปีงบประมาณ ({totalFiscalYearsCount} ปี)</option>
               <option value="5">5 ปีงบประมาณล่าสุด</option>
             </select>
 
-            <div className="inline-flex rounded-xs border border-slate-300 p-0.5 bg-slate-50 text-[11px]">
+            <div className="inline-flex rounded-xs border border-slate-300 p-0.5 bg-slate-100 shadow-2xs text-[11px]">
               <button
                 type="button"
                 onClick={() => setYearlyMetric('total')}
-                className={`px-2 py-0.5 rounded-2xs font-medium transition-colors ${
+                className={`px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
                   yearlyMetric === 'total'
-                    ? 'bg-slate-800 text-white font-semibold'
-                    : 'text-slate-700 hover:text-slate-900'
+                    ? 'bg-[#0f2744] text-white shadow-2xs font-semibold'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
                 ยอดรวมทั้งปี
@@ -208,10 +208,10 @@ export function ExplorerToolbar({
               <button
                 type="button"
                 onClick={() => setYearlyMetric('average')}
-                className={`px-2 py-0.5 rounded-2xs font-medium transition-colors ${
+                className={`px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
                   yearlyMetric === 'average'
-                    ? 'bg-slate-800 text-white font-semibold'
-                    : 'text-slate-700 hover:text-slate-900'
+                    ? 'bg-[#0f2744] text-white shadow-2xs font-semibold'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
                 เฉลี่ย/งวด

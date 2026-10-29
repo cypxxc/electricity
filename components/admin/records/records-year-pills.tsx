@@ -47,14 +47,24 @@ export function RecordsYearPills({
 
         {/* All Years Pill */}
         <button
+          type="button"
           onClick={() => onSelectYear('all')}
-          className={`px-2.5 py-1 rounded-xs text-xs font-medium transition-colors shrink-0 cursor-pointer ${
+          className={`px-3 py-1.5 text-xs font-medium rounded-xs border transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0 ${
             selectedYear === 'all'
-              ? 'bg-[#0f2744] text-white'
-              : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+              ? 'bg-[#0f2744] text-white border-[#0f2744] font-semibold shadow-2xs'
+              : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
           }`}
         >
-          ทั้งหมด ({totalRecordsCount})
+          <span>ภาพรวมทั้งหมด</span>
+          <span
+            className={`px-1.5 py-0.2 rounded-2xs text-[10px] font-mono ${
+              selectedYear === 'all'
+                ? 'bg-white/20 text-teal-200'
+                : 'bg-slate-200/80 text-slate-600'
+            }`}
+          >
+            {totalRecordsCount} งวด
+          </span>
         </button>
 
         {/* Specific Year Pills */}
@@ -69,17 +79,18 @@ export function RecordsYearPills({
           return (
             <div key={y} className="relative inline-flex items-center">
               <div
-                className={`inline-flex items-center rounded-xs text-xs font-medium transition-colors shrink-0 ${
+                className={`inline-flex items-center rounded-xs text-xs font-medium border transition-all whitespace-nowrap shrink-0 ${
                   isSelected
-                    ? 'bg-[#0f2744] text-white'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'bg-[#0f2744] text-white border-[#0f2744] font-semibold shadow-2xs'
+                    : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
                 }`}
               >
                 <button
+                  type="button"
                   onClick={() => onSelectYear(y.toString())}
-                  className={`pl-2.5 ${showBadge ? 'pr-1' : 'pr-2.5'} py-1 cursor-pointer`}
+                  className={`px-3 py-1.5 cursor-pointer flex items-center gap-1.5 ${showBadge ? 'pr-1' : ''}`}
                 >
-                  {y}
+                  <span>ปี {y}</span>
                 </button>
 
                 {/* Warning Trigger */}
@@ -91,7 +102,7 @@ export function RecordsYearPills({
                       setActivePopoverYear(isPopoverOpen ? null : y);
                     }}
                     onMouseEnter={() => setActivePopoverYear(y)}
-                    className={`p-1 pr-1.5 transition-colors flex items-center cursor-pointer ${
+                    className={`py-1.5 pr-2 pl-0.5 transition-colors flex items-center cursor-pointer ${
                       isSelected
                         ? 'text-amber-300 hover:text-white'
                         : 'text-amber-600 hover:text-amber-800'
@@ -99,7 +110,16 @@ export function RecordsYearPills({
                     title={`ปี ${y} ข้อมูลไม่ครบ 12 เดือน (คลิกดูรายละเอียด)`}
                     aria-label={`ข้อมูลปี ${y} ไม่ครบ`}
                   >
-                    <AlertCircle className="w-3.5 h-3.5" />
+                    <span
+                      className={`px-1 py-0.2 rounded-2xs text-[10px] font-mono flex items-center gap-0.5 ${
+                        isSelected
+                          ? 'bg-amber-400/20 text-amber-200 border border-amber-300/30'
+                          : 'bg-amber-100 text-amber-800 border border-amber-300'
+                      }`}
+                    >
+                      <AlertCircle className="w-3 h-3" />
+                      <span>{info?.recordedCount}/12</span>
+                    </span>
                   </button>
                 )}
               </div>
@@ -158,7 +178,7 @@ export function RecordsYearPills({
                           setActivePopoverYear(null);
                           onOpenCreate(y, info.nextMissingMonth!);
                         }}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium text-white bg-[#0f2744] hover:bg-[#1e3a5f] rounded-xs transition-colors shadow-2xs cursor-pointer"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold text-white bg-[#0f2744] hover:bg-[#1e3a5f] border border-[#0f2744] rounded-xs transition-colors shadow-2xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
                       >
                         <Plus className="w-3 h-3" />
                         บันทึก {THAI_MONTHS[info.nextMissingMonth - 1]}
@@ -173,8 +193,9 @@ export function RecordsYearPills({
 
         {dismissedYears.length > 0 && (
           <button
+            type="button"
             onClick={onRestoreDismissed}
-            className="text-[11px] text-slate-500 hover:text-slate-800 underline transition-colors ml-1 cursor-pointer"
+            className="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xs border border-slate-300 transition-colors ml-1 cursor-pointer"
             title="แสดงการแจ้งเตือนที่เคยถูกซ่อนไว้ทั้งหมด"
           >
             แสดงเตือน ({dismissedYears.length})
@@ -183,8 +204,9 @@ export function RecordsYearPills({
       </div>
 
       <button
+        type="button"
         onClick={() => onOpenCreate()}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[#0f2744] hover:bg-[#1e3a5f] rounded-xs shadow-2xs transition-colors shrink-0 cursor-pointer"
+        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-[#0f2744] hover:bg-[#1e3a5f] border border-[#0f2744] rounded-xs shadow-2xs transition-colors shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
       >
         <Plus className="w-3.5 h-3.5 text-teal-400" />
         <span>เพิ่มข้อมูลใหม่</span>

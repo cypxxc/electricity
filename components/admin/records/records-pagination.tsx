@@ -30,9 +30,11 @@ export function RecordsPagination({
 
       <div className="flex items-center gap-1 self-end sm:self-auto">
         <button
+          type="button"
           onClick={() => onPageChange(Math.max(1, currentPage - 1))}
           disabled={currentPage <= 1}
-          className="p-1 rounded-xs border border-slate-300 text-slate-700 hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+          className="inline-flex items-center justify-center p-1.5 rounded-xs border border-slate-300 hover:border-slate-400 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-2xs disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-300 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
+          title="หน้าก่อนหน้า"
         >
           <ChevronLeft className="w-3.5 h-3.5" />
         </button>
@@ -40,9 +42,11 @@ export function RecordsPagination({
           หน้า {currentPage} / {totalPages}
         </span>
         <button
+          type="button"
           onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
           disabled={currentPage >= totalPages}
-          className="p-1 rounded-xs border border-slate-300 text-slate-700 hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+          className="inline-flex items-center justify-center p-1.5 rounded-xs border border-slate-300 hover:border-slate-400 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-2xs disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-300 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
+          title="หน้าถัดไป"
         >
           <ChevronRight className="w-3.5 h-3.5" />
         </button>

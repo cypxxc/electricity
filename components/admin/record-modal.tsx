@@ -124,7 +124,7 @@ export function RecordModal({
                 max={2650}
                 value={inputYear}
                 onChange={(e) => setInputYear(parseInt(e.target.value, 10) || initialYear)}
-                className="w-full px-2.5 py-1.5 text-xs font-mono border border-slate-300 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#0f2744] focus:border-[#0f2744] shadow-2xs"
+                className="w-full px-2.5 py-1.5 text-xs font-mono border border-slate-300 hover:border-slate-400 rounded-xs focus:outline-none focus:ring-2 focus:ring-[#0f2744] focus:border-[#0f2744] transition-colors shadow-2xs"
               />
             </div>
 
@@ -137,7 +137,7 @@ export function RecordModal({
                 required
                 value={inputMonth}
                 onChange={(e) => setInputMonth(parseInt(e.target.value, 10))}
-                className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-xs bg-white focus:outline-none focus:ring-1 focus:ring-[#0f2744] focus:border-[#0f2744] shadow-2xs font-medium"
+                className="w-full px-2.5 py-1.5 text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs focus:outline-none focus:ring-2 focus:ring-[#0f2744] focus:border-[#0f2744] shadow-2xs cursor-pointer transition-colors"
               >
                 {THAI_MONTHS.map((m, idx) => (
                   <option key={idx + 1} value={idx + 1}>
@@ -170,7 +170,7 @@ export function RecordModal({
               required
               placeholder="เช่น 45200.75"
               defaultValue={recordToEdit?.amount || ''}
-              className="w-full px-3 py-1.5 text-xs font-mono border border-slate-300 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#0f2744] focus:border-[#0f2744] shadow-2xs"
+              className="w-full px-3 py-1.5 text-xs font-mono border border-slate-300 hover:border-slate-400 rounded-xs focus:outline-none focus:ring-2 focus:ring-[#0f2744] focus:border-[#0f2744] transition-colors shadow-2xs"
             />
           </div>
 
@@ -183,7 +183,7 @@ export function RecordModal({
               name="note"
               placeholder="ระบุข้อสังเกตหรือสาเหตุการใช้จ่าย (ถ้ามี)"
               defaultValue={recordToEdit?.note || ''}
-              className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#0f2744] focus:border-[#0f2744] shadow-2xs"
+              className="w-full px-3 py-1.5 text-xs border border-slate-300 hover:border-slate-400 rounded-xs focus:outline-none focus:ring-2 focus:ring-[#0f2744] focus:border-[#0f2744] transition-colors shadow-2xs"
             />
           </div>
 
@@ -192,14 +192,14 @@ export function RecordModal({
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-100 rounded-xs border border-slate-300 transition-colors"
+              className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
             >
               ยกเลิก
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center px-3.5 py-1.5 text-xs font-medium text-white bg-[#0f2744] hover:bg-[#1e3a5f] rounded-xs transition-colors shadow-2xs disabled:opacity-50"
+              className="inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-semibold text-white bg-[#0f2744] hover:bg-[#1e3a5f] border border-[#0f2744] rounded-xs transition-colors shadow-2xs disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
             >
               {loading ? (
                 <>

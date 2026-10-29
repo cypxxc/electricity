@@ -96,7 +96,7 @@ export function DeleteDialog({
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-100 rounded-xs border border-slate-300 transition-colors"
+            className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 rounded-xs border border-slate-300 hover:border-slate-400 shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
           >
             ยกเลิก
           </button>
@@ -104,7 +104,7 @@ export function DeleteDialog({
             type="button"
             onClick={handleDelete}
             disabled={loading}
-            className="inline-flex items-center px-3.5 py-1.5 text-xs font-medium text-white bg-rose-700 hover:bg-rose-800 rounded-xs transition-colors shadow-2xs disabled:opacity-50"
+            className="inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-semibold text-white bg-rose-700 hover:bg-rose-800 border border-rose-700 rounded-xs transition-colors shadow-2xs disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-700"
           >
             {loading ? (
               <>

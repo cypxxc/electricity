@@ -132,8 +132,9 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
               </ul>
               <div className="pt-2 flex justify-end">
                 <button
+                  type="button"
                   onClick={handleClose}
-                  className="px-3 py-1.5 bg-[#0f2744] text-white rounded-xs text-xs font-medium hover:bg-[#1e3a5f]"
+                  className="inline-flex items-center justify-center px-3.5 py-1.5 bg-[#0f2744] hover:bg-[#1e3a5f] border border-[#0f2744] text-white rounded-xs text-xs font-semibold shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
                 >
                   ปิดหน้าต่าง
                 </button>
@@ -217,7 +218,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                   type="button"
                   onClick={handleClose}
                   disabled={loading}
-                  className="px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-100 rounded-xs border border-slate-300 transition-colors"
+                  className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 rounded-xs border border-slate-300 hover:border-slate-400 shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
                 >
                   ยกเลิก
                 </button>
@@ -225,18 +226,18 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                   type="button"
                   onClick={handleImport}
                   disabled={loading || !file}
-                  className="inline-flex items-center px-3.5 py-1.5 text-xs font-medium text-white bg-[#0f2744] hover:bg-[#1e3a5f] rounded-xs transition-colors shadow-2xs disabled:opacity-50"
+                  className="inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-semibold text-white bg-[#0f2744] hover:bg-[#1e3a5f] border border-[#0f2744] rounded-xs transition-colors shadow-2xs disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
                 >
                   {loading ? (
                     <>
-                  <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
-                  กำลังนำเข้าข้อมูล...
-                </>
-              ) : (
-                'เริ่มนำเข้าข้อมูล'
-              )}
-            </button>
-          </div>
+                      <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                      กำลังนำเข้าข้อมูล...
+                    </>
+                  ) : (
+                    'เริ่มนำเข้าข้อมูล'
+                  )}
+                </button>
+              </div>
         </>
       )}
     </div>

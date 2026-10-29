@@ -137,7 +137,7 @@ export function AnomalyModal({ anomaly, onClose, onFilterMonth }: AnomalyModalPr
                 onFilterMonth(anomaly.yearBe, anomaly.month);
                 onClose();
               }}
-              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-white bg-[#0f2744] hover:bg-[#1e3a5f] rounded-xs transition-colors shadow-2xs"
+              className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-[#0f2744] hover:bg-[#1e3a5f] border border-[#0f2744] rounded-xs transition-colors shadow-2xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
             >
               <span>กรองดูเฉพาะงวดนี้</span>
             </button>
@@ -146,7 +146,7 @@ export function AnomalyModal({ anomaly, onClose, onFilterMonth }: AnomalyModalPr
           <button
             type="button"
             onClick={onClose}
-            className="px-3 py-1 text-xs font-medium text-slate-700 hover:bg-slate-200 rounded-xs border border-slate-300 transition-colors"
+            className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
           >
             ปิดหน้าต่าง
           </button>

@@ -45,8 +45,8 @@ export function ExpenditureTrendExplorer({
   );
   const [monthlyMetric, setMonthlyMetric] = useState<'amount' | 'cumulative'>('amount');
 
-  // 3. Yearly Trend Controls (Default: Rolling 5 Years to ensure future scalability)
-  const [yearlyRange, setYearlyRange] = useState<'5' | '7' | '10' | 'all'>('5');
+  // 3. Yearly Trend Controls (Default: 'all' as requested)
+  const [yearlyRange, setYearlyRange] = useState<'5' | '7' | '10' | 'all'>('all');
   const [yearlyMetric, setYearlyMetric] = useState<'total' | 'average'>('total');
 
   // 4. YoY Comparison Controls

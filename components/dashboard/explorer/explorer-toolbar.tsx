@@ -195,14 +195,14 @@ export function ExplorerToolbar({
               onChange={(e) => setYearlyRange(e.target.value as '5' | '7' | '10' | 'all')}
               className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
             >
-              <option value="5">5 ปีงบประมาณล่าสุด (Rolling)</option>
+              <option value="all">ทุกปีงบประมาณ ({totalFiscalYearsCount} ปี)</option>
+              <option value="5">5 ปีงบประมาณล่าสุด</option>
               {totalFiscalYearsCount >= 7 && (
                 <option value="7">7 ปีงบประมาณล่าสุด</option>
               )}
               {totalFiscalYearsCount >= 10 && (
                 <option value="10">10 ปีงบประมาณล่าสุด</option>
               )}
-              <option value="all">ทุกปีงบประมาณ ({totalFiscalYearsCount} ปี)</option>
             </select>
 
             <div className="inline-flex rounded-xs border border-slate-300 p-0.5 bg-slate-100 shadow-2xs text-[11px]">

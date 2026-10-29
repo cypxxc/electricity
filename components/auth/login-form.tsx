@@ -4,7 +4,7 @@ import { useState, useActionState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { loginAction, ActionResult } from '@/lib/auth/actions';
-import { ArrowLeft, Loader2, KeyRound } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 
 const initialState: ActionResult = { success: false };
 
@@ -12,11 +12,6 @@ export function LoginForm() {
   const [state, formAction, isPending] = useActionState(loginAction, initialState);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  function handleFillDemoCredentials() {
-    setUsername('admin');
-    setPassword('adminpassword123');
-  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4">
@@ -106,22 +101,6 @@ export function LoginForm() {
             </button>
           </div>
         </form>
-
-        <div className="mt-5 pt-3 border-t border-slate-200">
-          <div className="bg-slate-50 border border-slate-200 rounded-xs p-2.5 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-1.5 text-slate-600">
-              <KeyRound className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-              <span className="text-[11px] font-mono">บัญชีทดสอบ: admin</span>
-            </div>
-            <button
-              type="button"
-              onClick={handleFillDemoCredentials}
-              className="text-[11px] text-teal-800 hover:text-teal-950 font-medium underline cursor-pointer"
-            >
-              กรอกอัตโนมัติ
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

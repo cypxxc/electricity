@@ -1,83 +1,66 @@
 import { Navbar } from '@/components/navbar';
-import { KPICards } from '@/components/dashboard/kpi-cards';
-import { MonthlyTrendChart } from '@/components/dashboard/monthly-trend-chart';
-import { YearlyComparisonChart } from '@/components/dashboard/yearly-comparison-chart';
-import { DataMatrixTable } from '@/components/dashboard/data-matrix-table';
-import {
-  getDashboardKPIs,
-  getMonthlyTrendData,
-  getYearlyComparisonData,
-  getYearMonthlyMatrix,
-} from '@/lib/services/analytics';
+import { ExportDropdown } from '@/components/dashboard/export-dropdown';
+import { DashboardView } from '@/components/dashboard/dashboard-view';
+import { getCachedDashboardAnalytics } from '@/lib/services/analytics';
 import { getSession } from '@/lib/auth/session';
 import Link from 'next/link';
-import { Download, Shield, FileSpreadsheet } from 'lucide-react';
+import { Database } from 'lucide-react';
 
 export default async function DashboardPage() {
-  const session = await getSession();
-  const [kpis, monthlyTrends, yearlyComparison, matrixRows] = await Promise.all([
-    getDashboardKPIs(),
-    getMonthlyTrendData(),
-    getYearlyComparisonData(),
-    getYearMonthlyMatrix(),
+  const [session, analytics] = await Promise.all([
+    getSession(),
+    getCachedDashboardAnalytics(),
   ]);
+
+  const { kpis } = analytics;
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900">
       <Navbar user={session} />
 
-      <main className="flex-1 w-full max-w-[1640px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 space-y-4">
-        {/* Header / Sub-nav - Compact & Dense */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-200">
+      <main className="flex-1 w-full max-w-[1640px] mx-auto px-4 sm:px-6 lg:px-8 py-5 space-y-4">
+        {/* Page Heading & Scope Bar */}
+        <div className="bg-white border border-slate-200 rounded-xs p-4 shadow-2xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-lg sm:text-xl font-bold tracking-tight text-slate-900">
-              แดชบอร์ดติดตามและวิเคราะห์ค่าไฟฟ้า
-            </h1>
-            <p className="text-xs text-slate-500 mt-0.5">
-              สำนักงานเขตสุขภาพที่ 7 ข้อมูลสะสมปี พ.ศ. 2562 ถึง ปัจจุบัน (2569)
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-lg sm:text-xl font-bold tracking-tight text-slate-900">
+                รายงานสรุปและวิเคราะห์ค่าใช้จ่ายค่าไฟฟ้า
+              </h1>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-xs text-[10.5px] font-mono font-medium bg-slate-100 text-slate-700 border border-slate-300">
+                รอบปีงบประมาณ {kpis.firstFiscalYearBe || 2563} – {kpis.latestFiscalYearBe || 2569} ({kpis.totalRecordsCount} งวดบันทึก รวม {kpis.totalFiscalYearsCount || analytics.fiscalYearComparison.length} ปีงบประมาณ)
+              </span>
+            </div>
+            <p className="text-xs text-slate-600 mt-1">
+              ข้อมูลการเบิกจ่ายค่าไฟฟ้าเฉพาะอาคารสำนักงานเขตสุขภาพที่ 7 ตามระบบปีงบประมาณไทย (1 ต.ค. – 30 ก.ย.)
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <a
-              href="/api/export?format=xlsx"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-md shadow-2xs transition-colors"
-            >
-              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
-              ส่งออก Excel (.xlsx)
-            </a>
-            <a
-              href="/api/export?format=csv"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-md shadow-2xs transition-colors"
-            >
-              <Download className="w-3.5 h-3.5 text-blue-600" />
-              ส่งออก CSV
-            </a>
+          {/* Grouped Data Actions */}
+          <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+            <ExportDropdown />
             <Link
               href="/admin"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md shadow-2xs transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[#0f2744] hover:bg-[#1e3a5f] rounded-xs border border-[#0f2744] shadow-2xs transition-colors"
             >
-              <Shield className="w-3.5 h-3.5" />
-              จัดการข้อมูล
+              <Database className="w-3.5 h-3.5 text-teal-400" />
+              <span>จัดการข้อมูล (Admin)</span>
             </Link>
           </div>
         </div>
 
-        {/* Section 1: KPI Summary Cards (Compact 1 Row) */}
-        <KPICards kpis={kpis} />
-
-        {/* Section 2: Visual Charts (Grid) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <MonthlyTrendChart data={monthlyTrends} />
-          <YearlyComparisonChart data={yearlyComparison} />
-        </div>
-
-        {/* Section 3: Data Matrix Table */}
-        <DataMatrixTable rows={matrixRows} />
+        {/* Coordinated Interactive Dashboard (KPIs, Narrative, Linked Charts, Audit Ledger, Anomaly Inspector) */}
+        <DashboardView analytics={analytics} />
       </main>
 
-      <footer className="border-t border-slate-200 bg-white py-3 text-center text-xs text-slate-500">
-        ระบบติดตามและจัดการข้อมูลค่าไฟฟ้า สำนักงานเขตสุขภาพที่ 7 &bull; ข้อมูลจริงจากระบบฐานข้อมูล PostgreSQL
+      <footer className="border-t border-slate-200 bg-white py-3 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500">
+        <div className="max-w-[1640px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px]">
+          <span>
+            สำนักงานเขตสุขภาพที่ 7 &bull; กระทรวงสาธารณสุข
+          </span>
+          <span className="font-mono text-slate-400">
+            ระบบสารสนเทศวิเคราะห์ค่าใช้จ่ายสาธารณูปโภคเฉพาะอาคารสำนักงาน
+          </span>
+        </div>
       </footer>
     </div>
   );

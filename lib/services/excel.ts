@@ -1,6 +1,12 @@
 import * as XLSX from 'xlsx';
 import { ElectricityRecord } from '../db/schema';
 import { THAI_MONTHS } from '../validations/record';
+import {
+  getFiscalYear,
+  getFiscalQuarter,
+  FISCAL_MONTH_ORDER,
+  THAI_FISCAL_MONTHS,
+} from '../utils/math';
 
 export interface ParsedImportRecord {
   yearBe: number;
@@ -83,69 +89,138 @@ export function parseExcelBuffer(buffer: Buffer): ParsedImportRecord[] {
 export function generateExcelWorkbook(records: ElectricityRecord[]): Buffer {
   const wb = XLSX.utils.book_new();
 
-  // 1. Sheet 1: Tabular List
-  const tabularData = records.map((r) => ({
-    'ปี พ.ศ.': r.yearBe,
-    'ปี ค.ศ.': r.yearCe,
-    'เดือน': THAI_MONTHS[r.month - 1] || `เดือน ${r.month}`,
-    'ลำดับเดือน': r.month,
-    'ยอดค่าไฟฟ้า (บาท)': parseFloat(r.amount),
-    'หมายเหตุ': r.note || '',
-    'อัปเดตเมื่อ': new Date(r.updatedAt).toISOString().split('T')[0],
-  }));
+  // 1. Sheet 1: Tabular List with Government Fiscal Year Attribution
+  const tabularData = records.map((r) => {
+    const fy = getFiscalYear(r.yearBe, r.month);
+    const fq = getFiscalQuarter(r.month);
+    return {
+      'ปี พ.ศ. (ปฏิทิน)': r.yearBe,
+      'ปี ค.ศ.': r.yearCe,
+      'เดือน': THAI_MONTHS[r.month - 1] || `เดือน ${r.month}`,
+      'ลำดับเดือน': r.month,
+      'ปีงบประมาณ (FY)': fy,
+      'ไตรมาส (Quarter)': fq.shortLabel,
+      'ยอดค่าไฟฟ้า (บาท)': parseFloat(r.amount),
+      'หมายเหตุ': r.note || '',
+      'อัปเดตเมื่อ': new Date(r.updatedAt).toISOString().split('T')[0],
+    };
+  });
 
   const wsList = XLSX.utils.json_to_sheet(tabularData);
   XLSX.utils.book_append_sheet(wb, wsList, 'รายการค่าไฟฟ้าทั้งหมด');
 
-  // 2. Sheet 2: Matrix View (like original format)
-  // Group by year
-  const yearMap = new Map<number, (number | null)[]>();
+  // 2. Sheet 2: Thai Fiscal Year Matrix (ต.ค. - ก.ย., 12 เดือนเต็มต่อปีงบ)
+  const fyRecordMap = new Map<string, number>();
+  const fySet = new Set<number>();
+
   for (const r of records) {
-    if (!yearMap.has(r.yearBe)) {
-      yearMap.set(r.yearBe, new Array(12).fill(null));
+    const fy = getFiscalYear(r.yearBe, r.month);
+    fySet.add(fy);
+    fyRecordMap.set(`${r.yearBe}-${r.month}`, parseFloat(r.amount));
+  }
+
+  const sortedFYs = Array.from(fySet).sort((a, b) => b - a);
+  const fiscalMatrixData: (string | number | null)[][] = [
+    ['สรุปข้อมูลค่าไฟฟ้า สำนักงานเขตสุขภาพที่ 7 ตามระบบปีงบประมาณไทย'],
+    ['(เริ่มต้น 1 ต.ค. ของปีปัจจุบัน ถึง 30 ก.ย. ของปีถัดไป โดยใช้ พ.ศ. ของปีถัดไปเป็นชื่อเรียก)'],
+    ['หน่วย : ค่าไฟฟ้า (บาท)'],
+    ['ปีงบประมาณ', ...THAI_FISCAL_MONTHS, 'รวมทั้งปีงบประมาณ', 'เฉลี่ยต่อเดือน'],
+  ];
+
+  for (const fy of sortedFYs) {
+    const monthVals: (number | null)[] = FISCAL_MONTH_ORDER.map((month) => {
+      const yearBe = month >= 10 ? fy - 1 : fy;
+      const amt = fyRecordMap.get(`${yearBe}-${month}`);
+      return amt !== undefined ? amt : null;
+    });
+
+    const validVals = monthVals.filter((v): v is number => v !== null);
+    const yearTotal = validVals.reduce((sum, v) => sum + v, 0);
+    const monthAvg = validVals.length > 0 ? yearTotal / validVals.length : 0;
+
+    fiscalMatrixData.push([
+      `ปีงบ ${fy}`,
+      ...monthVals,
+      yearTotal,
+      monthAvg,
+    ]);
+  }
+
+  const wsFiscalMatrix = XLSX.utils.aoa_to_sheet(fiscalMatrixData);
+  XLSX.utils.book_append_sheet(wb, wsFiscalMatrix, 'สรุปตามปีงบประมาณ (ต.ค.-ก.ย.)');
+
+  // 3. Sheet 3: Calendar Year Matrix (ม.ค. - ธ.ค. ตามต้นฉบับ Excel)
+  const calYearMap = new Map<number, (number | null)[]>();
+  for (const r of records) {
+    if (!calYearMap.has(r.yearBe)) {
+      calYearMap.set(r.yearBe, new Array(12).fill(null));
     }
-    const arr = yearMap.get(r.yearBe)!;
+    const arr = calYearMap.get(r.yearBe)!;
     arr[r.month - 1] = parseFloat(r.amount);
   }
 
-  const matrixData: (string | number | null)[][] = [
-    ['สรุปข้อมูลค่าไฟฟ้า สำนักงานเขตสุขภาพที่ 7'],
+  const calMatrixData: (string | number | null)[][] = [
+    ['สรุปข้อมูลค่าไฟฟ้า สำนักงานเขตสุขภาพที่ 7 ตามปีปฏิทิน'],
     ['หน่วย : ค่าไฟฟ้า (บาท)'],
-    ['ปี พ.ศ.', ...THAI_MONTHS, 'รวมทั้งปี'],
+    ['ปี พ.ศ.', ...THAI_MONTHS, 'รวมทั้งปีปฏิทิน'],
   ];
 
-  const sortedYears = Array.from(yearMap.keys()).sort((a, b) => b - a);
-  for (const y of sortedYears) {
-    const months = yearMap.get(y)!;
+  const sortedCalYears = Array.from(calYearMap.keys()).sort((a, b) => b - a);
+  for (const y of sortedCalYears) {
+    const months = calYearMap.get(y)!;
     const yearTotal = months.reduce((sum: number, val) => sum + (val || 0), 0);
-    matrixData.push([y, ...months, yearTotal]);
+    calMatrixData.push([y, ...months, yearTotal]);
   }
 
-  const wsMatrix = XLSX.utils.aoa_to_sheet(matrixData);
-  XLSX.utils.book_append_sheet(wb, wsMatrix, 'สรุปตารางรายเดือน');
+  const wsCalMatrix = XLSX.utils.aoa_to_sheet(calMatrixData);
+  XLSX.utils.book_append_sheet(wb, wsCalMatrix, 'สรุปตามปีปฏิทิน (ม.ค.-ธ.ค.)');
 
   return XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+}
+
+/**
+ * Sanitizes cell content for CSV output to prevent CSV Formula Injection (DDE attacks).
+ * If a cell starts with formula characters (=, +, -, @, tab, cr), it prepends an apostrophe.
+ */
+function sanitizeCsvCell(value: string | number | null | undefined): string {
+  if (value === null || value === undefined) return '""';
+  const str = String(value);
+  const isFormulaTrigger = /^[=+\-@\t\r]/.test(str);
+  const safeStr = isFormulaTrigger ? `'${str}` : str;
+  return `"${safeStr.replace(/"/g, '""')}"`;
 }
 
 export function generateCsvString(records: ElectricityRecord[]): string {
   // UTF-8 BOM (\uFEFF) ensures Excel opens Thai characters without encoding issues
   const bom = '\uFEFF';
-  const headers = ['"ปี พ.ศ."', '"ปี ค.ศ."', '"เดือน"', '"ยอดค่าไฟฟ้า (บาท)"', '"หมายเหตุ"', '"อัปเดตเมื่อ"'];
+  const headers = [
+    '"ปี พ.ศ. (ปฏิทิน)"',
+    '"ปี ค.ศ."',
+    '"เดือน"',
+    '"ปีงบประมาณ (FY)"',
+    '"ไตรมาส"',
+    '"ยอดค่าไฟฟ้า (บาท)"',
+    '"หมายเหตุ"',
+    '"อัปเดตเมื่อ"',
+  ];
   const lines = [headers.join(',')];
 
   for (const r of records) {
     const monthName = THAI_MONTHS[r.month - 1] || `เดือน ${r.month}`;
-    const cleanNote = (r.note || '').replace(/"/g, '""');
+    const fy = getFiscalYear(r.yearBe, r.month);
+    const fq = getFiscalQuarter(r.month);
     const updatedDate = new Date(r.updatedAt).toISOString().split('T')[0];
 
     lines.push(
       [
         r.yearBe,
         r.yearCe,
-        `"${monthName}"`,
+        sanitizeCsvCell(monthName),
+        sanitizeCsvCell(`ปีงบ ${fy}`),
+        sanitizeCsvCell(fq.shortLabel),
         parseFloat(r.amount).toFixed(2),
-        `"${cleanNote}"`,
-        `"${updatedDate}"`,
+        sanitizeCsvCell(r.note || ''),
+        sanitizeCsvCell(updatedDate),
       ].join(',')
     );
   }

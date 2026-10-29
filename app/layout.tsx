@@ -14,13 +14,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "ระบบติดตามและจัดการข้อมูลค่าไฟฟ้า | สำนักงานเขตสุขภาพที่ 7",
-  description: "แดชบอร์ดสรุปค่าไฟฟ้าและระบบจัดการข้อมูลค่าไฟฟ้ารายเดือนและรายปี สำนักงานเขตสุขภาพที่ 7",
+  description: "แดชบอร์ดสรุปค่าไฟฟ้าและระบบจัดการข้อมูลค่าไฟฟ้ารายเดือนและรายปี อาคารสำนักงานเขตสุขภาพที่ 7",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="th"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>

@@ -1,8 +1,19 @@
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-jwt-key-min-32-chars-long-12345';
-const encodedSecret = new TextEncoder().encode(JWT_SECRET);
+const DEFAULT_INSECURE_SECRET = 'super-secret-jwt-key-min-32-chars-long-12345';
+const rawJwtSecret = process.env.JWT_SECRET || DEFAULT_INSECURE_SECRET;
+
+if (
+  process.env.NODE_ENV === 'production' &&
+  (!process.env.JWT_SECRET || process.env.JWT_SECRET === DEFAULT_INSECURE_SECRET)
+) {
+  console.warn(
+    '⚠️ [SECURITY WARNING]: Running in production with default/missing JWT_SECRET. Please set JWT_SECRET in environment variables.'
+  );
+}
+
+const encodedSecret = new TextEncoder().encode(rawJwtSecret);
 const COOKIE_NAME = 'auth_session';
 
 export interface SessionPayload {

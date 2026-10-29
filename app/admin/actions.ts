@@ -8,7 +8,7 @@ import {
   checkDuplicateRecord,
 } from '@/lib/services/records';
 import { recordInputSchema } from '@/lib/validations/record';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export interface ActionResponse {
   success: boolean;
@@ -45,6 +45,7 @@ export async function createRecordAction(formData: FormData): Promise<ActionResp
 
   try {
     await createRecord(parsed.data);
+    revalidateTag('analytics', 'max');
     revalidatePath('/');
     revalidatePath('/admin');
     return { success: true, message: 'บันทึกข้อมูลเรียบร้อยแล้ว' };
@@ -86,6 +87,7 @@ export async function updateRecordAction(
 
   try {
     await updateRecord(id, parsed.data);
+    revalidateTag('analytics', 'max');
     revalidatePath('/');
     revalidatePath('/admin');
     return { success: true, message: 'แก้ไขข้อมูลเรียบร้อยแล้ว' };
@@ -106,6 +108,7 @@ export async function deleteRecordAction(id: number): Promise<ActionResponse> {
     if (!ok) {
       return { success: false, error: 'ไม่พบรายการที่ต้องการลบ' };
     }
+    revalidateTag('analytics', 'max');
     revalidatePath('/');
     revalidatePath('/admin');
     return { success: true, message: 'ลบข้อมูลเรียบร้อยแล้ว' };

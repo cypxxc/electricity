@@ -5,7 +5,7 @@ import { db } from '@/lib/db';
 import { electricityRecords } from '@/lib/db/schema';
 import { checkDuplicateRecord } from '@/lib/services/records';
 import { recordInputSchema } from '@/lib/validations/record';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { and, eq } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
@@ -80,6 +80,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    revalidateTag('analytics', 'max');
     revalidatePath('/');
     revalidatePath('/admin');
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { THAI_MONTHS } from '@/lib/validations/record';
 import { ElectricityRecord } from '@/lib/db/schema';
 import { createRecordAction, updateRecordAction } from '@/app/admin/actions';
@@ -33,6 +33,17 @@ export function RecordModal({
 
   const [inputYear, setInputYear] = useState<number>(initialYear);
   const [inputMonth, setInputMonth] = useState<number>(initialMonth);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -68,11 +79,16 @@ export function RecordModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="record-modal-title"
+    >
       <div className="w-full max-w-md bg-white rounded-xs shadow-lg border border-slate-300 overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-slate-50">
           <div>
-            <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+            <h3 id="record-modal-title" className="text-xs sm:text-sm font-bold text-slate-900">
               {isEditing ? 'แก้ไขระเบียนข้อมูลค่าไฟฟ้า' : 'เพิ่มระเบียนข้อมูลค่าไฟฟ้า'}
             </h3>
             <p className="text-[11px] text-slate-500">

@@ -289,7 +289,7 @@ export function RecordsTable({ initialRecords, distinctYears }: RecordsTableProp
                     <div className="flex items-center justify-between pb-1.5 border-b border-slate-200">
                       <div className="flex items-center gap-1.5 text-amber-800 font-semibold text-xs">
                         <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                        <span>ปี ${y} ขาด {info.missingMonths.length} เดือน</span>
+                        <span>ปี {y} ขาด {info.missingMonths.length} เดือน</span>
                       </div>
                       <button
                         type="button"

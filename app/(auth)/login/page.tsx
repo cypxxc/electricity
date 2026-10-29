@@ -1,15 +1,22 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useState, useActionState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { loginAction, ActionResult } from '@/lib/auth/actions';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2, KeyRound } from 'lucide-react';
 
 const initialState: ActionResult = { success: false };
 
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(loginAction, initialState);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  function handleFillDemoCredentials() {
+    setUsername('admin');
+    setPassword('adminpassword123');
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4">
@@ -60,9 +67,10 @@ export default function LoginPage() {
               name="username"
               required
               autoFocus
-              defaultValue="admin"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-xs bg-white text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#0f2744] focus:border-[#0f2744] transition-colors"
-              placeholder="กรอกชื่อผู้ใช้"
+              placeholder="กรอกชื่อผู้ใช้ เช่น admin"
             />
           </div>
 
@@ -74,7 +82,8 @@ export default function LoginPage() {
               type="password"
               name="password"
               required
-              defaultValue="adminpassword123"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-xs bg-white text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#0f2744] focus:border-[#0f2744] transition-colors"
               placeholder="กรอกรหัสผ่าน"
             />
@@ -84,7 +93,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isPending}
-              className="w-full inline-flex justify-center items-center py-2 px-4 rounded-xs text-xs font-semibold text-white bg-[#0f2744] hover:bg-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#0f2744] disabled:opacity-50 transition-colors shadow-2xs"
+              className="w-full inline-flex justify-center items-center py-2 px-4 rounded-xs text-xs font-semibold text-white bg-[#0f2744] hover:bg-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#0f2744] disabled:opacity-50 transition-colors shadow-2xs cursor-pointer"
             >
               {isPending ? (
                 <>
@@ -98,10 +107,20 @@ export default function LoginPage() {
           </div>
         </form>
 
-        <div className="mt-5 pt-3 border-t border-slate-200 text-center">
-          <p className="text-[10.5px] text-slate-500 font-mono">
-            บัญชีเริ่มต้น: admin / adminpassword123
-          </p>
+        <div className="mt-5 pt-3 border-t border-slate-200">
+          <div className="bg-slate-50 border border-slate-200 rounded-xs p-2.5 flex items-center justify-between text-xs">
+            <div className="flex items-center gap-1.5 text-slate-600">
+              <KeyRound className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+              <span className="text-[11px] font-mono">บัญชีทดสอบ: admin</span>
+            </div>
+            <button
+              type="button"
+              onClick={handleFillDemoCredentials}
+              className="text-[11px] text-teal-800 hover:text-teal-950 font-medium underline cursor-pointer"
+            >
+              กรอกอัตโนมัติ
+            </button>
+          </div>
         </div>
       </div>
     </div>

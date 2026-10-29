@@ -1070,13 +1070,13 @@ export function ExpenditureTrendExplorer({
                           </div>
                           <div className="mt-2 space-y-1.5 text-xs">
                             <div className="flex justify-between">
-                              <span className="text-slate-600">ปี พ.ศ. ${yoyPrimaryYear}:</span>
+                              <span className="text-slate-600">ปี พ.ศ. {yoyPrimaryYear}:</span>
                               <span className="font-bold font-mono text-slate-900">
                                 {item.primaryAmount !== null ? `฿${item.primaryAmount.toLocaleString('th-TH', { minimumFractionDigits: 2 })}` : '-'}
                               </span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-slate-600">ปี พ.ศ. ${yoyBenchmarkYear}:</span>
+                              <span className="text-slate-600">ปี พ.ศ. {yoyBenchmarkYear}:</span>
                               <span className="font-bold font-mono text-slate-700">
                                 {item.benchmarkAmount !== null ? `฿${item.benchmarkAmount.toLocaleString('th-TH', { minimumFractionDigits: 2 })}` : '-'}
                               </span>

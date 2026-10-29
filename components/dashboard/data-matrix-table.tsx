@@ -29,8 +29,8 @@ export function DataMatrixTable({
   onInspectAnomaly,
   onResetFilters,
 }: DataMatrixTableProps) {
-  // Table Mode: 'calendar' (Jan - Dec, Default) or 'fiscal' (Thai Government Fiscal Year: Oct - Sep)
-  const [matrixMode, setMatrixMode] = useState<'fiscal' | 'calendar'>('calendar');
+  // Table Mode: 'fiscal' (Thai Government Fiscal Year: Oct - Sep, Default) or 'calendar' (Jan - Dec)
+  const [matrixMode, setMatrixMode] = useState<'fiscal' | 'calendar'>('fiscal');
 
   // Aggregate stats across calendar dataset
   const allAmounts: number[] = [];

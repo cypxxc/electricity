@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { AnomalyRecord } from '@/lib/services/analytics';
 import { X, ShieldAlert, Info, ArrowUpRight } from 'lucide-react';
 
@@ -10,10 +11,26 @@ interface AnomalyModalProps {
 }
 
 export function AnomalyModal({ anomaly, onClose, onFilterMonth }: AnomalyModalProps) {
+  useEffect(() => {
+    if (!anomaly) return;
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [anomaly, onClose]);
+
   if (!anomaly) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 animate-in fade-in duration-150"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="anomaly-modal-title"
+    >
       <div className="w-full max-w-lg bg-white rounded-xs shadow-xl border border-slate-300 overflow-hidden text-xs">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200">
@@ -22,7 +39,7 @@ export function AnomalyModal({ anomaly, onClose, onFilterMonth }: AnomalyModalPr
               <ShieldAlert className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+              <h3 id="anomaly-modal-title" className="text-xs sm:text-sm font-bold text-slate-900">
                 รายละเอียดการตรวจพบค่าเบี่ยงเบนทางสถิติ (Statistical Anomaly Inspection)
               </h3>
               <p className="text-[10.5px] text-slate-500 font-mono">

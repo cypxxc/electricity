@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ElectricityRecord } from '@/lib/db/schema';
 import { THAI_MONTHS } from '@/lib/validations/record';
 import { deleteRecordAction } from '@/app/admin/actions';
@@ -21,6 +21,17 @@ export function DeleteDialog({
 }: DeleteDialogProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isOpen || !recordToDelete) return;
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, recordToDelete, onClose]);
 
   if (!isOpen || !recordToDelete) return null;
 
@@ -47,11 +58,16 @@ export function DeleteDialog({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="delete-dialog-title"
+    >
       <div className="w-full max-w-sm bg-white rounded-xs shadow-lg border border-slate-300 p-5">
         <div className="flex items-center gap-2.5 text-rose-700 mb-2.5">
           <AlertTriangle className="w-5 h-5 shrink-0" />
-          <h3 className="text-sm font-bold text-slate-900">
+          <h3 id="delete-dialog-title" className="text-sm font-bold text-slate-900">
             ยืนยันการลบระเบียนข้อมูล
           </h3>
         </div>

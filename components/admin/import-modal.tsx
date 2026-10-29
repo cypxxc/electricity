@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { UploadCloud, X, Loader2, CheckCircle2, AlertCircle, FileSpreadsheet } from 'lucide-react';
 
 interface ImportModalProps {
@@ -24,6 +24,24 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<ImportResult | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function handleClose() {
+    setFile(null);
+    setError(null);
+    setResult(null);
+    onClose();
+  }
+
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        handleClose();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -69,20 +87,18 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
     }
   }
 
-  function handleClose() {
-    setFile(null);
-    setError(null);
-    setResult(null);
-    onClose();
-  }
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="import-modal-title"
+    >
       <div className="w-full max-w-lg bg-white rounded-xs shadow-lg border border-slate-300 overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-slate-50">
           <div className="flex items-center gap-2">
             <FileSpreadsheet className="w-4 h-4 text-emerald-700" />
-            <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+            <h3 id="import-modal-title" className="text-xs sm:text-sm font-bold text-slate-900">
               นำเข้าข้อมูลจากไฟล์สเปรดชีต Excel (.xlsx)
             </h3>
           </div>

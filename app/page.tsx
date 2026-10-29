@@ -3,8 +3,6 @@ import { ExportDropdown } from '@/components/dashboard/export-dropdown';
 import { DashboardView } from '@/components/dashboard/dashboard-view';
 import { getCachedDashboardAnalytics } from '@/lib/services/analytics';
 import { getSession } from '@/lib/auth/session';
-import Link from 'next/link';
-import { Database } from 'lucide-react';
 
 export default async function DashboardPage() {
   const [session, analytics] = await Promise.all([
@@ -36,15 +34,8 @@ export default async function DashboardPage() {
           </div>
 
           {/* Grouped Data Actions */}
-          <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+          <div className="flex items-center gap-2 self-start sm:self-auto">
             <ExportDropdown />
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[#0f2744] hover:bg-[#1e3a5f] rounded-xs border border-[#0f2744] shadow-2xs transition-colors"
-            >
-              <Database className="w-3.5 h-3.5 text-teal-400" />
-              <span>จัดการข้อมูล (Admin)</span>
-            </Link>
           </div>
         </div>
 

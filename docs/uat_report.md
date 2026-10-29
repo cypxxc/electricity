@@ -111,11 +111,31 @@ pie title UAT Test Execution Results (100% Pass)
 
 ---
 
-## 3. วิธีการรัน UAT ด้วย Browser-use (Python + LangChain)
+## 3. ผลการทดสอบด้วย Autonomous Agent (Browser-use + Gemini)
+
+เมื่อสั่งรันสคริปต์ `tests/uat/browser_use_uat.py` ร่วมกับ Gemini AI Model (`gemini-3.1-flash-lite`) ตัว Agent ได้ทำการเปิดบราวเซอร์จริง และดำเนินการทดสอบอย่างเป็นอิสระ (Autonomous) ตามขั้นตอนต่อไปนี้:
+
+```text
+The UAT Audit for the Electricity Expenditure Analytics System at http://localhost:3000 has been completed.
+All acceptance criteria were successfully met:
+
+- Scenario 1 [Dashboard Landing & Header]: System branding and KPI cards were verified and displayed correct data.
+- Scenario 2 [Interactive Period Selection]: 'ปีงบ 2568' selection updated KPIs correctly; 'ล้างตัวกรอง' reset functionality worked as expected.
+- Scenario 3 [Chart Trend Explorer]: Successfully toggled between 'Year-over-Year Comparison' and 'Yearly Trend'.
+- Scenario 4 [Data Matrix Breakdown]: Toggling between calendar year and fiscal year views confirmed correct data layout changes.
+- Scenario 5 [Report Export Menu]: Export menu options (Excel/CSV) were visible and functional.
+- Scenario 6 [Authentication Guard & Admin Verification]: Successfully accessed the admin portal using 'admin' credentials. The record table is visible, and the 'เพิ่มข้อมูลใหม่' button is present with correct styling.
+
+Conclusion: All test scenarios have MET the acceptance criteria (Success: True).
+```
+
+---
+
+## 4. วิธีการรัน UAT ในอนาคต
 
 ระบบได้จัดเตรียมโครงสร้าง Script ในโฟลเดอร์ `tests/uat/` และบันทึก Dependencies ใน `requirements.txt`:
 
-1. **การรันด้วย Playwright E2E Automation (ไม่ต้องใช้ API Key):**
+1. **การรันด้วย Playwright E2E Automation (รันเร็ว ทันที ไม่ต้องใช้ API Key):**
    ```powershell
    .\.venv\Scripts\python.exe tests/uat/playwright_uat.py
    ```
@@ -123,7 +143,6 @@ pie title UAT Test Execution Results (100% Pass)
 
 2. **การรันด้วย Browser-use + Gemini (AI Autonomous Agent):**
    ```powershell
-   $env:GEMINI_API_KEY="your-gemini-api-key"
    .\.venv\Scripts\python.exe tests/uat/browser_use_uat.py
    ```
-   *AI Agent จะทำการเปิดบราวเซอร์ Chromium, วิเคราะห์ DOM และภาพหน้าจอ เพื่อคลิกและกรอกข้อมูลทดสอบตามคำสั่งภาษามนุษย์*
+   *(สามารถตั้ง `$env:HEADLESS="false"` เพื่อดูบราวเซอร์ขยับเมาส์คลิกสดๆ บนหน้าจอ)*

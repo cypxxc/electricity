@@ -45,9 +45,9 @@ async def run_browser_use_uat():
     print(f"Target URL: {APP_URL}")
     print("=" * 65)
 
-    # Initialize Gemini 2.0 Flash for low latency and high multimodal/visual reasoning
+    # Initialize Gemini 3.1 Flash Lite for ultra-fast, responsive vision & action planning
     llm = ChatGoogle(
-        model="gemini-2.0-flash",
+        model="gemini-3.1-flash-lite",
         api_key=api_key,
     )
 
@@ -107,6 +107,9 @@ async def run_browser_use_uat():
         task=task_prompt,
         llm=llm,
         browser_session=browser_session,
+        use_thinking=False,
+        llm_timeout=120,
+        step_timeout=180,
     )
 
     history = await agent.run(max_steps=20)

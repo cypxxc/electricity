@@ -18,6 +18,13 @@ const pool =
     connectionTimeoutMillis: 5000,
   });
 
+// Guarantee UTF-8 client encoding for all pooled connections across full system
+pool.on('connect', (client) => {
+  client.query("SET client_encoding TO 'UTF8';").catch((err) => {
+    console.error('Failed to set client_encoding to UTF8', err);
+  });
+});
+
 if (process.env.NODE_ENV !== 'production') {
   globalForDb.pool = pool;
 }

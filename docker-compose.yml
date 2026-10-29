@@ -7,6 +7,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgrespassword
       POSTGRES_DB: electricity_db
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=en_US.utf8 --lc-ctype=en_US.utf8"
     ports:
       - "5432:5432"
     volumes:
@@ -28,13 +29,15 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgrespassword@postgres:5432/electricity_db}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgrespassword@postgres:5432/electricity_db?client_encoding=utf8}
       JWT_SECRET: ${JWT_SECRET:-super-secret-jwt-key-min-32-chars-long-12345}
       ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-adminpassword123}
       NODE_ENV: production
       PORT: 3000
       HOSTNAME: "0.0.0.0"
+      LANG: "C.UTF-8"
+      LC_ALL: "C.UTF-8"
     depends_on:
       postgres:
         condition: service_healthy

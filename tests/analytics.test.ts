@@ -9,6 +9,8 @@ import {
   formatFiscalYearRange,
   formatFiscalYearLabel,
 } from '../lib/utils/math';
+import { generateCsvString, parseExcelBuffer } from '../lib/services/excel';
+import { ElectricityRecord } from '../lib/db/schema';
 
 describe('Analytics Calculations & Fiscal Year Logic', () => {
   describe('Thai Fiscal Year Statutory Definition & Functions', () => {
@@ -234,6 +236,45 @@ describe('Analytics Calculations & Fiscal Year Logic', () => {
     test('identifies mixed trend when MoM and YoY disagree', () => {
       expect(classifyTrend(-5.0, 10.0)).toBe('mixed');
       expect(classifyTrend(8.0, -3.0)).toBe('mixed');
+    });
+  });
+
+  describe('Full System UTF-8 Support & BOM Handling', () => {
+    test('generateCsvString prepends UTF-8 BOM (\\uFEFF) and preserves Thai characters', () => {
+      const mockRecord: ElectricityRecord = {
+        id: 1,
+        yearBe: 2568,
+        yearCe: 2025,
+        month: 1,
+        amount: '45000.50',
+        note: 'ทดสอบภาษาไทย สำนักงานเขตสุขภาพที่ ๗',
+        createdAt: new Date('2025-01-15T00:00:00Z'),
+        updatedAt: new Date('2025-01-15T00:00:00Z'),
+      };
+
+      const csv = generateCsvString([mockRecord]);
+      // First character must be UTF-8 BOM
+      expect(csv.charCodeAt(0)).toBe(0xfeff);
+      // Contains Thai headers and content without character corruption
+      expect(csv).toContain('ปี พ.ศ. (ปฏิทิน)');
+      expect(csv).toContain('ทดสอบภาษาไทย สำนักงานเขตสุขภาพที่ ๗');
+      expect(csv).toContain('ม.ค.');
+    });
+
+    test('parseExcelBuffer safely strips UTF-8 BOM from CSV buffer and parses Thai notes', () => {
+      const csvWithBom =
+        '\uFEFF"ปี พ.ศ.","เดือน","ยอดเงิน","หมายเหตุ"\r\n' +
+        '2568,1,50000.00,"บันทึกค่าไฟ ม.ค. ทดสอบภาษาไทย"\r\n' +
+        '2568,2,48000.00,"บันทึกค่าไฟ ก.พ."';
+
+      const buffer = Buffer.from(csvWithBom, 'utf-8');
+      const parsed = parseExcelBuffer(buffer);
+
+      expect(parsed.length).toBe(2);
+      expect(parsed[0].yearBe).toBe(2568);
+      expect(parsed[0].month).toBe(1);
+      expect(parsed[0].amount).toBe(50000);
+      expect(parsed[0].note).toBe('บันทึกค่าไฟ ม.ค. ทดสอบภาษาไทย');
     });
   });
 });

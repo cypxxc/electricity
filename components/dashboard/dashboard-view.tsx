@@ -65,6 +65,7 @@ export function DashboardView({ analytics }: DashboardViewProps) {
         kpis={kpis}
         selectedYear={selectedYear}
         selectedFYSummary={selectedFYSummary}
+        fiscalYearComparison={fiscalYearComparison}
       />
 
       {/* 3. Compact Data-driven Trend Narrative (Synchronized with selected period) */}

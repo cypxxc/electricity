@@ -4,6 +4,9 @@
 FROM oven/bun:1-alpine AS deps
 WORKDIR /app
 
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
@@ -18,6 +21,8 @@ COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
 
 RUN bun run build
 
@@ -31,6 +36,8 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
 
 # Create non-root user for security
 RUN addgroup --system --gid 1001 nodejs && \

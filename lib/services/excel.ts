@@ -16,8 +16,27 @@ export interface ParsedImportRecord {
   isDuplicate?: boolean;
 }
 
+/**
+ * Strips UTF-8 BOM (\uFEFF) and trims string content safely
+ */
+function cleanVal(v: unknown): string {
+  if (v === null || v === undefined) return '';
+  return String(v).replace(/^\uFEFF/, '').trim();
+}
+
 export function parseExcelBuffer(buffer: Buffer): ParsedImportRecord[] {
-  const workbook = XLSX.read(buffer, { type: 'buffer' });
+  // Check if buffer is Excel binary (starts with 'PK' for zip-based .xlsx)
+  const isZip = buffer.length > 4 && buffer[0] === 0x50 && buffer[1] === 0x4b;
+  let workbook: XLSX.WorkBook;
+
+  if (isZip) {
+    workbook = XLSX.read(buffer, { type: 'buffer' });
+  } else {
+    // For CSV or plain text, decode UTF-8 explicitly and strip any UTF-8 BOM
+    const text = buffer.toString('utf-8').replace(/^\uFEFF/, '');
+    workbook = XLSX.read(text, { type: 'string' });
+  }
+
   const sheetName = workbook.SheetNames[0];
   const sheet = workbook.Sheets[sheetName];
 
@@ -31,14 +50,14 @@ export function parseExcelBuffer(buffer: Buffer): ParsedImportRecord[] {
     const row = rawRows[r] as unknown[];
     if (!row || row.length === 0) continue;
 
-    const firstCol = Number(row[0]);
-    // Matrix format check: row[0] is year 2500 - 2650
-    if (!isNaN(firstCol) && firstCol >= 2500 && firstCol <= 2650) {
+    const firstCol = Number(cleanVal(row[0]));
+    // Matrix format check: row[0] is year 2500 - 2650 and row contains month columns (> 4 columns)
+    if (!isNaN(firstCol) && firstCol >= 2500 && firstCol <= 2650 && row.length > 4) {
       const yearBe = firstCol;
       for (let month = 1; month <= 12; month++) {
         const val = row[month];
         if (val !== null && val !== undefined && val !== '') {
-          const num = Number(val);
+          const num = Number(cleanVal(val));
           if (!isNaN(num) && num > 0) {
             results.push({
               yearBe,
@@ -58,10 +77,11 @@ export function parseExcelBuffer(buffer: Buffer): ParsedImportRecord[] {
       const row = rawRows[r] as unknown[];
       if (!row || row.length < 3) continue;
 
-      const yearBe = Number(row[0]);
-      const month = Number(row[1]);
-      const amount = Number(row[2]);
-      const note = row[3] ? String(row[3]) : undefined;
+      const yearBe = Number(cleanVal(row[0]));
+      const month = Number(cleanVal(row[1]));
+      const amount = Number(cleanVal(row[2]));
+      const rawNote = row[3] ? cleanVal(row[3]) : undefined;
+      const note = rawNote && rawNote.length > 0 ? rawNote : undefined;
 
       if (
         !isNaN(yearBe) &&
@@ -225,5 +245,5 @@ export function generateCsvString(records: ElectricityRecord[]): string {
     );
   }
 
-  return bom + lines.join('\n');
+  return bom + lines.join('\r\n');
 }

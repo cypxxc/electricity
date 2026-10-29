@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Sarabun } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,18 +12,29 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const sarabun = Sarabun({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["thai", "latin"],
+  variable: "--font-sarabun",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "ระบบติดตามและจัดการข้อมูลค่าไฟฟ้า | สำนักงานเขตสุขภาพที่ 7",
   description: "แดชบอร์ดสรุปค่าไฟฟ้าและระบบจัดการข้อมูลค่าไฟฟ้ารายเดือนและรายปี อาคารสำนักงานเขตสุขภาพที่ 7",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="th"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${sarabun.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <head>
+        <meta charSet="utf-8" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+      </head>
+      <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
   );
 }

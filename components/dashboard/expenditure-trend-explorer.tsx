@@ -54,19 +54,23 @@ export function ExpenditureTrendExplorer({
   const [yoyBenchmarkYear, setYoyBenchmarkYear] = useState<number>(availableYears[1] || 2568);
   const [yoyChartType, setYoyChartType] = useState<'bar' | 'line'>('bar');
 
-  // Synchronize with external selectedYear filter
+  // Synchronize with external selectedYear filter (Contextual Drill-down Standard)
   const [prevSelectedYear, setPrevSelectedYear] = useState<string>(selectedYear);
   if (selectedYear !== prevSelectedYear) {
     setPrevSelectedYear(selectedYear);
     if (selectedYear !== 'all') {
       const yrNum = parseInt(selectedYear, 10);
       if (availableYears.includes(yrNum)) {
+        setViewMode('monthly');
         setSelectedCalendarYear(selectedYear);
         setYoyPrimaryYear(yrNum);
         if (availableYears.includes(yrNum - 1)) {
           setYoyBenchmarkYear(yrNum - 1);
         }
       }
+    } else {
+      setViewMode('yearly');
+      setSelectedCalendarYear('all');
     }
   }
 

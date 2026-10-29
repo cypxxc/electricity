@@ -5,6 +5,7 @@ import { users } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { setSessionCookie, clearSessionCookie } from './session';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import bcrypt from 'bcryptjs';
 
 export interface ActionResult {
@@ -81,6 +82,10 @@ export async function loginAction(
       username: user.username,
       role: user.role,
     });
+
+    // Revalidate client and server caches so Navbar and pages immediately reflect logged-in state
+    revalidatePath('/', 'layout');
+    revalidatePath('/admin', 'layout');
   } catch (err) {
     console.error('Login action error:', err);
     return { success: false, error: 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ' };
@@ -91,5 +96,7 @@ export async function loginAction(
 
 export async function logoutAction(): Promise<void> {
   await clearSessionCookie();
+  revalidatePath('/', 'layout');
+  revalidatePath('/admin', 'layout');
   redirect('/login');
 }

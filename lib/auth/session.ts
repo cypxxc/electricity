@@ -4,8 +4,10 @@ import { cookies } from 'next/headers';
 const DEFAULT_INSECURE_SECRET = 'super-secret-jwt-key-min-32-chars-long-12345';
 const rawJwtSecret = process.env.JWT_SECRET || DEFAULT_INSECURE_SECRET;
 
+// Warn at server startup if production environment lacks a cryptographically strong secret
 if (
   process.env.NODE_ENV === 'production' &&
+  process.env.NEXT_PHASE !== 'phase-production-build' &&
   (!process.env.JWT_SECRET || process.env.JWT_SECRET === DEFAULT_INSECURE_SECRET)
 ) {
   console.warn(
@@ -14,7 +16,7 @@ if (
 }
 
 const encodedSecret = new TextEncoder().encode(rawJwtSecret);
-const COOKIE_NAME = 'auth_session';
+export const COOKIE_NAME = 'auth_session';
 
 export interface SessionPayload {
   userId: number;
@@ -26,7 +28,7 @@ export async function createSessionToken(payload: SessionPayload): Promise<strin
   return await new SignJWT({ ...payload })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('7d')
+    .setExpirationTime('30d')
     .sign(encodedSecret);
 }
 
@@ -43,14 +45,21 @@ export async function verifySessionToken(token: string): Promise<SessionPayload 
   }
 }
 
+/**
+ * Sets persistent session cookie across full system.
+ * Allows HTTP access on localhost/LAN IP by checking COOKIE_SECURE env,
+ * while preventing browser cookie rejection when HTTPS is not present.
+ */
 export async function setSessionCookie(payload: SessionPayload): Promise<void> {
   const token = await createSessionToken(payload);
   const cookieStore = await cookies();
+  const isHttpsOnly = process.env.COOKIE_SECURE === 'true';
+
   cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: isHttpsOnly,
     sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge: 60 * 60 * 24 * 30, // 30 days persistent session
     path: '/',
   });
 }
@@ -58,6 +67,12 @@ export async function setSessionCookie(payload: SessionPayload): Promise<void> {
 export async function clearSessionCookie(): Promise<void> {
   const cookieStore = await cookies();
   cookieStore.delete(COOKIE_NAME);
+  // Also set maxAge 0 to guarantee deletion across all browser engines
+  cookieStore.set(COOKIE_NAME, '', {
+    httpOnly: true,
+    maxAge: 0,
+    path: '/',
+  });
 }
 
 export async function getSession(): Promise<SessionPayload | null> {

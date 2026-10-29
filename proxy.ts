@@ -7,7 +7,7 @@ const rawJwtSecret = process.env.JWT_SECRET || DEFAULT_INSECURE_SECRET;
 const encodedSecret = new TextEncoder().encode(rawJwtSecret);
 const COOKIE_NAME = 'auth_session';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Protect /admin routes

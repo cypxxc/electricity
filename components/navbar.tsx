@@ -22,7 +22,7 @@ export function Navbar({ user }: NavbarProps) {
   const isAdmin = pathname.startsWith('/admin');
 
   return (
-    <header className="w-full bg-[#0f2744] text-white border-b border-[#1e3a5f] shadow-xs">
+    <header className="sticky top-0 z-50 w-full bg-[#0f2744] text-white border-b border-[#1e3a5f] shadow-md">
       {/* Top Organization Band */}
       <div className="w-full border-b border-white/10 bg-[#0a1b2f] text-[11px] text-slate-300 py-1 px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1640px] mx-auto flex items-center justify-between">

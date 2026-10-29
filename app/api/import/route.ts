@@ -3,7 +3,6 @@ import { getSession } from '@/lib/auth/session';
 import { parseExcelBuffer } from '@/lib/services/excel';
 import { db } from '@/lib/db';
 import { electricityRecords } from '@/lib/db/schema';
-import { checkDuplicateRecord } from '@/lib/services/records';
 import { recordInputSchema } from '@/lib/validations/record';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { and, eq } from 'drizzle-orm';
@@ -48,46 +47,56 @@ export async function POST(request: NextRequest) {
     let skippedCount = 0;
     const errors: string[] = [];
 
-    for (const item of parsedRecords) {
-      const validation = recordInputSchema.safeParse(item);
-      if (!validation.success) {
-        errors.push(`ปี ${item.yearBe} เดือน ${item.month}: ข้อมูลไม่ถูกต้อง`);
-        continue;
-      }
+    // Scalability Optimization: Batch fetch existing keys in 1 single query instead of N individual roundtrips
+    const existingRows = await db
+      .select({ yearBe: electricityRecords.yearBe, month: electricityRecords.month })
+      .from(electricityRecords);
+    const existingSet = new Set(existingRows.map((r) => `${r.yearBe}-${r.month}`));
 
-      const isDuplicate = await checkDuplicateRecord(item.yearBe, item.month);
-
-      if (isDuplicate) {
-        if (strategy === 'overwrite') {
-          await db
-            .update(electricityRecords)
-            .set({
-              amount: item.amount.toFixed(2),
-              note: item.note || 'อัปเดตจากการนำเข้า Excel',
-              updatedAt: new Date(),
-            })
-            .where(
-              and(
-                eq(electricityRecords.yearBe, item.yearBe),
-                eq(electricityRecords.month, item.month)
-              )
-            );
-          updatedCount++;
-        } else {
-          skippedCount++;
+    // Execute atomic batch mutations inside a single database transaction
+    await db.transaction(async (tx) => {
+      for (const item of parsedRecords) {
+        const validation = recordInputSchema.safeParse(item);
+        if (!validation.success) {
+          errors.push(`ปี ${item.yearBe} เดือน ${item.month}: ข้อมูลไม่ถูกต้อง`);
+          continue;
         }
-      } else {
-        const yearCe = item.yearBe - 543;
-        await db.insert(electricityRecords).values({
-          yearBe: item.yearBe,
-          yearCe,
-          month: item.month,
-          amount: item.amount.toFixed(2),
-          note: item.note || 'นำเข้าจาก Excel',
-        });
-        insertedCount++;
+
+        const isDuplicate = existingSet.has(`${item.yearBe}-${item.month}`);
+
+        if (isDuplicate) {
+          if (strategy === 'overwrite') {
+            await tx
+              .update(electricityRecords)
+              .set({
+                amount: item.amount.toFixed(2),
+                note: item.note || 'อัปเดตจากการนำเข้า Excel',
+                updatedAt: new Date(),
+              })
+              .where(
+                and(
+                  eq(electricityRecords.yearBe, item.yearBe),
+                  eq(electricityRecords.month, item.month)
+                )
+              );
+            updatedCount++;
+          } else {
+            skippedCount++;
+          }
+        } else {
+          const yearCe = item.yearBe - 543;
+          await tx.insert(electricityRecords).values({
+            yearBe: item.yearBe,
+            yearCe,
+            month: item.month,
+            amount: item.amount.toFixed(2),
+            note: item.note || 'นำเข้าจาก Excel',
+          });
+          existingSet.add(`${item.yearBe}-${item.month}`);
+          insertedCount++;
+        }
       }
-    }
+    });
 
     revalidateTag('analytics', 'max');
     revalidatePath('/');

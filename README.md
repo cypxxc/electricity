@@ -56,56 +56,215 @@
 
 ---
 
-## 🚀 วิธีติดตั้งและเปิดใช้งานผ่าน Docker (Docker Deployment - แนะนำ)
+## 🚀 คู่มือการติดตั้งและเริ่มต้นใช้งาน (Installation Guide)
 
-วิธีนี้เป็นวิธีที่ง่าย สะดวก และแนะนำที่สุด เพราะระบบจะติดตั้งและตั้งค่าทั้ง **เว็บแอปพลิเคชัน**, **ฐานข้อมูล PostgreSQL**, และ **ข้อมูลประวัติศาสตร์เริ่มต้น 84 งวด (ปีงบ 2563 – 2569)** ให้อัตโนมัติทันที
-
-### สิ่งที่ต้องเตรียม (Prerequisites)
-- [Git](https://git-scm.com/)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (หรือ Docker Engine & Docker Compose บน Linux Server)
+ท่านสามารถเลือกวิธีการติดตั้งและรันระบบได้ **2 รูปแบบ** ตามความสะดวก:
+1. **[แบบที่ 1: ติดตั้งและรันบนเครื่องคอมพิวเตอร์โดยตรง (Local Development ด้วย Bun)](#-แบบที่-1-ติดตั้งและรันบนเครื่องคอมพิวเตอร์โดยตรง-local-development-ด้วย-bun)** — *แนะนำสำหรับนักพัฒนา หรือผู้ที่ต้องการแก้ไขโค้ดและรันบนเครื่องตนเองแบบละเอียดทุกขั้นตอน*
+2. **[แบบที่ 2: ติดตั้งและรันอัตโนมัติผ่าน Docker Compose](#-แบบที่-2-ติดตั้งและรันอัตโนมัติผ่าน-docker-compose-one-click-deployment)** — *แนะนำสำหรับเซิร์ฟเวอร์ หรือผู้ที่ต้องการเปิดใช้งานทันทีด้วยคำสั่งเดียวโดยไม่ต้องติดตั้งเครื่องมืออื่นแยก*
 
 ---
 
-### ขั้นตอนที่ 1: Clone Repository
-เปิด Terminal หรือ Command Prompt แล้วรันคำสั่ง:
+### 💻 แบบที่ 1: ติดตั้งและรันบนเครื่องคอมพิวเตอร์โดยตรง (Local Development ด้วย Bun)
+
+คู่มือนี้จะอธิบายตั้งแต่ขั้นตอนการดาวน์โหลดไฟล์, แตกไฟล์ ZIP, ติดตั้งเครื่องมือ Bun, เชื่อมต่อฐานข้อมูล, นำเข้าข้อมูล ไปจนถึงเปิดระบบใช้งานได้สำเร็จ:
+
+#### 📌 สิ่งที่ต้องมีในเครื่อง (Prerequisites)
+- ระบบปฏิบัติการ: Windows 10/11, macOS หรือ Linux
+- เบราว์เซอร์: Google Chrome, Microsoft Edge, Safari หรือ Firefox
+
+---
+
+#### ขั้นตอนที่ 1: ดาวน์โหลดโปรเจกต์ (Download Source Code)
+สามารถเลือกได้ **2 วิธี**:
+
+* **วิธี A (สำหรับผู้ใช้ทั่วไป - ดาวน์โหลดไฟล์ ZIP):**
+  1. เข้าไปที่หน้า GitHub Repository ของโปรเจกต์
+  2. คลิกที่ปุ่มสีเขียว **`<> Code`** มุมขวาบน
+  3. เลือกคลิก **`Download ZIP`**
+  4. เมื่อดาวน์โหลดเสร็จสิ้น ให้คลิกขวาที่ไฟล์ `.zip` แล้วเลือก **`Extract All...`** (แตกไฟล์ทั้งหมด)
+  5. วางโฟลเดอร์โปรเจกต์ไว้ในตำแหน่งที่ต้องการ เช่น `C:\voltage` หรือ `D:\voltage\my-bun-app`
+
+* **วิธี B (สำหรับผู้ที่มี Git - Clone Repository):**
+  เปิด Terminal หรือ PowerShell แล้วพิมพ์:
+  ```bash
+  git clone https://github.com/cypxxc/voltage.git
+  cd voltage
+  ```
+
+---
+
+#### ขั้นตอนที่ 2: ติดตั้ง Bun Runtime (JavaScript Engine & Package Manager)
+โปรเจกต์นี้ใช้ **Bun** ซึ่งมีความเร็วในการประมวลผลและการทำงานสูงมาก
+
+* **สำหรับระบบปฏิบัติการ Windows:**
+  1. เปิด **PowerShell** (กดปุ่ม `Windows + X` แล้วเลือก Terminal หรือ PowerShell)
+  2. รันคำสั่งด้านล่างนี้:
+     ```powershell
+     powershell -c "irm bun.sh/install.ps1 | iex"
+     ```
+  3. เมื่อติดตั้งเสร็จ ให้ **ปิดแล้วเปิด PowerShell ใหม่** 1 ครั้ง เพื่อให้ระบบโหลด Environment PATH
+
+* **สำหรับระบบปฏิบัติการ macOS / Linux:**
+  1. เปิด **Terminal** แล้วรันคำสั่ง:
+     ```bash
+     curl -fsSL https://bun.sh/install | bash
+     ```
+  2. รีโหลด Shell configuration หรือเปิดหน้าต่าง Terminal ใหม่
+
+* **ตรวจสอบว่าติดตั้ง Bun สำเร็จหรือไม่:**
+  พิมพ์คำสั่ง:
+  ```bash
+  bun --version
+  ```
+  *(ถ้าขึ้นหมายเลขเวอร์ชัน เช่น `1.1.x` หรือ `1.3.x` แปลว่าพร้อมใช้งานเรียบร้อยแล้ว)*
+
+---
+
+#### ขั้นตอนที่ 3: เปิด Terminal / PowerShell เข้าสู่โฟลเดอร์โปรเจกต์
+1. เข้าไปยังโฟลเดอร์โปรเจกต์ที่แตกไฟล์ไว้ในขั้นตอนที่ 1
+2. **ทางลัดบน Windows:** กดคลิกขวาที่พื้นที่ว่างในโฟลเดอร์ แล้วเลือก **"Open in Terminal"** หรือเปิด PowerShell แล้วสั่ง `cd` ไปยังโฟลเดอร์:
+   ```powershell
+   cd D:\voltage\my-bun-app
+   ```
+
+---
+
+#### ขั้นตอนที่ 4: จัดเตรียมฐานข้อมูล PostgreSQL
+ระบบจำเป็นต้องมีฐานข้อมูล **PostgreSQL** (เวอร์ชัน 14–17) โดยเลือกได้ 2 ทาง:
+
+* **ทางเลือกที่ 4.1 (ง่ายที่สุด - ใช้ Docker เปิดเฉพาะฐานข้อมูล):**
+  หากเครื่องมี Docker Desktop อยู่แล้ว สามารถเปิดเฉพาะ Database ด้วยคำสั่ง:
+  ```bash
+  docker compose up -d postgres
+  ```
+
+* **ทางเลือกที่ 4.2 (ติดตั้ง PostgreSQL ลงในเครื่องคอมพิวเตอร์โดยตรง):**
+  1. ดาวน์โหลดตัวติดตั้ง PostgreSQL จากเว็บไซต์หลัก: [https://www.postgresql.org/download/](https://www.postgresql.org/download/)
+  2. ติดตั้งตามขั้นตอนปกติ กำหนดรหัสผ่านของ Superuser `postgres` (เช่น `postgrespassword`)
+  3. เปิดโปรแกรม **pgAdmin** หรือ **psql** แล้วสร้างฐานข้อมูลใหม่ชื่อ:
+     ```sql
+     CREATE DATABASE electricity_db;
+     ```
+
+---
+
+#### ขั้นตอนที่ 5: ติดตั้ง Dependencies และ Libraries ของโปรเจกต์
+ในโฟลเดอร์โปรเจกต์ ให้รันคำสั่ง:
 ```bash
-git clone <URL_ของ_REPOSITORY_นี้>
-cd my-bun-app
+bun install
+```
+*(ระบบจะดาวน์โหลดแพ็กเกจทั้งหมด เช่น Next.js 16, React 19, Tailwind CSS, Recharts, Drizzle ORM ให้อัตโนมัติในเวลาเพียงไม่กี่วินาที)*
+
+---
+
+#### ขั้นตอนที่ 6: สร้างและตั้งค่าไฟล์ Environment Variables (`.env.local`)
+1. ทำการคัดลอกไฟล์ต้นแบบ `.env.example` ไปเป็น `.env.local`:
+   * **บน Windows PowerShell:**
+     ```powershell
+     copy .env.example .env.local
+     ```
+   * **บน macOS / Linux:**
+     ```bash
+     cp .env.example .env.local
+     ```
+
+2. เปิดไฟล์ `.env.local` ด้วยโปรแกรมแก้ไขข้อความ (เช่น VS Code หรือ Notepad) เพื่อตรวจสอบหรือแก้ไขการตั้งค่า:
+   ```ini
+   # การเชื่อมต่อฐานข้อมูล PostgreSQL บนเครื่อง localhost
+   DATABASE_URL=postgresql://postgres:postgrespassword@localhost:5432/electricity_db
+
+   # คีย์สำหรับเข้ารหัส Session Token (JWT)
+   JWT_SECRET=super-secret-jwt-key-min-32-chars-long-12345
+
+   # ข้อมูลบัญชีผู้ดูแลระบบเริ่มต้น
+   ADMIN_USERNAME=admin
+   ADMIN_PASSWORD=adminpassword123
+   ```
+   *(หมายเหตุ: หากท่านตั้งรหัสผ่าน PostgreSQL ในขั้นตอนที่ 4 แตกต่างไปจากนี้ ให้แก้ไขตรงส่วน `postgrespassword` ให้ตรงกับรหัสผ่านของท่าน)*
+
+---
+
+#### ขั้นตอนที่ 7: สร้างตารางและนำเข้าข้อมูลเริ่มต้น (Migration & Seeding)
+
+1. **สร้างตารางในฐานข้อมูล (Push Schema):**
+   ```bash
+   bun run db:push
+   ```
+   *(คำสั่งนี้จะเชื่อมต่อกับ PostgreSQL และสร้างตาราง `electricity_records` และ `users` ตามสคีมา)*
+
+2. **นำเข้าข้อมูลประวัติศาสตร์จริง 84 งวด (ปีงบ 2563–2569) พร้อมสร้าง User Admin:**
+   ```bash
+   bun run seed
+   ```
+   *(ระบบจะอ่านข้อมูลจากไฟล์ Excel `สรุปค่าไฟฟ้า 62-69.xlsx` และบันทึกลงฐานข้อมูล พร้อมสร้างบัญชีผู้ดูแลระบบ `admin`)*
+
+3. **(ทางเลือกเสริม) นำเข้าข้อมูลจำลอง 2 ปีใหม่ (ปี พ.ศ. 2570 และ 2571 ครบทุกเดือน):**
+   หากต้องการทดสอบระบบโดยมีข้อมูลเพิ่มเติมอีก 24 งวด:
+   ```bash
+   bun run scripts/seed_mock_2years.ts
+   ```
+
+---
+
+#### ขั้นตอนที่ 8: เริ่มเปิดใช้งานเว็บแอปพลิเคชัน (Start Development Server)
+รันคำสั่งเปิดเซิร์ฟเวอร์:
+```bash
+bun run dev
 ```
 
-### ขั้นตอนที่ 2: ตั้งค่า Environment Variables
-คัดลอกไฟล์ต้นแบบ `.env.example` ไปเป็น `.env`:
-```bash
-# บน Linux / macOS / Git Bash
-cp .env.example .env
-
-# บน Windows PowerShell
-copy .env.example .env
-```
-*(ค่าเริ่มต้นใน `.env` สามารถใช้งานร่วมกับ Docker Compose ได้ทันทีโดยไม่ต้องแก้ไข แต่หากใช้งานจริงบน Production แนะนำให้เปลี่ยน `JWT_SECRET` และ `ADMIN_PASSWORD` ตามคำแนะนำด้านล่าง)*
-
-### ขั้นตอนที่ 3: สั่งรันระบบผ่าน Docker Compose
-รันคำสั่งเพื่อสร้างและเปิด Container ในพื้นหลัง:
-```bash
-docker compose up -d --build
+เมื่อหน้าต่างขึ้นข้อความ:
+```text
+▲ Next.js 16.4.3 (Turbopack)
+- Local: http://localhost:3000
+✓ Ready in ...ms
 ```
 
-> **หมายเหตุการทำงานเบื้องหลัง:**
-> 1. Docker จะดาวน์โหลด PostgreSQL 17 Alpine และรันสคริปต์ `init.sql` เพื่อสร้าง Table และนำเข้าข้อมูลค่าไฟฟ้าจริง 84 งวด พร้อมบัญชี Admin ให้อัตโนมัติ
-> 2. Docker จะ Build Next.js 16 ในโหมด Standalone Production Runner (ขนาดเล็ก น้ำหนักเบา ปลอดภัย และกินทรัพยากรน้อยมาก)
-> 3. ทั้ง 2 Container จะเชื่อมต่อกันผ่าน Internal Network อัตโนมัติ
-
-### ขั้นตอนที่ 4: เข้าใช้งานระบบ
-เมื่อ Container เริ่มทำงานเรียบร้อยแล้ว สามารถเปิด Web Browser และเข้าใช้งานได้ทันที:
-
-- **หน้ารายงานแดชบอร์ดหลัก (ผู้ใช้ทั่วไป):**
+สามารถเปิด Web Browser แล้วเข้าใช้งานได้ทันที:
+* 📊 **หน้ารายงานแดชบอร์ดหลัก (ผู้ใช้ทั่วไป):**
   👉 [http://localhost:3000](http://localhost:3000)
-- **หน้าระบบจัดการข้อมูล (Admin Back-Office):**
+* ⚙️ **หน้าระบบบริหารจัดการข้อมูล (Admin Back-Office):**
   👉 [http://localhost:3000/admin](http://localhost:3000/admin)
+  - **Username:** `admin`
+  - **Password:** `adminpassword123`
 
-#### บัญชีผู้ดูแลระบบตั้งต้น (Default Admin Credentials):
-- **Username:** `admin`
-- **Password:** `adminpassword123`
+---
+
+#### ขั้นตอนที่ 9: คำสั่งสำหรับทดสอบและตรวจสอบความพร้อมของระบบ
+* **รันชุดทดสอบคำนวณสถิติและปีงบประมาณ (Unit Tests):**
+  ```bash
+  bun test
+  ```
+  *(ทดสอบตรรกะปีงบประมาณไทย, 2-Sigma Outlier, อัตรา MoM/YoY ทั้งหมด 18 รายการ)*
+
+* **ทดสอบคอมไพล์ระบบแบบ Production Build:**
+  ```bash
+  bun run build
+  ```
+
+---
+
+### 🐳 แบบที่ 2: ติดตั้งและรันอัตโนมัติผ่าน Docker Compose (One-Click Deployment)
+
+วิธีนี้เหมาะสำหรับผู้ที่มี **Docker Desktop** อยู่แล้ว หรือนำขึ้น Server เพราะ Docker จะจัดการติดตั้งทั้ง **เว็บแอปพลิเคชัน**, **ฐานข้อมูล PostgreSQL 17**, และ **รัน Script นำเข้าข้อมูล 84 งวด + Admin** ให้เสร็จสรรพในคำสั่งเดียว
+
+#### ขั้นตอนการรันผ่าน Docker:
+1. **คัดลอกไฟล์ Environment:**
+   ```bash
+   # Windows PowerShell
+   copy .env.example .env
+
+   # Linux / macOS
+   cp .env.example .env
+   ```
+
+2. **สั่ง Build และเปิดระบบทั้งหมดในเบื้องหลัง:**
+   ```bash
+   docker compose up -d --build
+   ```
+
+3. **เข้าใช้งานระบบ:**
+   - หน้ารายงานแดชบอร์ด: [http://localhost:3000](http://localhost:3000)
+   - หน้า Admin: [http://localhost:3000/admin](http://localhost:3000/admin) (User: `admin` / Pass: `adminpassword123`)
 
 ---
 
@@ -123,61 +282,6 @@ docker compose up -d --build
 | **ปิดระบบและลบ Container ออก** | `docker compose down` |
 | **ปิดระบบพร้อมล้าง Volume ข้อมูลทั้งหมด** | `docker compose down -v` *(คำเตือน: ข้อมูลใน DB จะถูกลบ)* |
 | **รันคำสั่ง Seed ข้อมูลใหม่เข้าไปในแอป** | `docker compose exec app bun run seed` |
-
----
-
-## 🛠️ วิธีติดตั้งและรันแบบ Local Development (สำหรับนักพัฒนา)
-
-หากต้องการแก้ไขหรือพัฒนาโค้ดเพิ่มเติมในเครื่องโดยตรง โดยไม่ผ่าน Container แอปพลิเคชัน:
-
-### สิ่งที่ต้องเตรียม
-- [Bun](https://bun.sh/) (เวอร์ชัน 1.1+ แนะนำ) หรือ Node.js 20+
-- PostgreSQL Database (สามารถใช้ Container postgres จาก docker-compose ได้)
-
-### ขั้นตอนการรัน Local:
-1. **ติดตั้ง Dependencies:**
-   ```bash
-   bun install
-   ```
-
-2. **เปิดเฉพาะฐานข้อมูล PostgreSQL ด้วย Docker:**
-   ```bash
-   docker compose up -d postgres
-   ```
-
-3. **ตั้งค่าไฟล์ `.env.local`:**
-   สร้างไฟล์ `.env.local` โดยระบุค่าเชื่อมต่อฐานข้อมูลบนเครื่อง:
-   ```ini
-   DATABASE_URL=postgresql://postgres:postgrespassword@localhost:5432/electricity_db
-   JWT_SECRET=super-secret-jwt-key-min-32-chars-long-12345
-   ADMIN_USERNAME=admin
-   ADMIN_PASSWORD=adminpassword123
-   ```
-
-4. **ดัน Schema โครงสร้างตารางลงฐานข้อมูล:**
-   ```bash
-   bun run db:push
-   ```
-
-5. **นำเข้าข้อมูลประวัติศาสตร์และบัญชี Admin:**
-   ```bash
-   bun run seed
-   ```
-
-6. **เริ่มรัน Development Server:**
-   ```bash
-   bun run dev
-   ```
-   เปิดใช้งานที่ [http://localhost:3000](http://localhost:3000)
-
-7. **ตรวจสอบความถูกต้องของโค้ด (Quality Checks):**
-   ```bash
-   # ตรวจสอบ Lint (ESLint)
-   bun run lint
-
-   # ทดสอบ Production Build
-   bun run build
-   ```
 
 ---
 

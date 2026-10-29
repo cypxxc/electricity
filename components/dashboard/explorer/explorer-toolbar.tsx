@@ -10,8 +10,8 @@ interface ExplorerToolbarProps {
   setSelectedCalendarYear: (year: string) => void;
   monthlyMetric: 'amount' | 'cumulative';
   setMonthlyMetric: (metric: 'amount' | 'cumulative') => void;
-  yearlyRange: '5' | 'all';
-  setYearlyRange: (range: '5' | 'all') => void;
+  yearlyRange: '5' | '7' | '10' | 'all';
+  setYearlyRange: (range: '5' | '7' | '10' | 'all') => void;
   yearlyMetric: 'total' | 'average';
   setYearlyMetric: (metric: 'total' | 'average') => void;
   yoyPrimaryYear: number;
@@ -84,14 +84,20 @@ export function ExplorerToolbar({
               onChange={(e) => setSelectedCalendarYear(e.target.value)}
               className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
             >
-              <option value="all">
-                แสดงต่อเนื่องทุกปี ({availableYears[availableYears.length - 1] || 2562} - {availableYears[0] || 2569})
-              </option>
-              {availableYears.map((y) => (
-                <option key={y} value={y.toString()}>
-                  ปี พ.ศ. {y}
+              <optgroup label="ช่วงเวลาย้อนหลัง (Rolling Window)">
+                <option value="recent_12">12 เดือนล่าสุด (1 ปีล่าสุด)</option>
+                <option value="recent_24">24 เดือนล่าสุด (2 ปีล่าสุด)</option>
+                <option value="all">
+                  แสดงต่อเนื่องทุกปี ({availableYears[availableYears.length - 1] || 2562} - {availableYears[0] || 2569})
                 </option>
-              ))}
+              </optgroup>
+              <optgroup label="เลือกตามปี พ.ศ.">
+                {availableYears.map((y) => (
+                  <option key={y} value={y.toString()}>
+                    ปี พ.ศ. {y}
+                  </option>
+                ))}
+              </optgroup>
             </select>
 
             <div className="inline-flex rounded-xs border border-slate-300 p-0.5 bg-slate-100 shadow-2xs text-[11px]">
@@ -186,11 +192,17 @@ export function ExplorerToolbar({
           <div className="flex items-center gap-1.5">
             <select
               value={yearlyRange}
-              onChange={(e) => setYearlyRange(e.target.value as '5' | 'all')}
+              onChange={(e) => setYearlyRange(e.target.value as '5' | '7' | '10' | 'all')}
               className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
             >
+              <option value="5">5 ปีงบประมาณล่าสุด (Rolling)</option>
+              {totalFiscalYearsCount >= 7 && (
+                <option value="7">7 ปีงบประมาณล่าสุด</option>
+              )}
+              {totalFiscalYearsCount >= 10 && (
+                <option value="10">10 ปีงบประมาณล่าสุด</option>
+              )}
               <option value="all">ทุกปีงบประมาณ ({totalFiscalYearsCount} ปี)</option>
-              <option value="5">5 ปีงบประมาณล่าสุด</option>
             </select>
 
             <div className="inline-flex rounded-xs border border-slate-300 p-0.5 bg-slate-100 shadow-2xs text-[11px]">

@@ -48,7 +48,13 @@ export function MonthlyTrendView({
           tick={{ fontSize: 10, fill: '#475569' }}
           tickLine={{ stroke: '#cbd5e1' }}
           axisLine={{ stroke: '#cbd5e1' }}
-          interval={selectedCalendarYear === 'all' ? Math.floor(data.length / 10) : 0}
+          interval={
+            selectedCalendarYear === 'all'
+              ? Math.floor(data.length / 10)
+              : selectedCalendarYear === 'recent_24'
+              ? 1
+              : 0
+          }
         />
         <YAxis
           tick={{ fontSize: 10, fill: '#475569' }}
@@ -143,7 +149,7 @@ export function MonthlyTrendView({
 
             const isSelected = selectedMonth === payload.month;
             const isAnomaly = Boolean(payload.isAnomaly);
-            const isAll = selectedCalendarYear === 'all';
+            const isAll = selectedCalendarYear === 'all' || selectedCalendarYear === 'recent_24';
             const val = payload.metricValue ?? payload.amount;
 
             const fullText = `฿${Math.round(val).toLocaleString('th-TH')}`;

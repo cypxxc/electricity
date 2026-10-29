@@ -45,8 +45,8 @@ export function ExpenditureTrendExplorer({
   );
   const [monthlyMetric, setMonthlyMetric] = useState<'amount' | 'cumulative'>('amount');
 
-  // 3. Yearly Trend Controls
-  const [yearlyRange, setYearlyRange] = useState<'5' | 'all'>('all');
+  // 3. Yearly Trend Controls (Default: Rolling 5 Years to ensure future scalability)
+  const [yearlyRange, setYearlyRange] = useState<'5' | '7' | '10' | 'all'>('5');
   const [yearlyMetric, setYearlyMetric] = useState<'total' | 'average'>('total');
 
   // 4. YoY Comparison Controls
@@ -76,8 +76,26 @@ export function ExpenditureTrendExplorer({
     return monthlyTrends.reduce((s, r) => s + r.amount, 0) / monthlyTrends.length;
   }, [monthlyTrends]);
 
-  // View 1: Monthly Trend Data
+  // View 1: Monthly Trend Data (Supports Rolling 12/24 Months & Calendar Years)
   const monthlyViewData: MonthlyViewDataItem[] = useMemo(() => {
+    if (selectedCalendarYear === 'recent_12') {
+      const slice = monthlyTrends.slice(-12);
+      return slice.map((r) => ({
+        ...r,
+        displayLabel: r.periodLabel,
+        metricValue: monthlyMetric === 'amount' ? r.amount : r.cumulativeFiscalAmount,
+      }));
+    }
+
+    if (selectedCalendarYear === 'recent_24') {
+      const slice = monthlyTrends.slice(-24);
+      return slice.map((r) => ({
+        ...r,
+        displayLabel: r.periodLabel,
+        metricValue: monthlyMetric === 'amount' ? r.amount : r.cumulativeFiscalAmount,
+      }));
+    }
+
     if (selectedCalendarYear === 'all') {
       return monthlyTrends.map((r) => ({
         ...r,
@@ -135,11 +153,15 @@ export function ExpenditureTrendExplorer({
     };
   }, [monthlyViewData]);
 
-  // View 2: Yearly Trend Data
+  // View 2: Yearly Trend Data (Supports Rolling 5, 7, 10 Years & All)
   const yearlyViewData: YearlyViewDataItem[] = useMemo(() => {
     let list = [...fiscalYearComparison];
     if (yearlyRange === '5') {
       list = list.slice(-5);
+    } else if (yearlyRange === '7') {
+      list = list.slice(-7);
+    } else if (yearlyRange === '10') {
+      list = list.slice(-10);
     }
     return list.map((f) => ({
       ...f,
@@ -273,6 +295,12 @@ export function ExpenditureTrendExplorer({
     const maxFY = fiscalYearComparison[fiscalYearComparison.length - 1]?.fyBe || 2569;
 
     if (viewMode === 'monthly') {
+      if (selectedCalendarYear === 'recent_12') {
+        return `แสดงข้อมูลค่าใช้จ่ายไฟฟ้ารายเดือนย้อนหลัง 12 เดือนล่าสุด ยอดรวมสะสม ฿${monthlyStats.total.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (เฉลี่ย ฿${monthlyStats.avg.toLocaleString('th-TH', { maximumFractionDigits: 0 })}/เดือน)`;
+      }
+      if (selectedCalendarYear === 'recent_24') {
+        return `แสดงข้อมูลค่าใช้จ่ายไฟฟ้ารายเดือนย้อนหลัง 24 เดือนล่าสุด (2 ปี) ยอดรวมสะสม ฿${monthlyStats.total.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (เฉลี่ย ฿${monthlyStats.avg.toLocaleString('th-TH', { maximumFractionDigits: 0 })}/เดือน)`;
+      }
       if (selectedCalendarYear === 'all') {
         return `แสดงข้อมูลค่าใช้จ่ายไฟฟ้ารายเดือนต่อเนื่อง ${monthlyTrends.length} งวดบันทึก (ปี พ.ศ. ${minCalYear} – ${maxCalYear}) ยอดรวมสะสม ฿${monthlyStats.total.toLocaleString('th-TH', { minimumFractionDigits: 2 })} ค่าเฉลี่ยระบบอยู่ที่ ฿${overallHistoricalAverage.toLocaleString('th-TH', { maximumFractionDigits: 0 })}/งวด`;
       }
@@ -280,8 +308,11 @@ export function ExpenditureTrendExplorer({
     }
 
     if (viewMode === 'yearly') {
+      const minDisplayFY = yearlyViewData[0]?.fyBe || minFY;
+      const maxDisplayFY = yearlyViewData[yearlyViewData.length - 1]?.fyBe || maxFY;
       const dirText = (yearlyStats.latestYoY?.rate || 0) < 0 ? 'ปรับลดลงต่อเนื่อง' : 'ปรับตัวเพิ่มขึ้น';
-      return `ภาพรวมค่าใช้จ่ายไฟฟ้ารายปีงบประมาณ (${yearlyRange === '5' ? '5 ปีล่าสุด' : `ทุกปีงบ ${minFY} - ${maxFY}`}): มียอดเบิกจ่ายรวม ฿${yearlyStats.total.toLocaleString('th-TH', { minimumFractionDigits: 2 })} โดยปีงบประมาณ ${yearlyStats.maxYear?.year} มียอดสูงสุด (฿${(yearlyStats.maxYear?.amount || 0).toLocaleString('th-TH', { minimumFractionDigits: 2 })}) และปีงบประมาณ ${yearlyStats.latestYoY?.year} ล่าสุดมียอด ${dirText} ${Math.abs(yearlyStats.latestYoY?.rate || 0).toFixed(1)}% เมื่อเทียบกับปีงบก่อนหน้า`;
+      const rangeLabel = yearlyRange === 'all' ? `ทุกปีงบ ${minDisplayFY} - ${maxDisplayFY}` : `${yearlyRange} ปีงบประมาณล่าสุด (${minDisplayFY} - ${maxDisplayFY})`;
+      return `ภาพรวมค่าใช้จ่ายไฟฟ้ารายปีงบประมาณ (${rangeLabel}): มียอดเบิกจ่ายรวม ฿${yearlyStats.total.toLocaleString('th-TH', { minimumFractionDigits: 2 })} โดยปีงบประมาณ ${yearlyStats.maxYear?.year} มียอดสูงสุด (฿${(yearlyStats.maxYear?.amount || 0).toLocaleString('th-TH', { minimumFractionDigits: 2 })}) และปีงบประมาณ ${yearlyStats.latestYoY?.year} ล่าสุดมียอด ${dirText} ${Math.abs(yearlyStats.latestYoY?.rate || 0).toFixed(1)}% เมื่อเทียบกับปีงบก่อนหน้า`;
     }
 
     // YoY Mode

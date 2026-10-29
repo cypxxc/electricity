@@ -23,6 +23,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'ไม่พบไฟล์สำหรับนำเข้า' }, { status: 400 });
     }
 
+    // Protect against unbounded file upload memory spikes (15MB maximum)
+    const MAX_FILE_SIZE = 15 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json(
+        { error: 'ขนาดไฟล์เกินกำหนด (สูงสุด 15MB)' },
+        { status: 400 }
+      );
+    }
+
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 

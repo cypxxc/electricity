@@ -36,6 +36,16 @@ export async function loginAction(
   }
 
   const now = Date.now();
+
+  // Periodic eviction to prevent unbounded memory growth (DoS protection)
+  if (loginAttempts.size > 500) {
+    for (const [key, val] of loginAttempts.entries()) {
+      if (now - val.lastAttempt > LOCKOUT_WINDOW_MS) {
+        loginAttempts.delete(key);
+      }
+    }
+  }
+
   const attempt = loginAttempts.get(username);
 
   // Check rate limit lockout

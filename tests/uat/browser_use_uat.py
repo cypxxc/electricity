@@ -72,8 +72,8 @@ async def run_browser_use_uat():
        - Check the 3 KPI summary cards (ยอดรวมการใช้จ่าย, ค่าเฉลี่ย, ปีงบประมาณล่าสุด)
        
     2. [Interactive Period Selection]
-       - Locate the "เลือกช่วงเวลาวิเคราะห์" period selector pills.
-       - Click on the 'ปีงบ 2568' pill.
+       - Locate the "เลือกช่วงเวลาวิเคราะห์" period selector dropdown.
+       - Select '2568' or 'ปีงบประมาณ 2568' from the dropdown.
        - Observe if KPIs update to calculate specifically for Fiscal Year 2568.
        - Click the "ล้างตัวกรอง (ดูภาพรวม)" button to verify it resets to all years.
 

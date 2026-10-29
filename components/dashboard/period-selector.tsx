@@ -19,7 +19,7 @@ export function PeriodSelector({
   onReset,
   totalRecordsCount,
 }: PeriodSelectorProps) {
-  // Sort fiscal years descending (newest first: 2569 -> 2563) to match executive reporting standards
+  // Sort fiscal years descending (newest first: 2571 -> 2563) to match executive reporting standards
   const sortedFiscalYears = useMemo(() => {
     return [...fiscalYears].sort((a, b) => b.fyBe - a.fyBe);
   }, [fiscalYears]);
@@ -29,30 +29,52 @@ export function PeriodSelector({
   }, [fiscalYears]);
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xs p-3 shadow-2xs space-y-2.5">
-      {/* Label and Reset Action */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <div className="flex flex-wrap items-center gap-2">
+    <div className="bg-white border border-slate-200 rounded-xs p-3 shadow-2xs">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        {/* Label and Dropdown Controls */}
+        <div className="flex flex-wrap items-center gap-2.5">
           <div className="flex items-center gap-1.5 text-slate-800">
             <CalendarDays className="w-4 h-4 text-teal-600" />
-            <span className="text-xs font-bold tracking-tight">
+            <label htmlFor="period-selector-year" className="text-xs font-bold tracking-tight text-slate-800">
               เลือกช่วงเวลาวิเคราะห์:
-            </span>
+            </label>
           </div>
-          <span className="text-[11px] text-slate-500 font-mono">
-            {selectedYear === 'all' ? (
-              <span className="inline-flex items-center gap-1">
-                <span>(แสดงภาพรวมสะสม {fiscalYears.length} ปีงบประมาณ รวม {totalRecordsCount} งวด)</span>
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1 text-teal-800 font-semibold bg-teal-50 px-1.5 py-0.5 rounded-2xs border border-teal-200">
-                <Filter className="w-3 h-3 text-teal-600" />
-                <span>กำลังคำนวณเฉพาะ: ปีงบประมาณ {selectedYear}</span>
-              </span>
-            )}
-          </span>
+
+          <div className="relative">
+            <select
+              id="period-selector-year"
+              value={selectedYear}
+              onChange={(e) => onSelectYear(e.target.value)}
+              className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
+            >
+              <option value="all">
+                ภาพรวมทั้งหมด ({fiscalYears.length} ปีงบประมาณ • {totalRecordsCount} งวด)
+              </option>
+              {sortedFiscalYears.map((fy) => {
+                const isLatest = fy.fyBe === maxFY;
+                return (
+                  <option key={fy.fyBe} value={fy.fyBe.toString()}>
+                    ปีงบประมาณ {fy.fyBe} {isLatest ? '(ล่าสุด)' : ''}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
+          {/* Status Indicator Badge */}
+          {selectedYear === 'all' ? (
+            <span className="text-[11px] text-slate-500 font-mono hidden md:inline-flex items-center gap-1">
+              (แสดงภาพรวมสะสม {fiscalYears.length} ปีงบประมาณ รวม {totalRecordsCount} งวด)
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 text-[11px] text-teal-800 font-semibold bg-teal-50 px-2 py-0.5 rounded-2xs border border-teal-200">
+              <Filter className="w-3 h-3 text-teal-600" />
+              <span>กำลังคำนวณเฉพาะ: ปีงบประมาณ {selectedYear}</span>
+            </span>
+          )}
         </div>
 
+        {/* Reset Filter Action (Visible when specific year is filtered) */}
         {selectedYear !== 'all' && (
           <button
             onClick={onReset}
@@ -64,63 +86,6 @@ export function PeriodSelector({
             <span>ล้างตัวกรอง (ดูภาพรวม)</span>
           </button>
         )}
-      </div>
-
-      {/* Segmented Pills Row */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-thin">
-        {/* Option 1: ภาพรวมทั้งหมด */}
-        <button
-          type="button"
-          onClick={() => onSelectYear('all')}
-          className={`px-3 py-1.5 text-xs font-medium rounded-xs border transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0 ${
-            selectedYear === 'all'
-              ? 'bg-[#0f2744] text-white border-[#0f2744] font-semibold shadow-2xs'
-              : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
-          }`}
-        >
-          <span>ภาพรวมทั้งหมด</span>
-          <span
-            className={`px-1.5 py-0.2 rounded-2xs text-[10px] font-mono ${
-              selectedYear === 'all'
-                ? 'bg-white/20 text-teal-200'
-                : 'bg-slate-200/80 text-slate-600'
-            }`}
-          >
-            {fiscalYears.length} ปี ({totalRecordsCount} งวด)
-          </span>
-        </button>
-
-        {/* Options 2..N: Fiscal Years (sorted descending: 2569 down to 2563) */}
-        {sortedFiscalYears.map((fy) => {
-          const isSelected = selectedYear === fy.fyBe.toString();
-          const isLatest = fy.fyBe === maxFY;
-
-          return (
-            <button
-              key={fy.fyBe}
-              type="button"
-              onClick={() => onSelectYear(fy.fyBe.toString())}
-              className={`px-3 py-1.5 text-xs font-medium rounded-xs border transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0 ${
-                isSelected
-                  ? 'bg-[#0f2744] text-white border-[#0f2744] font-semibold shadow-2xs'
-                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
-              }`}
-            >
-              <span>ปีงบ {fy.fyBe}</span>
-              {isLatest ? (
-                <span
-                  className={`px-1.5 py-0.2 rounded-2xs text-[10px] font-mono font-medium ${
-                    isSelected
-                      ? 'bg-teal-500/30 text-teal-200 border border-teal-400/40'
-                      : 'bg-teal-50 text-teal-700 border border-teal-200'
-                  }`}
-                >
-                  ล่าสุด
-                </span>
-              ) : null}
-            </button>
-          );
-        })}
       </div>
     </div>
   );

@@ -60,10 +60,10 @@ def run_uat():
             # Check default selection
             page.wait_for_selector("text=เลือกช่วงเวลาวิเคราะห์:")
             
-            # Click Year 2568 Pill
-            pill_2568 = page.locator("button:has-text('ปีงบ 2568')")
-            if pill_2568.count() > 0:
-                pill_2568.first.click()
+            # Select Year 2568 from Dropdown
+            select_elem = page.locator("#period-selector-year")
+            if select_elem.count() > 0:
+                select_elem.select_option("2568")
                 time.sleep(0.5)
                 page.screenshot(path=f"{SCREENSHOT_DIR}/02_period_selector_filtered.png")
                 
@@ -73,8 +73,8 @@ def run_uat():
                 reset_btn.first.click()
                 time.sleep(0.5)
 
-            print("  ✓ PASS: Period selector filters data by Fiscal Year and resets cleanly.")
-            results.append(("TC-02", "Period Selector & Fiscal Year Filtering", "PASS", "Dynamic filtering by year pill and reset confirmed"))
+            print("  ✓ PASS: Period selector filters data by Fiscal Year dropdown and resets cleanly.")
+            results.append(("TC-02", "Period Selector & Fiscal Year Filtering", "PASS", "Dynamic filtering by year dropdown and reset confirmed"))
         except Exception as e:
             print(f"  ✗ FAIL: {e}")
             results.append(("TC-02", "Period Selector & Fiscal Year Filtering", "FAIL", str(e)))

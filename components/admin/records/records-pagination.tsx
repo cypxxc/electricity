@@ -35,7 +35,7 @@ export function RecordsPagination({
           disabled={currentPage <= 1}
           aria-label="หน้าก่อนหน้า"
           title="หน้าก่อนหน้า"
-          className="inline-flex items-center justify-center p-1.5 rounded-xs border border-slate-300 hover:border-slate-400 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-2xs disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-300 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
+          className="inline-flex items-center justify-center p-1.5 rounded-xs border border-slate-300 hover:border-slate-400 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-2xs disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-300 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
         >
           <ChevronLeft className="w-3.5 h-3.5" />
         </button>
@@ -48,7 +48,7 @@ export function RecordsPagination({
           disabled={currentPage >= totalPages}
           aria-label="หน้าถัดไป"
           title="หน้าถัดไป"
-          className="inline-flex items-center justify-center p-1.5 rounded-xs border border-slate-300 hover:border-slate-400 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-2xs disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-300 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
+          className="inline-flex items-center justify-center p-1.5 rounded-xs border border-slate-300 hover:border-slate-400 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-2xs disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-300 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
         >
           <ChevronRight className="w-3.5 h-3.5" />
         </button>

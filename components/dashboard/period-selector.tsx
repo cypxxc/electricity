@@ -46,7 +46,7 @@ export function PeriodSelector({
             id="period-selector-year"
             value={selectedYear}
             onChange={(e) => onSelectYear(e.target.value)}
-            className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy shadow-2xs cursor-pointer transition-colors"
+            className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy/20 shadow-2xs cursor-pointer transition-colors"
           >
             <option value="all">
               ภาพรวมทั้งหมด ({fiscalYears.length} ปีงบประมาณ • {totalRecordsCount} งวด)
@@ -80,7 +80,7 @@ export function PeriodSelector({
         <button
           onClick={onReset}
           type="button"
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors self-start sm:self-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy print:hidden"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors self-start sm:self-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 print:hidden"
           title="ล้างตัวกรองและแสดงภาพรวมทั้งหมด"
         >
           <RotateCcw className="w-3 h-3 text-slate-500" />

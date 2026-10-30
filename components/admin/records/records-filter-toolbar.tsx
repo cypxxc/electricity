@@ -41,7 +41,7 @@ export function RecordsFilterToolbar({
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="ค้นหาตามปี, เดือน, จำนวนเงิน, หมายเหตุ..."
             aria-label="ค้นหาตามปี, เดือน, จำนวนเงิน, หมายเหตุ"
-            className="w-full pl-8 pr-3 py-1.5 text-xs border border-slate-300 hover:border-slate-400 rounded-xs bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-navy focus:border-brand-navy transition-colors shadow-2xs"
+            className="w-full pl-8 pr-3 py-1.5 text-xs border border-slate-300 hover:border-slate-400 rounded-xs bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-navy/20 focus:border-brand-navy transition-colors shadow-2xs"
           />
         </div>
 
@@ -56,7 +56,7 @@ export function RecordsFilterToolbar({
             aria-label="เลือกเดือนที่ต้องการกรอง"
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
-            className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy focus:border-brand-navy shadow-2xs cursor-pointer transition-colors"
+            className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy/20 focus:border-brand-navy shadow-2xs cursor-pointer transition-colors"
           >
             <option value="all">ทุกเดือน (ม.ค. - ธ.ค.)</option>
             {THAI_MONTHS.map((m, idx) => (
@@ -72,7 +72,7 @@ export function RecordsFilterToolbar({
           <button
             type="button"
             onClick={onResetFilters}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
           >
             <RotateCcw className="w-3 h-3 text-slate-500" />
             <span>ล้างตัวกรอง</span>

@@ -106,7 +106,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
             type="button"
             onClick={handleClose}
             aria-label="ปิดหน้าต่างนำเข้าข้อมูล"
-            className="text-slate-400 hover:text-slate-700 p-1 rounded-xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-navy"
+            className="text-slate-400 hover:text-slate-700 p-1 rounded-xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
           >
             <X className="w-4 h-4" />
           </button>
@@ -136,7 +136,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                 <button
                   type="button"
                   onClick={handleClose}
-                  className="inline-flex items-center justify-center px-3.5 py-1.5 bg-brand-navy hover:bg-brand-navy-light border border-brand-navy text-white rounded-xs text-xs font-semibold shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
+                  className="inline-flex items-center justify-center px-3.5 py-1.5 bg-brand-navy hover:bg-brand-navy-light border border-brand-navy text-white rounded-xs text-xs font-semibold shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
                 >
                   ปิดหน้าต่าง
                 </button>
@@ -220,7 +220,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                   type="button"
                   onClick={handleClose}
                   disabled={loading}
-                  className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 rounded-xs border border-slate-300 hover:border-slate-400 shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
+                  className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 rounded-xs border border-slate-300 hover:border-slate-400 shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
                 >
                   ยกเลิก
                 </button>
@@ -228,7 +228,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                   type="button"
                   onClick={handleImport}
                   disabled={loading || !file}
-                  className="inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-semibold text-white bg-brand-navy hover:bg-brand-navy-light border border-brand-navy rounded-xs transition-colors shadow-2xs disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
+                  className="inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-semibold text-white bg-brand-navy hover:bg-brand-navy-light border border-brand-navy rounded-xs transition-colors shadow-2xs disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
                 >
                   {loading ? (
                     <>

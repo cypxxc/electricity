@@ -47,7 +47,7 @@ export function RecordsYearPills({
               id="admin-year-selector"
               value={selectedYear}
               onChange={(e) => onSelectYear(e.target.value)}
-              className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy shadow-2xs cursor-pointer transition-colors"
+              className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy/20 shadow-2xs cursor-pointer transition-colors"
             >
               <option value="all">
                 ภาพรวมทั้งหมด ({distinctYears.length} ปี • {totalRecordsCount} งวด)
@@ -102,7 +102,7 @@ export function RecordsYearPills({
             <button
               onClick={() => onSelectYear('all')}
               type="button"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
               title="แสดงข้อมูลทุกปีทั้งหมด"
             >
               <RotateCcw className="w-3 h-3 text-slate-500" />
@@ -113,7 +113,7 @@ export function RecordsYearPills({
           <button
             type="button"
             onClick={() => onOpenCreate()}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-brand-navy hover:bg-brand-navy-light border border-brand-navy rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-brand-navy hover:bg-brand-navy-light border border-brand-navy rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
           >
             <Plus className="w-3.5 h-3.5 text-teal-400" />
             <span>เพิ่มข้อมูลใหม่</span>

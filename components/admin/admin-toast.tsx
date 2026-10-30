@@ -59,7 +59,7 @@ export function AdminToast({ toast, onDismiss, durationMs = 3500 }: AdminToastPr
           type="button"
           onClick={onDismiss}
           aria-label="ปิดการแจ้งเตือน"
-          className="shrink-0 text-slate-400 hover:text-slate-600 p-0.5 rounded-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-navy"
+          className="shrink-0 text-slate-400 hover:text-slate-600 p-0.5 rounded-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
         >
           <X className="w-3.5 h-3.5" />
         </button>

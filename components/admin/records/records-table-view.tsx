@@ -53,7 +53,7 @@ export function RecordsTableView({
               <button
                 type="button"
                 onClick={() => onSort('period')}
-                className="group inline-flex items-center gap-1.5 hover:text-slate-900 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-navy rounded-2xs"
+                className="group inline-flex items-center gap-1.5 hover:text-slate-900 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 rounded-2xs"
                 title="คลิกเพื่อเรียงลำดับตามงวดเวลา (ปี/เดือน)"
               >
                 <span>งวดเวลา (ปี / เดือน)</span>
@@ -67,7 +67,7 @@ export function RecordsTableView({
               <button
                 type="button"
                 onClick={() => onSort('amount')}
-                className="group inline-flex items-center gap-1.5 ml-auto hover:text-slate-900 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-navy rounded-2xs"
+                className="group inline-flex items-center gap-1.5 ml-auto hover:text-slate-900 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 rounded-2xs"
                 title="คลิกเพื่อเรียงลำดับตามยอดเงิน"
               >
                 <span>ยอดค่าไฟฟ้า (บาท)</span>
@@ -81,7 +81,7 @@ export function RecordsTableView({
               <button
                 type="button"
                 onClick={() => onSort('updatedAt')}
-                className="group inline-flex items-center gap-1.5 hover:text-slate-900 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-navy rounded-2xs"
+                className="group inline-flex items-center gap-1.5 hover:text-slate-900 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 rounded-2xs"
                 title="คลิกเพื่อเรียงลำดับตามวันที่อัปเดต"
               >
                 <span>อัปเดตเมื่อ</span>
@@ -102,7 +102,7 @@ export function RecordsTableView({
                   <button
                     type="button"
                     onClick={onResetFilters}
-                    className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
+                    className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
                   >
                     <RotateCcw className="w-3 h-3 text-slate-500" />
                     <span>ล้างตัวกรองทั้งหมด</span>
@@ -159,7 +159,7 @@ export function RecordsTableView({
                         onClick={() => onOpenEdit(r)}
                         aria-label={`แก้ไขข้อมูลค่าไฟเดือน ${monthName} พ.ศ. ${r.yearBe}`}
                         title={`แก้ไขข้อมูลเดือน ${monthName} ${r.yearBe}`}
-                        className="p-1 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-navy"
+                        className="p-1 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
                       >
                         <Pencil className="w-3.5 h-3.5" />
                       </button>
@@ -167,7 +167,7 @@ export function RecordsTableView({
                         onClick={() => onOpenDelete(r)}
                         aria-label={`ลบข้อมูลค่าไฟเดือน ${monthName} พ.ศ. ${r.yearBe}`}
                         title={`ลบข้อมูลเดือน ${monthName} ${r.yearBe}`}
-                        className="p-1 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rose-500"
+                        className="p-1 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500/25"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>

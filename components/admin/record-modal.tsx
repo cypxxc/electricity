@@ -16,8 +16,18 @@ interface RecordModalProps {
   onSuccess: () => void;
 }
 
-export function RecordModal({
-  isOpen,
+export function RecordModal(props: RecordModalProps) {
+  if (!props.isOpen) return null;
+
+  return (
+    <RecordModalDialog
+      key={`${props.recordToEdit?.id ?? 'new'}-${props.defaultYear ?? ''}-${props.defaultMonth ?? ''}`}
+      {...props}
+    />
+  );
+}
+
+function RecordModalDialog({
   onClose,
   recordToEdit,
   defaultYear,
@@ -30,12 +40,13 @@ export function RecordModal({
 
   const initialYear = recordToEdit?.yearBe || defaultYear || (new Date().getFullYear() + 543);
   const initialMonth = recordToEdit?.month || defaultMonth || 1;
+  const initialAmount = recordToEdit?.amount || '';
 
   const [inputYear, setInputYear] = useState<number>(initialYear);
   const [inputMonth, setInputMonth] = useState<number>(initialMonth);
+  const [inputAmount, setInputAmount] = useState<string>(initialAmount);
 
   useEffect(() => {
-    if (!isOpen) return;
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') {
         onClose();
@@ -43,12 +54,26 @@ export function RecordModal({
     }
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
-
-  if (!isOpen) return null;
+  }, [onClose]);
 
   const fiscalYear = getFiscalYear(inputYear, inputMonth);
   const fiscalQuarter = getFiscalQuarter(inputMonth);
+
+  // Live currency formatting preview
+  const currencyPreview = (() => {
+    if (!inputAmount || inputAmount.trim() === '') return null;
+    const val = parseFloat(inputAmount);
+    if (isNaN(val)) return { text: 'รูปแบบตัวเลขไม่ถูกต้อง', isError: true };
+    if (val < 0) return { text: 'ยอดเงินไม่สามารถติดลบได้', isError: true };
+    const formatted = `฿${val.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} บาท`;
+    let warning: string | undefined;
+    if (val > 1_000_000) {
+      warning = 'คำเตือน: ยอดเงินสูงกว่า 1 ล้านบาท กรุณาตรวจสอบ';
+    } else if (val === 0) {
+      warning = 'ข้อสังเกต: ยอดเงินเป็น 0.00 บาท';
+    }
+    return { formatted, warning, isError: false };
+  })();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -96,8 +121,10 @@ export function RecordModal({
             </p>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-700 p-1 rounded-xs transition-colors"
+            aria-label="ปิดหน้าต่างบันทึกข้อมูล"
+            className="text-slate-400 hover:text-slate-700 p-1 rounded-xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-navy"
           >
             <X className="w-4 h-4" />
           </button>
@@ -160,18 +187,38 @@ export function RecordModal({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">
-              ยอดค่าไฟฟ้า (บาท) <span className="text-rose-600">*</span>
-            </label>
+            <div className="flex items-center justify-between mb-1">
+              <label htmlFor="record-amount-input" className="text-xs font-semibold text-slate-700">
+                ยอดค่าไฟฟ้า (บาท) <span className="text-rose-600">*</span>
+              </label>
+              {currencyPreview && !currencyPreview.isError && (
+                <span className="text-[11px] font-mono font-bold text-teal-800">
+                  {currencyPreview.formatted}
+                </span>
+              )}
+            </div>
             <input
+              id="record-amount-input"
               type="number"
               step="0.01"
               name="amount"
               required
               placeholder="เช่น 45200.75"
-              defaultValue={recordToEdit?.amount || ''}
+              value={inputAmount}
+              onChange={(e) => setInputAmount(e.target.value)}
               className="w-full px-3 py-1.5 text-xs font-mono border border-slate-300 hover:border-slate-400 rounded-xs focus:outline-none focus:ring-2 focus:ring-brand-navy focus:border-brand-navy transition-colors shadow-2xs"
             />
+            {currencyPreview && (currencyPreview.isError || currencyPreview.warning) && (
+              <div
+                className={`mt-1.5 px-2.5 py-1 rounded-2xs text-[11px] font-mono flex items-center justify-between border ${
+                  currencyPreview.isError
+                    ? 'bg-rose-50 text-rose-700 border-rose-200'
+                    : 'bg-amber-50 text-amber-800 border-amber-200'
+                }`}
+              >
+                <span>{currencyPreview.isError ? currencyPreview.text : currencyPreview.warning}</span>
+              </div>
+            )}
           </div>
 
           <div>

@@ -30,12 +30,17 @@ export function RecordsFilterToolbar({
       <div className="flex flex-wrap items-center gap-2 flex-1">
         {/* Search Input */}
         <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+          <label htmlFor="admin-search-records" className="sr-only">
+            ค้นหาข้อมูลค่าไฟฟ้าตามปี, เดือน, จำนวนเงิน หรือหมายเหตุ
+          </label>
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
+            id="admin-search-records"
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="ค้นหาตามปี, เดือน, จำนวนเงิน, หมายเหตุ..."
+            aria-label="ค้นหาตามปี, เดือน, จำนวนเงิน, หมายเหตุ"
             className="w-full pl-8 pr-3 py-1.5 text-xs border border-slate-300 hover:border-slate-400 rounded-xs bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-navy focus:border-brand-navy transition-colors shadow-2xs"
           />
         </div>
@@ -43,7 +48,12 @@ export function RecordsFilterToolbar({
         {/* Month Filter */}
         <div className="flex items-center gap-1.5">
           <Filter className="w-3.5 h-3.5 text-slate-500" />
+          <label htmlFor="admin-month-filter" className="sr-only">
+            เลือกเดือนที่ต้องการกรอง
+          </label>
           <select
+            id="admin-month-filter"
+            aria-label="เลือกเดือนที่ต้องการกรอง"
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
             className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy focus:border-brand-navy shadow-2xs cursor-pointer transition-colors"

@@ -5,6 +5,7 @@ import { ImportModal } from './import-modal';
 import { useRouter } from 'next/navigation';
 import { UploadCloud } from 'lucide-react';
 import { ExportDropdown } from '@/components/dashboard/export-dropdown';
+import { AdminToast, ToastMessage } from './admin-toast';
 
 interface AdminHeaderProps {
   totalRecords: number;
@@ -13,6 +14,7 @@ interface AdminHeaderProps {
 export function AdminHeader({ totalRecords }: AdminHeaderProps) {
   const router = useRouter();
   const [isImportOpen, setIsImportOpen] = useState(false);
+  const [toast, setToast] = useState<ToastMessage | null>(null);
 
   return (
     <div className="bg-white border border-slate-200 rounded-xs p-4 shadow-2xs flex flex-col md:flex-row md:items-center md:justify-between gap-3">
@@ -50,9 +52,18 @@ export function AdminHeader({ totalRecords }: AdminHeaderProps) {
         isOpen={isImportOpen}
         onClose={() => setIsImportOpen(false)}
         onSuccess={() => {
+          setToast({
+            id: Date.now().toString(),
+            type: 'success',
+            title: 'นำเข้าข้อมูล Excel สำเร็จ',
+            description: 'ปรับปรุงฐานข้อมูลค่าไฟฟ้ารายเดือนเรียบร้อยแล้ว',
+          });
           router.refresh();
         }}
       />
+
+      {/* Action Toast Feedback */}
+      <AdminToast toast={toast} onDismiss={() => setToast(null)} />
     </div>
   );
 }

@@ -10,11 +10,14 @@ import type {
   RecordsTableProps,
   YearCompletenessInfo,
   FilteredSummary,
+  SortField,
+  SortOrder,
 } from './records/records-types';
 import { RecordsYearPills } from './records/records-year-pills';
 import { RecordsFilterToolbar } from './records/records-filter-toolbar';
 import { RecordsTableView } from './records/records-table-view';
 import { RecordsPagination } from './records/records-pagination';
+import { AdminToast, ToastMessage } from './admin-toast';
 
 export type { RecordsTableProps };
 
@@ -27,6 +30,10 @@ export function RecordsTable({ initialRecords, distinctYears }: RecordsTableProp
   const [selectedMonth, setSelectedMonth] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 12;
+
+  // Sorting state
+  const [sortField, setSortField] = useState<SortField>('period');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
   // Dismissed years state
   const [dismissedYears, setDismissedYears] = useState<number[]>([]);
@@ -42,6 +49,18 @@ export function RecordsTable({ initialRecords, distinctYears }: RecordsTableProp
   // Delete dialog states
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deletingRecord, setDeletingRecord] = useState<ElectricityRecord | null>(null);
+
+  // Toast feedback state
+  const [toast, setToast] = useState<ToastMessage | null>(null);
+
+  function showToast(type: 'success' | 'error' | 'info', title: string, description?: string) {
+    setToast({
+      id: Date.now().toString(),
+      type,
+      title,
+      description,
+    });
+  }
 
   // Close popover when clicking outside
   useEffect(() => {
@@ -136,12 +155,39 @@ export function RecordsTable({ initialRecords, distinctYears }: RecordsTableProp
     };
   }, [filteredRecords]);
 
+  // Sorting logic
+  function handleSort(field: SortField) {
+    if (sortField === field) {
+      setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortField(field);
+      setSortOrder(field === 'amount' ? 'desc' : 'desc');
+    }
+    setCurrentPage(1);
+  }
+
+  const sortedRecords = useMemo(() => {
+    return [...filteredRecords].sort((a, b) => {
+      let comparison = 0;
+      if (sortField === 'period') {
+        const periodA = a.yearBe * 100 + a.month;
+        const periodB = b.yearBe * 100 + b.month;
+        comparison = periodA - periodB;
+      } else if (sortField === 'amount') {
+        comparison = parseFloat(a.amount) - parseFloat(b.amount);
+      } else if (sortField === 'updatedAt') {
+        comparison = new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime();
+      }
+      return sortOrder === 'asc' ? comparison : -comparison;
+    });
+  }, [filteredRecords, sortField, sortOrder]);
+
   // Pagination
-  const totalPages = Math.max(1, Math.ceil(filteredRecords.length / pageSize));
+  const totalPages = Math.max(1, Math.ceil(sortedRecords.length / pageSize));
   const paginatedRecords = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
-    return filteredRecords.slice(start, start + pageSize);
-  }, [filteredRecords, currentPage, pageSize]);
+    return sortedRecords.slice(start, start + pageSize);
+  }, [sortedRecords, currentPage, pageSize]);
 
   function handleRefresh() {
     startTransition(() => {
@@ -232,6 +278,9 @@ export function RecordsTable({ initialRecords, distinctYears }: RecordsTableProp
           onResetFilters={handleResetFilters}
           onOpenEdit={handleOpenEdit}
           onOpenDelete={handleOpenDelete}
+          sortField={sortField}
+          sortOrder={sortOrder}
+          onSort={handleSort}
         />
 
         {/* Pagination Footer */}
@@ -251,15 +300,36 @@ export function RecordsTable({ initialRecords, distinctYears }: RecordsTableProp
         recordToEdit={editingRecord}
         defaultYear={defaultYearToCreate}
         defaultMonth={defaultMonthToCreate}
-        onSuccess={handleRefresh}
+        onSuccess={() => {
+          handleRefresh();
+          showToast(
+            'success',
+            editingRecord ? 'แก้ไขข้อมูลเรียบร้อยแล้ว' : 'บันทึกข้อมูลเรียบร้อยแล้ว',
+            editingRecord
+              ? `ปรับปรุงข้อมูลเดือน ${THAI_MONTHS[editingRecord.month - 1]} พ.ศ. ${editingRecord.yearBe}`
+              : 'เพิ่มระเบียนใหม่เข้าสู่ระบบเรียบร้อยแล้ว'
+          );
+        }}
       />
 
       <DeleteDialog
         isOpen={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         recordToDelete={deletingRecord}
-        onSuccess={handleRefresh}
+        onSuccess={() => {
+          handleRefresh();
+          if (deletingRecord) {
+            showToast(
+              'success',
+              'ลบข้อมูลเรียบร้อยแล้ว',
+              `ลบข้อมูลเดือน ${THAI_MONTHS[deletingRecord.month - 1]} พ.ศ. ${deletingRecord.yearBe} ออกจากระบบแล้ว`
+            );
+          }
+        }}
       />
+
+      {/* Floating Action Feedback Toast */}
+      <AdminToast toast={toast} onDismiss={() => setToast(null)} />
     </div>
   );
 }

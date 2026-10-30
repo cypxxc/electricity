@@ -20,3 +20,7 @@ export interface FilteredSummary {
   maxAmount: number;
   maxMonth: string;
 }
+
+export type SortField = 'period' | 'amount' | 'updatedAt';
+export type SortOrder = 'asc' | 'desc';
+

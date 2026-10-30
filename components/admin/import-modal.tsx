@@ -103,8 +103,10 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
             </h3>
           </div>
           <button
+            type="button"
             onClick={handleClose}
-            className="text-slate-400 hover:text-slate-700 p-1 rounded-xs transition-colors"
+            aria-label="ปิดหน้าต่างนำเข้าข้อมูล"
+            className="text-slate-400 hover:text-slate-700 p-1 rounded-xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-navy"
           >
             <X className="w-4 h-4" />
           </button>

@@ -162,8 +162,12 @@ export function CalendarMatrixView({
                           onSelectMonth(isColSelected ? null : monthNum);
                         }
                       }}
-                      className={`py-2 px-2 text-right font-mono tabular-nums transition-colors ${cellStyle}`}
-                      title={anomalyObj ? 'คลิกเพื่อดูรายละเอียดการเบี่ยงเบนทางสถิติ' : 'คลิกเพื่อเน้นเดือนนี้'}
+                      className={`py-2 px-2 text-right font-mono tabular-nums transition-colors cursor-pointer hover:bg-teal-50/80 ${cellStyle}`}
+                      title={
+                        anomalyObj
+                          ? `ตรวจพบค่าเบี่ยงเบนทางสถิติ ฿${amt.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (คลิกเพื่อดูรายละเอียด)`
+                          : `${THAI_MONTHS[idx]} ${row.yearBe}: ฿${amt.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (คลิกเพื่อเน้นงวดนี้)`
+                      }
                     >
                       <span>{amt.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                       {badge}

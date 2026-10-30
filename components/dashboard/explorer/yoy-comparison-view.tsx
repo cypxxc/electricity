@@ -14,6 +14,7 @@ import {
   LabelList,
 } from 'recharts';
 import type { YoYComparisonRow } from './explorer-types';
+import { THEME_COLORS } from '@/lib/constants/theme';
 
 interface YoYComparisonViewProps {
   data: YoYComparisonRow[];
@@ -39,12 +40,12 @@ export function YoYComparisonView({
           onClick={onElementClick}
           margin={{ top: 24, right: 12, left: 4, bottom: 4 }}
         >
-          <CartesianGrid strokeDasharray="2 2" vertical={false} stroke="#e2e8f0" />
+          <CartesianGrid strokeDasharray="2 2" vertical={false} stroke={THEME_COLORS.gridLine} />
           <XAxis
             dataKey="monthName"
             tick={{ fontSize: 10, fill: '#475569' }}
-            tickLine={{ stroke: '#cbd5e1' }}
-            axisLine={{ stroke: '#cbd5e1' }}
+            tickLine={{ stroke: THEME_COLORS.axisLine }}
+            axisLine={{ stroke: THEME_COLORS.axisLine }}
           />
           <YAxis
             tick={{ fontSize: 10, fill: '#475569' }}
@@ -64,7 +65,7 @@ export function YoYComparisonView({
                   <div className="bg-white border border-slate-300 rounded-xs p-2.5 shadow-md text-xs min-w-[220px]">
                     <div className="font-semibold text-slate-800 text-[11px] pb-1 border-b border-slate-100 flex items-center justify-between">
                       <span>งวดเดือน</span>
-                      <span className="text-[#0f2744] font-bold">เดือน{item.monthName}</span>
+                      <span className="text-brand-navy font-bold">เดือน{item.monthName}</span>
                     </div>
                     <div className="mt-2 space-y-1.5 text-xs">
                       <div className="flex justify-between">
@@ -98,7 +99,7 @@ export function YoYComparisonView({
           <Bar
             dataKey="primaryAmount"
             name={`ปี พ.ศ. ${yoyPrimaryYear} (ปีหลัก)`}
-            fill="#0f2744"
+            fill={THEME_COLORS.brandNavy}
             radius={[2, 2, 0, 0]}
             maxBarSize={28}
           >
@@ -107,7 +108,7 @@ export function YoYComparisonView({
               position="top"
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               formatter={(val: any) => (val ? `${(Number(val) / 1000).toFixed(0)}k` : '')}
-              fill="#0f2744"
+              fill={THEME_COLORS.brandNavy}
               fontSize={9}
               fontWeight={600}
               fontFamily="ui-monospace, monospace"
@@ -117,7 +118,7 @@ export function YoYComparisonView({
           <Bar
             dataKey="benchmarkAmount"
             name={`ปี พ.ศ. ${yoyBenchmarkYear} (ปีเทียบ)`}
-            fill="#0d9488"
+            fill={THEME_COLORS.brandTealLight}
             radius={[2, 2, 0, 0]}
             maxBarSize={28}
           >
@@ -126,7 +127,7 @@ export function YoYComparisonView({
               position="top"
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               formatter={(val: any) => (val ? `${(Number(val) / 1000).toFixed(0)}k` : '')}
-              fill="#0d9488"
+              fill={THEME_COLORS.brandTealLight}
               fontSize={9}
               fontWeight={600}
               fontFamily="ui-monospace, monospace"
@@ -140,12 +141,12 @@ export function YoYComparisonView({
           onClick={onElementClick}
           margin={{ top: 24, right: 12, left: 4, bottom: 4 }}
         >
-          <CartesianGrid strokeDasharray="2 2" vertical={false} stroke="#e2e8f0" />
+          <CartesianGrid strokeDasharray="2 2" vertical={false} stroke={THEME_COLORS.gridLine} />
           <XAxis
             dataKey="monthName"
             tick={{ fontSize: 10, fill: '#475569' }}
-            tickLine={{ stroke: '#cbd5e1' }}
-            axisLine={{ stroke: '#cbd5e1' }}
+            tickLine={{ stroke: THEME_COLORS.axisLine }}
+            axisLine={{ stroke: THEME_COLORS.axisLine }}
           />
           <YAxis
             tick={{ fontSize: 10, fill: '#475569' }}
@@ -168,7 +169,7 @@ export function YoYComparisonView({
                   <div className="bg-white border border-slate-300 rounded-xs p-2.5 shadow-md text-xs min-w-[220px]">
                     <div className="font-semibold text-slate-800 text-[11px] pb-1 border-b border-slate-100 flex items-center justify-between">
                       <span>งวดเดือน</span>
-                      <span className="text-[#0f2744] font-bold">เดือน{item.monthName}</span>
+                      <span className="text-brand-navy font-bold">เดือน{item.monthName}</span>
                     </div>
                     <div className="mt-2 space-y-1.5 text-xs">
                       <div className="flex justify-between">
@@ -203,7 +204,7 @@ export function YoYComparisonView({
             type="monotone"
             dataKey="primaryAmount"
             name={`ปี พ.ศ. ${yoyPrimaryYear} (ปีหลัก)`}
-            stroke="#0f2744"
+            stroke={THEME_COLORS.brandNavy}
             strokeWidth={2}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             dot={(props: any) => {
@@ -211,12 +212,12 @@ export function YoYComparisonView({
               if (cx === undefined || cy === undefined || !value) return null;
               return (
                 <g key={`yoy-primary-${cx}`}>
-                  <circle cx={cx} cy={cy} r={3.5} fill="#0f2744" stroke="#ffffff" strokeWidth={1.5} />
+                  <circle cx={cx} cy={cy} r={3.5} fill={THEME_COLORS.brandNavy} stroke="#ffffff" strokeWidth={1.5} />
                   <text
                     x={cx}
                     y={cy - 8}
                     textAnchor="middle"
-                    fill="#0f2744"
+                    fill={THEME_COLORS.brandNavy}
                     fontSize={8.5}
                     fontWeight={600}
                     fontFamily="ui-monospace, monospace"
@@ -232,7 +233,7 @@ export function YoYComparisonView({
             type="monotone"
             dataKey="benchmarkAmount"
             name={`ปี พ.ศ. ${yoyBenchmarkYear} (ปีเทียบ)`}
-            stroke="#0d9488"
+            stroke={THEME_COLORS.brandTealLight}
             strokeWidth={2}
             strokeDasharray="3 3"
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -241,12 +242,12 @@ export function YoYComparisonView({
               if (cx === undefined || cy === undefined || !value) return null;
               return (
                 <g key={`yoy-bench-${cx}`}>
-                  <circle cx={cx} cy={cy} r={3.5} fill="#0d9488" stroke="#ffffff" strokeWidth={1.5} />
+                  <circle cx={cx} cy={cy} r={3.5} fill={THEME_COLORS.brandTealLight} stroke="#ffffff" strokeWidth={1.5} />
                   <text
                     x={cx}
                     y={cy + 14}
                     textAnchor="middle"
-                    fill="#0d9488"
+                    fill={THEME_COLORS.brandTealLight}
                     fontSize={8.5}
                     fontWeight={600}
                     fontFamily="ui-monospace, monospace"

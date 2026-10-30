@@ -22,9 +22,9 @@ export function Navbar({ user }: NavbarProps) {
   const isAdmin = pathname.startsWith('/admin');
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#0f2744] text-white border-b border-[#1e3a5f] shadow-md">
+    <header className="sticky top-0 z-50 w-full bg-brand-navy text-white border-b border-brand-navy-light shadow-md print:hidden">
       {/* Top Organization Band */}
-      <div className="w-full border-b border-white/10 bg-[#0a1b2f] text-[11px] text-slate-300 py-1 px-4 sm:px-6 lg:px-8">
+      <div className="w-full border-b border-white/10 bg-brand-navy-dark text-[11px] text-slate-300 py-1 px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1640px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="font-medium tracking-tight">กระทรวงสาธารณสุข &bull; สำนักงานเขตสุขภาพที่ 7</span>
@@ -95,7 +95,7 @@ export function Navbar({ user }: NavbarProps) {
             {user ? (
               <div className="flex items-center gap-2.5 pl-3 border-l border-white/15">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-xs bg-[#173860] border border-white/20 flex items-center justify-center text-slate-300">
+                  <div className="w-6 h-6 rounded-xs bg-brand-navy-surface border border-white/20 flex items-center justify-center text-slate-300">
                     <User className="w-3.5 h-3.5" />
                   </div>
                   <div className="flex flex-col text-right">
@@ -122,7 +122,7 @@ export function Navbar({ user }: NavbarProps) {
             ) : (
               <Link
                 href="/login"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-200 bg-[#173860] hover:bg-[#1f487a] hover:text-white rounded-xs border border-white/20 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-200 bg-brand-navy-surface hover:bg-brand-navy-hover hover:text-white rounded-xs border border-white/20 transition-colors"
               >
                 <LogIn className="h-3.5 w-3.5 text-teal-400" />
                 เข้าสู่ระบบเจ้าหน้าที่
@@ -145,7 +145,7 @@ export function Navbar({ user }: NavbarProps) {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/10 bg-[#0c2038] px-4 pt-2.5 pb-3 space-y-1.5 text-xs">
+        <div className="md:hidden border-t border-white/10 bg-brand-navy-dark px-4 pt-2.5 pb-3 space-y-1.5 text-xs">
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}

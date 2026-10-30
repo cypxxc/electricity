@@ -5,13 +5,18 @@ import { db, pool } from '../lib/db';
 import { electricityRecords, users } from '../lib/db/schema';
 import { eq } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
+import { env } from '../lib/env';
 
 async function seed() {
   console.log('--- Starting Seed Process ---');
 
-  const filePath = path.resolve(process.cwd(), 'สรุปค่าไฟฟ้า 62-69.xlsx');
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`File not found at: ${filePath}`);
+  const possiblePaths = [
+    path.resolve(process.cwd(), 'data', 'สรุปค่าไฟฟ้า 62-69.xlsx'),
+    path.resolve(process.cwd(), 'สรุปค่าไฟฟ้า 62-69.xlsx'),
+  ];
+  const filePath = possiblePaths.find((p) => fs.existsSync(p));
+  if (!filePath) {
+    throw new Error(`File not found at: ${possiblePaths.join(' or ')}`);
   }
 
   const fileBuffer = fs.readFileSync(filePath);
@@ -82,8 +87,8 @@ async function seed() {
   console.log(`Successfully stored/updated ${insertedCount} electricity records in PostgreSQL.`);
 
   // Seed Admin user
-  const adminUsername = process.env.ADMIN_USERNAME || 'admin';
-  const adminPassword = process.env.ADMIN_PASSWORD || 'adminpassword123';
+  const adminUsername = env.ADMIN_USERNAME;
+  const adminPassword = env.ADMIN_PASSWORD;
   const passwordHash = await bcrypt.hash(adminPassword, 10);
 
   const existingAdmin = await db

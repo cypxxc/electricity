@@ -1,20 +1,8 @@
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
+import { env } from '../env';
 
-const DEFAULT_INSECURE_SECRET = 'super-secret-jwt-key-min-32-chars-long-12345';
-const rawJwtSecret = process.env.JWT_SECRET || DEFAULT_INSECURE_SECRET;
-
-// Warn at server startup if production environment lacks a cryptographically strong secret
-if (
-  process.env.NODE_ENV === 'production' &&
-  process.env.NEXT_PHASE !== 'phase-production-build' &&
-  (!process.env.JWT_SECRET || process.env.JWT_SECRET === DEFAULT_INSECURE_SECRET)
-) {
-  console.warn(
-    '⚠️ [SECURITY WARNING]: Running in production with default/missing JWT_SECRET. Please set JWT_SECRET in environment variables.'
-  );
-}
-
+const rawJwtSecret = env.JWT_SECRET;
 const encodedSecret = new TextEncoder().encode(rawJwtSecret);
 export const COOKIE_NAME = 'auth_session';
 
@@ -53,7 +41,7 @@ export async function verifySessionToken(token: string): Promise<SessionPayload 
 export async function setSessionCookie(payload: SessionPayload): Promise<void> {
   const token = await createSessionToken(payload);
   const cookieStore = await cookies();
-  const isHttpsOnly = process.env.COOKIE_SECURE === 'true';
+  const isHttpsOnly = env.COOKIE_SECURE;
 
   cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,

@@ -133,7 +133,7 @@ Conclusion: All test scenarios have MET the acceptance criteria (Success: True).
 
 ## 4. วิธีการรัน UAT ในอนาคต
 
-ระบบได้จัดเตรียมโครงสร้าง Script ในโฟลเดอร์ `tests/uat/` และบันทึก Dependencies ใน `requirements.txt`:
+ระบบได้จัดเตรียมโครงสร้าง Script ในโฟลเดอร์ `tests/uat/` และบันทึก Dependencies ใน `tests/uat/requirements.txt`:
 
 1. **การรันด้วย Playwright E2E Automation (รันเร็ว ทันที ไม่ต้องใช้ API Key):**
    ```powershell

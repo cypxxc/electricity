@@ -64,7 +64,7 @@ export function LoginForm() {
               autoFocus
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-xs bg-white text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#0f2744] focus:border-[#0f2744] transition-colors"
+              className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-xs bg-white text-slate-900 focus:outline-none focus:ring-1 focus:ring-brand-navy focus:border-brand-navy transition-colors"
               placeholder="กรอกชื่อผู้ใช้ เช่น admin"
             />
           </div>
@@ -79,7 +79,7 @@ export function LoginForm() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-xs bg-white text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#0f2744] focus:border-[#0f2744] transition-colors"
+              className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-xs bg-white text-slate-900 focus:outline-none focus:ring-1 focus:ring-brand-navy focus:border-brand-navy transition-colors"
               placeholder="กรอกรหัสผ่าน"
             />
           </div>
@@ -88,7 +88,7 @@ export function LoginForm() {
             <button
               type="submit"
               disabled={isPending}
-              className="w-full inline-flex justify-center items-center py-2 px-4 rounded-xs text-xs font-semibold text-white bg-[#0f2744] hover:bg-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#0f2744] disabled:opacity-50 transition-colors shadow-2xs cursor-pointer"
+              className="w-full inline-flex justify-center items-center py-2 px-4 rounded-xs text-xs font-semibold text-white bg-brand-navy hover:bg-brand-navy-light focus:outline-none focus:ring-1 focus:ring-brand-navy disabled:opacity-50 transition-colors shadow-2xs cursor-pointer"
             >
               {isPending ? (
                 <>

@@ -2,6 +2,7 @@
 
 import { DashboardKPIs, FiscalYearComparisonItem } from '@/lib/services/analytics';
 import { calculatePercentageChange } from '@/lib/utils/math';
+import { THEME_COLORS } from '@/lib/constants/theme';
 import {
   Zap,
   TrendingUp,
@@ -36,7 +37,7 @@ function MiniSparkline({
   data,
   height = 28,
   width = 96,
-  strokeColor = '#0f2744',
+  strokeColor = THEME_COLORS.brandNavy,
   peakIndex,
   className = '',
 }: SparklineProps) {
@@ -202,7 +203,7 @@ export function KPICards({
               <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
                 ค่าไฟฟ้ารวมปีงบประมาณ {fyNum}
               </span>
-              <Zap className="w-4 h-4 text-[#0f2744]" />
+              <Zap className="w-4 h-4 text-brand-navy" />
             </div>
             <div className="mt-2.5 flex items-end justify-between gap-2">
               <div className="text-2xl font-bold font-mono text-slate-900 tracking-tight">
@@ -211,14 +212,14 @@ export function KPICards({
               <MiniSparkline
                 data={monthlyValues}
                 peakIndex={peakIndex}
-                strokeColor="#0f2744"
+                strokeColor={THEME_COLORS.brandNavy}
               />
             </div>
             <div className="mt-2 flex items-center gap-1.5">
-              <span className="text-[10px] text-teal-800 bg-teal-50 border border-teal-200/80 px-1.5 py-0.2 rounded-xs font-medium font-mono">
+              <span className="text-[11px] text-teal-800 bg-teal-50 border border-teal-200/80 px-1.5 py-0.5 rounded-xs font-medium font-mono">
                 รอบ 1 ต.ค.–30 ก.ย.
               </span>
-              <span className="text-[10px] text-slate-400 font-mono">
+              <span className="text-[11px] text-slate-500 font-mono">
                 12 งวดเดือน
               </span>
             </div>
@@ -291,7 +292,7 @@ export function KPICards({
                 amount={avgVsOverallAmt}
                 baselineLabel="เท่าเกณฑ์เฉลี่ย"
               />
-              <span className="text-[10px] text-slate-400 font-mono">
+              <span className="text-[11px] text-slate-500 font-mono">
                 เทียบเฉลี่ยระบบ
               </span>
             </div>
@@ -364,7 +365,7 @@ export function KPICards({
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
               ค่าไฟฟ้ารวมสะสมทั้งหมด
             </span>
-            <Building2 className="w-4 h-4 text-[#0f2744]" />
+            <Building2 className="w-4 h-4 text-brand-navy" />
           </div>
           <div className="mt-2.5 flex items-end justify-between gap-2">
             <div className="text-2xl font-bold font-mono text-slate-900 tracking-tight">
@@ -374,12 +375,12 @@ export function KPICards({
               <MiniSparkline
                 data={yearlyTotals}
                 peakIndex={peakFYIndex}
-                strokeColor="#0f2744"
+                strokeColor={THEME_COLORS.brandNavy}
               />
             )}
           </div>
           <div className="mt-2 flex items-center gap-1.5">
-            <span className="text-[10px] text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.2 rounded-xs font-medium font-mono">
+            <span className="text-[11px] text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-xs font-medium font-mono">
               สะสมต่อเนื่อง {kpis.totalFiscalYearsCount || fiscalYearComparison.length || 7} ปีงบ
             </span>
           </div>
@@ -406,7 +407,7 @@ export function KPICards({
           </div>
           <div className="mt-2 flex items-center gap-1.5">
             <ComparisonBadge rate={fyRate} amount={fyDiff} />
-            <span className="text-[10px] text-slate-400 font-mono">
+            <span className="text-[11px] text-slate-500 font-mono">
               เทียบปีงบ {prevFY}
             </span>
           </div>
@@ -432,7 +433,7 @@ export function KPICards({
             ฿{kpis.monthlyAverage.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
           <div className="mt-2 flex items-center gap-1.5">
-            <span className="text-[10px] text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.2 rounded-xs font-medium font-mono">
+            <span className="text-[11px] text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-xs font-medium font-mono">
               เกณฑ์ฐานสะสม {kpis.totalRecordsCount} งวดบันทึก
             </span>
           </div>

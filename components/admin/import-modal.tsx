@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { UploadCloud, X, Loader2, CheckCircle2, AlertCircle, FileSpreadsheet } from 'lucide-react';
 
 interface ImportModalProps {
@@ -25,12 +25,12 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
   const [result, setResult] = useState<ImportResult | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  function handleClose() {
+  const handleClose = useCallback(() => {
     setFile(null);
     setError(null);
     setResult(null);
     onClose();
-  }
+  }, [onClose]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -41,7 +41,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
     }
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen]);
+  }, [isOpen, handleClose]);
 
   if (!isOpen) return null;
 
@@ -134,7 +134,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                 <button
                   type="button"
                   onClick={handleClose}
-                  className="inline-flex items-center justify-center px-3.5 py-1.5 bg-[#0f2744] hover:bg-[#1e3a5f] border border-[#0f2744] text-white rounded-xs text-xs font-semibold shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
+                  className="inline-flex items-center justify-center px-3.5 py-1.5 bg-brand-navy hover:bg-brand-navy-light border border-brand-navy text-white rounded-xs text-xs font-semibold shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
                 >
                   ปิดหน้าต่าง
                 </button>
@@ -147,7 +147,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                 onClick={() => fileInputRef.current?.click()}
                 className={`border border-dashed rounded-xs p-5 text-center cursor-pointer transition-colors ${
                   file
-                    ? 'border-[#0f2744] bg-slate-50'
+                    ? 'border-brand-navy bg-slate-50'
                     : 'border-slate-300 hover:border-slate-400 hover:bg-slate-50'
                 }`}
               >
@@ -191,7 +191,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                       value="skip"
                       checked={strategy === 'skip'}
                       onChange={() => setStrategy('skip')}
-                      className="text-[#0f2744]"
+                      className="text-brand-navy"
                     />
                     <span>
                       <strong className="font-medium text-slate-900">ข้ามรายการที่ซ้ำ (Skip duplicates)</strong> — คงข้อมูลเดิมไว้
@@ -204,7 +204,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                       value="overwrite"
                       checked={strategy === 'overwrite'}
                       onChange={() => setStrategy('overwrite')}
-                      className="text-[#0f2744]"
+                      className="text-brand-navy"
                     />
                     <span>
                       <strong className="font-medium text-slate-900">เขียนทับข้อมูลเดิม (Overwrite)</strong> — ปรับปรุงยอดตามไฟล์นำเข้า
@@ -218,7 +218,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                   type="button"
                   onClick={handleClose}
                   disabled={loading}
-                  className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 rounded-xs border border-slate-300 hover:border-slate-400 shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
+                  className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 rounded-xs border border-slate-300 hover:border-slate-400 shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
                 >
                   ยกเลิก
                 </button>
@@ -226,7 +226,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                   type="button"
                   onClick={handleImport}
                   disabled={loading || !file}
-                  className="inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-semibold text-white bg-[#0f2744] hover:bg-[#1e3a5f] border border-[#0f2744] rounded-xs transition-colors shadow-2xs disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
+                  className="inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-semibold text-white bg-brand-navy hover:bg-brand-navy-light border border-brand-navy rounded-xs transition-colors shadow-2xs disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
                 >
                   {loading ? (
                     <>

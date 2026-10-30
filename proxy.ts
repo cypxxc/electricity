@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
+import { env } from './lib/env';
 
-const DEFAULT_INSECURE_SECRET = 'super-secret-jwt-key-min-32-chars-long-12345';
-const rawJwtSecret = process.env.JWT_SECRET || DEFAULT_INSECURE_SECRET;
+const rawJwtSecret = env.JWT_SECRET;
 const encodedSecret = new TextEncoder().encode(rawJwtSecret);
 const COOKIE_NAME = 'auth_session';
 

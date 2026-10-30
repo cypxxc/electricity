@@ -11,6 +11,7 @@ import {
   LabelList,
 } from 'recharts';
 import type { YearlyViewDataItem } from './explorer-types';
+import { THEME_COLORS } from '@/lib/constants/theme';
 
 interface YearlyTrendViewProps {
   data: YearlyViewDataItem[];
@@ -32,12 +33,12 @@ export function YearlyTrendView({ data, onElementClick }: YearlyTrendViewProps) 
             onClick={onElementClick}
             margin={{ top: 24, right: 16, left: 6, bottom: 4 }}
           >
-            <CartesianGrid strokeDasharray="2 2" vertical={false} stroke="#e2e8f0" />
+            <CartesianGrid strokeDasharray="2 2" vertical={false} stroke={THEME_COLORS.gridLine} />
             <XAxis
               dataKey="label"
               tick={{ fontSize: 10, fill: '#475569' }}
-              tickLine={{ stroke: '#cbd5e1' }}
-              axisLine={{ stroke: '#cbd5e1' }}
+              tickLine={{ stroke: THEME_COLORS.axisLine }}
+              axisLine={{ stroke: THEME_COLORS.axisLine }}
             />
             <YAxis
               tick={{ fontSize: 10, fill: '#475569' }}
@@ -55,7 +56,7 @@ export function YearlyTrendView({ data, onElementClick }: YearlyTrendViewProps) 
                     <div className="bg-white border border-slate-300 rounded-xs p-2.5 shadow-md text-xs min-w-[210px]">
                       <div className="font-semibold text-slate-800 text-[11px] pb-1 border-b border-slate-100 flex items-center justify-between">
                         <span>รอบปีงบประมาณ</span>
-                        <span className="text-[#0f2744] font-bold">ปีงบ {item.fyBe}</span>
+                        <span className="text-brand-navy font-bold">ปีงบ {item.fyBe}</span>
                       </div>
                       <div className="mt-2 space-y-1.5 text-xs">
                         <div className="flex justify-between">
@@ -82,6 +83,9 @@ export function YearlyTrendView({ data, onElementClick }: YearlyTrendViewProps) 
                             </span>
                           </div>
                         )}
+                        <div className="pt-1.5 mt-1 border-t border-slate-100 text-[10.5px] text-teal-800 font-medium flex items-center gap-1">
+                          <span>💡 คลิกแท่งกราฟเพื่อกรองเฉพาะปีนี้</span>
+                        </div>
                       </div>
                     </div>
                   );
@@ -91,16 +95,18 @@ export function YearlyTrendView({ data, onElementClick }: YearlyTrendViewProps) 
             />
             <Bar
               dataKey="metricValue"
-              fill="#0f2744"
+              fill={THEME_COLORS.brandNavy}
               radius={[2, 2, 0, 0]}
               maxBarSize={48}
+              cursor="pointer"
+              className="cursor-pointer transition-opacity hover:opacity-85"
             >
               <LabelList
                 dataKey="metricValue"
                 position="top"
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 formatter={(val: any) => `฿${Math.round(Number(val)).toLocaleString('th-TH')}`}
-                fill="#0f2744"
+                fill={THEME_COLORS.brandNavy}
                 fontSize={10}
                 fontWeight={600}
                 fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"

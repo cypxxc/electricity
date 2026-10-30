@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 import type { MonthlyTrendItem } from '@/lib/services/analytics';
 import type { MonthlyViewDataItem, MonthlyStats } from './explorer-types';
+import { THEME_COLORS } from '@/lib/constants/theme';
 
 interface MonthlyTrendViewProps {
   data: MonthlyViewDataItem[];
@@ -42,12 +43,12 @@ export function MonthlyTrendView({
         onClick={onElementClick}
         margin={{ top: 28, right: 16, left: 6, bottom: 4 }}
       >
-        <CartesianGrid strokeDasharray="2 2" vertical={false} stroke="#e2e8f0" />
+        <CartesianGrid strokeDasharray="2 2" vertical={false} stroke={THEME_COLORS.gridLine} />
         <XAxis
           dataKey="displayLabel"
           tick={{ fontSize: 10, fill: '#475569' }}
-          tickLine={{ stroke: '#cbd5e1' }}
-          axisLine={{ stroke: '#cbd5e1' }}
+          tickLine={{ stroke: THEME_COLORS.axisLine }}
+          axisLine={{ stroke: THEME_COLORS.axisLine }}
           interval={
             selectedCalendarYear === 'all'
               ? Math.floor(data.length / 10)
@@ -74,7 +75,7 @@ export function MonthlyTrendView({
                 <div className="bg-white border border-slate-300 rounded-xs p-2.5 shadow-md text-xs min-w-[210px]">
                   <div className="font-semibold text-slate-800 text-[11px] pb-1 border-b border-slate-100 flex items-center justify-between">
                     <span>งวดประจำเดือน</span>
-                    <span className="text-[#0f2744] font-bold">{item.fullLabel}</span>
+                    <span className="text-brand-navy font-bold">{item.fullLabel}</span>
                   </div>
                   <div className="mt-2 space-y-1.5 text-xs">
                     <div className="flex justify-between">
@@ -118,6 +119,9 @@ export function MonthlyTrendView({
                         ⯁ ค่าเบี่ยงเบนทางสถิติ (+2&sigma;)
                       </div>
                     )}
+                    <div className="pt-1.5 mt-1 border-t border-slate-100 text-[10.5px] text-teal-800 font-medium flex items-center gap-1">
+                      <span>💡 คลิกจุดกราฟเพื่อเน้นงวดนี้</span>
+                    </div>
                   </div>
                 </div>
               );
@@ -140,7 +144,7 @@ export function MonthlyTrendView({
         <Area
           type="monotone"
           dataKey="metricValue"
-          stroke="#0f2744"
+          stroke={THEME_COLORS.brandNavy}
           strokeWidth={2}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           dot={(props: any) => {
@@ -175,7 +179,7 @@ export function MonthlyTrendView({
                   cx={cx}
                   cy={cy}
                   r={isSelected ? 6 : isAnomaly ? 5 : 3.5}
-                  fill={isAnomaly ? '#b45309' : isSelected ? '#0f2744' : '#0f2744'}
+                  fill={isAnomaly ? '#b45309' : THEME_COLORS.brandNavy}
                   stroke="#ffffff"
                   strokeWidth={isSelected || isAnomaly ? 2 : 1.5}
                 />
@@ -192,7 +196,7 @@ export function MonthlyTrendView({
                       y1={badgeHeight / 2}
                       x2={0}
                       y2={badgeHeight / 2 + 4}
-                      stroke={isSelected ? '#0f2744' : isAnomaly ? '#b45309' : '#94a3b8'}
+                      stroke={isSelected ? THEME_COLORS.brandNavy : isAnomaly ? '#b45309' : '#94a3b8'}
                       strokeWidth={1}
                     />
                     {/* Background Pill */}
@@ -202,8 +206,8 @@ export function MonthlyTrendView({
                       width={badgeWidth}
                       height={badgeHeight}
                       rx={3}
-                      fill={isSelected ? '#0f2744' : isAnomaly ? '#fef3c7' : '#ffffff'}
-                      stroke={isSelected ? '#0f2744' : isAnomaly ? '#f59e0b' : '#cbd5e1'}
+                      fill={isSelected ? THEME_COLORS.brandNavy : isAnomaly ? '#fef3c7' : '#ffffff'}
+                      stroke={isSelected ? THEME_COLORS.brandNavy : isAnomaly ? THEME_COLORS.anomalyHighlight : THEME_COLORS.axisLine}
                       strokeWidth={1}
                       filter="drop-shadow(0 1px 2px rgba(0,0,0,0.08))"
                     />
@@ -212,7 +216,7 @@ export function MonthlyTrendView({
                       x={0}
                       y={3.2}
                       textAnchor="middle"
-                      fill={isSelected ? '#ffffff' : isAnomaly ? '#92400e' : '#0f2744'}
+                      fill={isSelected ? '#ffffff' : isAnomaly ? '#92400e' : THEME_COLORS.brandNavy}
                       fontSize={isAll && !isSelected ? 8.5 : 9.5}
                       fontWeight={isSelected || isAnomaly ? 700 : 600}
                       fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
@@ -224,8 +228,8 @@ export function MonthlyTrendView({
               </g>
             );
           }}
-          activeDot={{ r: 5, fill: '#0f2744', stroke: '#ffffff', strokeWidth: 1.5 }}
-          fill="#0f2744"
+          activeDot={{ r: 5, fill: THEME_COLORS.brandNavy, stroke: '#ffffff', strokeWidth: 1.5 }}
+          fill={THEME_COLORS.brandNavy}
           fillOpacity={0.06}
         />
       </AreaChart>

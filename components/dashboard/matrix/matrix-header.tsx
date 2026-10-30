@@ -48,7 +48,7 @@ export function MatrixHeader({
               onClick={() => setMatrixMode('fiscal')}
               className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-xs transition-colors cursor-pointer ${
                 matrixMode === 'fiscal'
-                  ? 'bg-[#0f2744] text-white shadow-2xs'
+                  ? 'bg-brand-navy text-white shadow-2xs'
                   : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60'
               }`}
             >
@@ -60,7 +60,7 @@ export function MatrixHeader({
               onClick={() => setMatrixMode('calendar')}
               className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-xs transition-colors cursor-pointer ${
                 matrixMode === 'calendar'
-                  ? 'bg-[#0f2744] text-white shadow-2xs'
+                  ? 'bg-brand-navy text-white shadow-2xs'
                   : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60'
               }`}
             >
@@ -73,7 +73,7 @@ export function MatrixHeader({
             <button
               type="button"
               onClick={onResetFilters}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f2744]"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy"
             >
               <RotateCcw className="w-3 h-3 text-slate-500" />
               <span>รีเซ็ตตัวกรอง</span>

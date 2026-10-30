@@ -1,9 +1,9 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import * as schema from './schema';
+import { env } from '../env';
 
-const connectionString =
-  process.env.DATABASE_URL || 'postgresql://postgres:postgrespassword@localhost:5432/electricity_db';
+const connectionString = env.DATABASE_URL;
 
 const globalForDb = globalThis as unknown as {
   pool: Pool | undefined;
@@ -25,7 +25,7 @@ pool.on('connect', (client) => {
   });
 });
 
-if (process.env.NODE_ENV !== 'production') {
+if (env.NODE_ENV !== 'production') {
   globalForDb.pool = pool;
 }
 

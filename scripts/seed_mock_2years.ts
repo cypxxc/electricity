@@ -51,7 +51,6 @@ async function seedMockData() {
   console.log(`Current records in database: ${initialTotal}`);
 
   let insertedCount = 0;
-  let updatedCount = 0;
 
   for (const item of MOCK_DATA) {
     const yearCe = item.yearBe - 543;

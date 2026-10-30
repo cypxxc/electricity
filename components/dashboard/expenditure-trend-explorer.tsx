@@ -341,6 +341,7 @@ export function ExpenditureTrendExplorer({
     yoyStats,
     availableYears,
     fiscalYearComparison,
+    yearlyViewData,
     monthlyTrends.length,
   ]);
 

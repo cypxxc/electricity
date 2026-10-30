@@ -82,7 +82,14 @@ async function verifyE2E() {
 
   // Test 6: Excel Parsing on Seed File
   console.log('\n6. Testing Excel Parser against source file (Requirement 3)...');
-  const seedFilePath = path.resolve(process.cwd(), 'สรุปค่าไฟฟ้า 62-69.xlsx');
+  const possibleSeedPaths = [
+    path.resolve(process.cwd(), 'data', 'สรุปค่าไฟฟ้า 62-69.xlsx'),
+    path.resolve(process.cwd(), 'สรุปค่าไฟฟ้า 62-69.xlsx'),
+  ];
+  const seedFilePath = possibleSeedPaths.find((p) => fs.existsSync(p));
+  if (!seedFilePath) {
+    throw new Error(`Seed file not found at: ${possibleSeedPaths.join(' or ')}`);
+  }
   const fileBytes = fs.readFileSync(seedFilePath);
   const parsedItems = parseExcelBuffer(fileBytes);
   console.log(`   Parsed items from Excel file: ${parsedItems.length}`);

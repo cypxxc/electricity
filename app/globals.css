@@ -13,6 +13,15 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sarabun), var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Sarabun", "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-geist-mono);
+
+  /* Semantic Brand Tokens (MOPH & Executive Utility Analytics) */
+  --color-brand-navy: #0f2744;
+  --color-brand-navy-dark: #0a1b2f;
+  --color-brand-navy-light: #1e3a5f;
+  --color-brand-navy-surface: #173860;
+  --color-brand-navy-hover: #1f487a;
+  --color-brand-teal: #0f766e;
+  --color-brand-teal-light: #0d9488;
 }
 
 body {
@@ -45,4 +54,45 @@ body {
 
 .table-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* ==============================================================================
+   Print Optimization for Executive Reporting (A4 Landscape)
+   ============================================================================== */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 8mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print-hidden,
+  header,
+  footer,
+  nav,
+  .no-print {
+    display: none !important;
+  }
+
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Prevent awkward page breaks inside cards, charts, and tables */
+  .break-inside-avoid,
+  .shadow-2xs,
+  .shadow-sm,
+  .shadow-md {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    box-shadow: none !important;
+  }
 }

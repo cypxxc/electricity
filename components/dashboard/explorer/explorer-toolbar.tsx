@@ -68,7 +68,7 @@ export function ExplorerToolbar({
             id="chart-view-mode"
             value={viewMode}
             onChange={(e) => setViewMode(e.target.value as ChartViewMode)}
-            className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
+            className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy shadow-2xs cursor-pointer transition-colors"
           >
             <option value="yearly">รายปี (Yearly Trend)</option>
             <option value="monthly">รายเดือน (Monthly Trend)</option>
@@ -82,7 +82,7 @@ export function ExplorerToolbar({
             <select
               value={selectedCalendarYear}
               onChange={(e) => setSelectedCalendarYear(e.target.value)}
-              className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
+              className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy shadow-2xs cursor-pointer transition-colors"
             >
               <optgroup label="ช่วงเวลาย้อนหลัง (Rolling Window)">
                 <option value="recent_12">12 เดือนล่าสุด (1 ปีล่าสุด)</option>
@@ -106,7 +106,7 @@ export function ExplorerToolbar({
                 onClick={() => setMonthlyMetric('amount')}
                 className={`px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
                   monthlyMetric === 'amount'
-                    ? 'bg-[#0f2744] text-white shadow-2xs font-semibold'
+                    ? 'bg-brand-navy text-white shadow-2xs font-semibold'
                     : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
@@ -117,7 +117,7 @@ export function ExplorerToolbar({
                 onClick={() => setMonthlyMetric('cumulative')}
                 className={`px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
                   monthlyMetric === 'cumulative'
-                    ? 'bg-[#0f2744] text-white shadow-2xs font-semibold'
+                    ? 'bg-brand-navy text-white shadow-2xs font-semibold'
                     : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
@@ -135,7 +135,7 @@ export function ExplorerToolbar({
               <select
                 value={yoyPrimaryYear}
                 onChange={(e) => setYoyPrimaryYear(parseInt(e.target.value, 10))}
-                className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
+                className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy shadow-2xs cursor-pointer transition-colors"
               >
                 {availableYears.map((y) => (
                   <option key={y} value={y}>
@@ -150,7 +150,7 @@ export function ExplorerToolbar({
               <select
                 value={yoyBenchmarkYear}
                 onChange={(e) => setYoyBenchmarkYear(parseInt(e.target.value, 10))}
-                className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
+                className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy shadow-2xs cursor-pointer transition-colors"
               >
                 {availableYears.map((y) => (
                   <option key={y} value={y} disabled={y === yoyPrimaryYear}>
@@ -166,7 +166,7 @@ export function ExplorerToolbar({
                 onClick={() => setYoyChartType('bar')}
                 className={`px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
                   yoyChartType === 'bar'
-                    ? 'bg-[#0f2744] text-white shadow-2xs font-semibold'
+                    ? 'bg-brand-navy text-white shadow-2xs font-semibold'
                     : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
@@ -177,7 +177,7 @@ export function ExplorerToolbar({
                 onClick={() => setYoyChartType('line')}
                 className={`px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
                   yoyChartType === 'line'
-                    ? 'bg-[#0f2744] text-white shadow-2xs font-semibold'
+                    ? 'bg-brand-navy text-white shadow-2xs font-semibold'
                     : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
@@ -193,7 +193,7 @@ export function ExplorerToolbar({
             <select
               value={yearlyRange}
               onChange={(e) => setYearlyRange(e.target.value as '5' | '7' | '10' | 'all')}
-              className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0f2744] shadow-2xs cursor-pointer transition-colors"
+              className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy shadow-2xs cursor-pointer transition-colors"
             >
               <option value="all">ทุกปีงบประมาณ ({totalFiscalYearsCount} ปี)</option>
               <option value="5">5 ปีงบประมาณล่าสุด</option>
@@ -211,7 +211,7 @@ export function ExplorerToolbar({
                 onClick={() => setYearlyMetric('total')}
                 className={`px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
                   yearlyMetric === 'total'
-                    ? 'bg-[#0f2744] text-white shadow-2xs font-semibold'
+                    ? 'bg-brand-navy text-white shadow-2xs font-semibold'
                     : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
@@ -222,7 +222,7 @@ export function ExplorerToolbar({
                 onClick={() => setYearlyMetric('average')}
                 className={`px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
                   yearlyMetric === 'average'
-                    ? 'bg-[#0f2744] text-white shadow-2xs font-semibold'
+                    ? 'bg-brand-navy text-white shadow-2xs font-semibold'
                     : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >

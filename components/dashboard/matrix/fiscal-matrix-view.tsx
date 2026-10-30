@@ -186,11 +186,11 @@ export function FiscalMatrixView({
                           onSelectMonth(isColSelected ? null : m.month);
                         }
                       }}
-                      className={`py-2 px-2 text-right font-mono tabular-nums transition-colors ${cellStyle}`}
+                      className={`py-2 px-2 text-right font-mono tabular-nums transition-colors cursor-pointer hover:bg-teal-50/80 ${cellStyle}`}
                       title={
                         anomalyObj
-                          ? 'คลิกเพื่อดูรายละเอียดการเบี่ยงเบนทางสถิติ'
-                          : `${m.monthName} ${m.yearBe} (ปีงบ ${row.fyBe})`
+                          ? `ตรวจพบค่าเบี่ยงเบนทางสถิติ ฿${m.amount.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (คลิกเพื่อดูรายละเอียด)`
+                          : `${m.monthName} ${m.yearBe} (ปีงบ ${row.fyBe}): ฿${m.amount.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (คลิกเพื่อเน้นงวดนี้)`
                       }
                     >
                       <span>{m.amount.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>

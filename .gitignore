@@ -40,7 +40,9 @@
 # Database Backups & Volume Directories
 # ------------------------------------------------------------------------------
 /pgdata/
-/data/
+/data/*
+!/data/*.xlsx
+!/data/*.csv
 backup*.sql
 *_backup.sql
 *.dump

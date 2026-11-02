@@ -99,7 +99,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
           <div className="flex items-center gap-2">
             <FileSpreadsheet className="w-4 h-4 text-emerald-700" />
             <h3 id="import-modal-title" className="text-xs sm:text-sm font-bold text-slate-900">
-              นำเข้าข้อมูลจากไฟล์สเปรดชีต Excel (.xlsx)
+              นำเข้าข้อมูลจากไฟล์ Excel (.xlsx)
             </h3>
           </div>
           <button
@@ -130,7 +130,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                 <li>พบข้อมูลทั้งหมด: <strong className="text-slate-900">{result.totalParsed}</strong> รายการ</li>
                 <li>เพิ่มข้อมูลใหม่: <strong className="text-teal-800">{result.inserted}</strong> รายการ</li>
                 <li>เขียนทับข้อมูลเดิม: <strong className="text-slate-800">{result.updated}</strong> รายการ</li>
-                <li>ข้ามรายการที่ซ้ำ: <strong className="text-amber-800">{result.skipped}</strong> รายการ</li>
+                <li>ข้ามรายการเดิมที่มีอยู่แล้ว: <strong className="text-amber-800">{result.skipped}</strong> รายการ</li>
               </ul>
               <div className="pt-2 flex justify-end">
                 <button

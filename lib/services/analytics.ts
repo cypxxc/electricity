@@ -1,30 +1,14 @@
+import {
+  FISCAL_MONTH_ORDER,
+  getFiscalYear,
+  calculatePercentageChange,
+} from '../utils/math';
+
 import { db } from '../db';
 import { electricityRecords } from '../db/schema';
 import { asc } from 'drizzle-orm';
 import { THAI_MONTHS } from '../validations/record';
 import { unstable_cache } from 'next/cache';
-import {
-  FISCAL_MONTH_ORDER,
-  THAI_FISCAL_MONTHS,
-  getFiscalYear,
-  getFiscalQuarter,
-  getFiscalMonthOrder,
-  formatFiscalYearRange,
-  formatFiscalYearLabel,
-  calculatePercentageChange,
-} from '../utils/math';
-
-export {
-  FISCAL_MONTH_ORDER,
-  THAI_FISCAL_MONTHS,
-  getFiscalYear,
-  getFiscalQuarter,
-  getFiscalMonthOrder,
-  formatFiscalYearRange,
-  formatFiscalYearLabel,
-  calculatePercentageChange,
-};
-
 // Re-export all type definitions from modular types file
 export * from './analytics/types';
 import type {
@@ -108,7 +92,7 @@ export async function getDashboardAnalytics(): Promise<DashboardAnalyticsData> {
         fyYoyChangeRate: null,
         trendDirection: 'stable',
         trendDirectionTh: 'ไม่มีข้อมูลเพียงพอ',
-        trendSummaryTh: 'ยังไม่มีข้อมูลระเบียนค่าไฟฟ้าในระบบ',
+        trendSummaryTh: 'ยังไม่มีข้อมูลค่าไฟฟ้าในระบบ',
         dataCoverage: { totalRecords: 0, startLabel: '-', endLabel: '-', completeFiscalYears: 0 },
       },
       statisticalThresholds: { mean: 0, stdDev: 0, upperTwoSigma: 0 },
@@ -261,11 +245,11 @@ export async function getDashboardAnalytics(): Promise<DashboardAnalyticsData> {
         deviationPct: ((amt - mean) / mean) * 100,
         zScore,
         isPeak,
-        reason: `ค่าใช้จ่ายสูงกว่าค่าเฉลี่ยสถิติเกิน 2 ส่วนเบี่ยงเบนมาตรฐาน (Z-Score = ${zScore.toFixed(2)})`,
+        reason: `ยอดค่าไฟฟ้าสูงกว่าเกณฑ์ปกติอย่างมีนัยสำคัญ (เกินค่าเฉลี่ยปกติ +2SD, Z-Score = ${zScore.toFixed(2)})`,
         operationalContext:
           r.month === 4 || r.month === 5
-            ? 'ช่วงฤดูร้อน (เม.ย. - พ.ค.) มีการใช้งานระบบปรับอากาศภายในอาคารสำนักงานเขตสุขภาพที่ 7 ต่อเนื่อง'
-            : 'ระดับการใช้ไฟฟ้าของอาคารสำนักงานสูงกว่าเกณฑ์สถิติปกติ ควรตรวจสอบการใช้งานอุปกรณ์ไฟฟ้าในงวดดังกล่าว',
+            ? 'ช่วงฤดูร้อน (เม.ย. – พ.ค.) มีการเปิดใช้งานเครื่องปรับอากาศภายในอาคารสำนักงานอย่างต่อเนื่องตามสภาพอากาศ'
+            : 'ยอดการใช้ไฟฟ้าของอาคารสำนักงานสูงกว่าเกณฑ์เฉลี่ยปกติ ควรตรวจสอบการเปิดใช้งานอุปกรณ์ไฟฟ้าในรอบเดือนดังกล่าว',
       });
     }
   }

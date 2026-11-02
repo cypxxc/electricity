@@ -65,13 +65,13 @@ export function CalendarMatrixView({
             );
           })}
           <th className="py-2.5 px-2 text-center border-l border-slate-300 min-w-[48px] font-medium text-slate-600">
-            งวด
+            เดือน
           </th>
           <th className="py-2.5 px-3 text-right bg-slate-200/60 border-l border-slate-300 min-w-[105px] font-bold text-slate-900">
-            รวมทั้งปี
+            ยอดรวมทั้งปี
           </th>
           <th className="py-2.5 px-3 text-right bg-slate-100 border-l border-slate-300 min-w-[95px] font-semibold text-slate-700">
-            เฉลี่ย/งวด
+            เฉลี่ยต่อเดือน
           </th>
         </tr>
       </thead>
@@ -99,7 +99,7 @@ export function CalendarMatrixView({
                 <td
                   onClick={() => onSelectYear(isRowSelected ? 'all' : row.yearBe.toString())}
                   className="py-2 px-3 font-bold font-mono text-slate-900 sticky left-0 bg-white hover:bg-slate-100 z-10 border-r border-slate-300 cursor-pointer shadow-[2px_0_4px_-2px_rgba(0,0,0,0.06)]"
-                  title="คลิกเพื่อกรองเฉพาะปีนี้"
+                  title="คลิกเพื่อดูเฉพาะปีนี้"
                 >
                   {row.yearBe}
                 </td>
@@ -132,7 +132,7 @@ export function CalendarMatrixView({
                     cellStyle = 'font-bold text-slate-950 bg-amber-100/90 cursor-pointer ring-1 ring-amber-400 inset-0';
                     badge = (
                       <span
-                        title="ยอดสูงสุดในประวัติศาสตร์ (คลิกดูรายละเอียด)"
+                        title="ค่าไฟฟ้าสูงสุดที่บันทึก (คลิกดูรายละเอียด)"
                         className="ml-1 text-[10px] text-amber-900 font-bold"
                       >
                         ⯁
@@ -142,7 +142,7 @@ export function CalendarMatrixView({
                     cellStyle = 'font-semibold text-slate-900 bg-amber-50/80 cursor-pointer border-b border-amber-300';
                     badge = (
                       <span
-                        title="ค่าเบี่ยงเบนทางสถิติ > 2 SD (คลิกดูรายละเอียด)"
+                        title="ค่าไฟฟ้าสูงผิดปกติ (คลิกดูรายละเอียด)"
                         className="ml-0.5 text-[9px] text-amber-800"
                       >
                         ⯁
@@ -165,8 +165,8 @@ export function CalendarMatrixView({
                       className={`py-2 px-2 text-right font-mono tabular-nums transition-colors cursor-pointer hover:bg-teal-50/80 ${cellStyle}`}
                       title={
                         anomalyObj
-                          ? `ตรวจพบค่าเบี่ยงเบนทางสถิติ ฿${amt.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (คลิกเพื่อดูรายละเอียด)`
-                          : `${THAI_MONTHS[idx]} ${row.yearBe}: ฿${amt.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (คลิกเพื่อเน้นงวดนี้)`
+                          ? `ค่าไฟฟ้าสูงผิดปกติ ฿${amt.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (คลิกเพื่อดูรายละเอียด)`
+                          : `${THAI_MONTHS[idx]} ${row.yearBe}: ฿${amt.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (คลิกเพื่อเน้นเดือนนี้)`
                       }
                     >
                       <span>{amt.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
@@ -195,7 +195,7 @@ export function CalendarMatrixView({
       <tfoot>
         <tr className="bg-slate-100 border-t-2 border-slate-400 font-bold text-slate-900 text-[11px]">
           <td className="py-2.5 px-3 sticky left-0 bg-slate-100 z-10 border-r border-slate-300 font-mono shadow-[2px_0_4px_-2px_rgba(0,0,0,0.06)]">
-            รวมทุกปี
+            ยอดรวมทุกปี
           </td>
           {calMonthlyTotals.map((sum, idx) => (
             <td key={idx} className="py-2.5 px-2 text-right font-mono tabular-nums text-slate-800">

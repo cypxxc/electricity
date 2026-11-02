@@ -33,7 +33,7 @@ export function generateTrendNarrative(
 
   // Trend direction determination
   let trendDirection: TrendNarrative['trendDirection'] = 'stable';
-  let trendDirectionTh = 'ระดับการใช้จ่ายทรงตัว';
+  let trendDirectionTh = 'แนวโน้มทรงตัว (ใกล้เคียงเดิม)';
 
   const momRate = latestItem.momChangeRate;
   const yoyRate = latestItem.yoyChangeRate;
@@ -41,40 +41,40 @@ export function generateTrendNarrative(
   if (momRate !== null && yoyRate !== null) {
     if (momRate < -1 && yoyRate < -1) {
       trendDirection = 'decreasing';
-      trendDirectionTh = 'มีแนวโน้มลดลงอย่างต่อเนื่อง';
+      trendDirectionTh = 'แนวโน้มลดลงอย่างต่อเนื่อง';
     } else if (momRate > 1 && yoyRate > 1) {
       trendDirection = 'increasing';
-      trendDirectionTh = 'มีแนวโน้มปรับตัวสูงขึ้น';
+      trendDirectionTh = 'แนวโน้มเพิ่มขึ้น';
     } else if (Math.abs(momRate) <= 1 && Math.abs(yoyRate) <= 1) {
       trendDirection = 'stable';
-      trendDirectionTh = 'ระดับการใช้จ่ายคงที่';
+      trendDirectionTh = 'แนวโน้มคงที่';
     } else {
       trendDirection = 'mixed';
-      trendDirectionTh = 'ทิศทางผสมผสานตามปัจจัยฤดูกาล';
+      trendDirectionTh = 'เปลี่ยนแปลงตามฤดูกาล';
     }
   }
 
   const momText =
     momRate !== null
       ? `${momRate > 0 ? '+' : ''}${momRate.toFixed(1)}% (${momRate > 0 ? '+' : ''}฿${Math.abs(latestItem.momChangeAmount || 0).toLocaleString('th-TH', { maximumFractionDigits: 0 })})`
-      : 'ไม่มีข้อมูลงวดก่อนหน้า';
+      : 'ไม่มีข้อมูลเดือนก่อนหน้า';
 
   const yoyText =
     yoyRate !== null
       ? `${yoyRate > 0 ? '+' : ''}${yoyRate.toFixed(1)}%`
-      : 'ไม่มีข้อมูลงวดปีก่อนหน้า';
+      : 'ไม่มีข้อมูลช่วงเดียวกันปีก่อนหน้า';
 
   const fyText =
     fyYoyChangeRate !== null
       ? `${fyYoyChangeRate > 0 ? '+' : ''}${fyYoyChangeRate.toFixed(1)}% (${fyYoyChangeRate > 0 ? '+' : ''}฿${Math.abs(fyYoyChangeAmount || 0).toLocaleString('th-TH', { maximumFractionDigits: 0 })})`
-      : 'ไม่มีข้อมูลปีงบก่อนหน้า';
+      : 'ไม่มีข้อมูลปีงบประมาณก่อนหน้า';
 
   const latestQ = getFiscalQuarter(latestItem.month);
   const isFYCompleteText = latestFYItem?.isComplete
     ? 'มีข้อมูลครบ 12 เดือน'
-    : `บันทึกแล้ว ${latestFYItem?.recordedMonths || 0}/12 เดือน (ระหว่างปีงบประมาณ)`;
+    : `บันทึกแล้ว ${latestFYItem?.recordedMonths || 0}/12 เดือน (อยู่ระหว่างปีงบประมาณ)`;
 
-  const trendSummaryTh = `ค่าไฟฟ้างวดล่าสุด (${latestItem.fullLabel} ${latestQ.shortLabel} ปีงบประมาณ ${latestItem.fyBe}) บันทึกที่ ฿${latestItem.amount.toLocaleString('th-TH', { minimumFractionDigits: 2 })} โดยเปลี่ยนแปลง ${momText} เทียบเดือนก่อนหน้า และ ${yoyText} เทียบช่วงเดียวกันปีก่อนหน้า ในระดับปีงบประมาณ ${latestFYNum} (${formatFiscalYearRange(latestFYNum)}) ${isFYCompleteText} ยอดรวม ฿${(latestFYItem?.totalAmount || 0).toLocaleString('th-TH', { minimumFractionDigits: 2 })} เปลี่ยนแปลง ${fyText} เทียบปีงบประมาณ ${prevFYNum}`;
+  const trendSummaryTh = `ค่าไฟฟ้าเดือนล่าสุด (${latestItem.fullLabel} ${latestQ.label} ปีงบประมาณ ${latestItem.fyBe}) มียอดใช้จ่าย ฿${latestItem.amount.toLocaleString('th-TH', { minimumFractionDigits: 2 })} บาท โดยเปลี่ยนแปลง ${momText} เมื่อเทียบกับเดือนก่อนหน้า และ ${yoyText} เมื่อเทียบกับช่วงเดียวกันของปีก่อนหน้า สำหรับภาพรวมปีงบประมาณ ${latestFYNum} (${formatFiscalYearRange(latestFYNum)}) ${isFYCompleteText} มียอดรวม ฿${(latestFYItem?.totalAmount || 0).toLocaleString('th-TH', { minimumFractionDigits: 2 })} บาท เปลี่ยนแปลง ${fyText} เมื่อเทียบกับปีงบประมาณ ${prevFYNum}`;
 
   return {
     latestMonth: {
@@ -108,13 +108,13 @@ export function generateTrendNarrative(
       fyBe: latestFYNum,
       monthsCount: latestFYItem?.recordedMonths || 0,
       total: latestFYItem?.totalAmount || 0,
-      label: `ปีงบประมาณ ${latestFYNum} (ต.ค. ${latestFYNum - 1} – ก.ย. ${latestFYNum})`,
+      label: `ปีงบประมาณ ${latestFYNum} (1 ต.ค. ${latestFYNum - 1} – 30 ก.ย. ${latestFYNum})`,
     },
     previousFiscalYear: {
       fyBe: prevFYNum,
       monthsCount: prevFYItem?.recordedMonths || 0,
       total: prevFYItem?.totalAmount || 0,
-      label: `ปีงบประมาณ ${prevFYNum} (ต.ค. ${prevFYNum - 1} – ก.ย. ${prevFYNum})`,
+      label: `ปีงบประมาณ ${prevFYNum} (1 ต.ค. ${prevFYNum - 1} – 30 ก.ย. ${prevFYNum})`,
     },
     fyYoyChangeAmount,
     fyYoyChangeRate,

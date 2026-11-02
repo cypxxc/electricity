@@ -64,27 +64,27 @@ export function YoYComparisonView({
                 return (
                   <div className="bg-white border border-slate-300 rounded-xs p-2.5 shadow-md text-xs min-w-[220px]">
                     <div className="font-semibold text-slate-800 text-[11px] pb-1 border-b border-slate-100 flex items-center justify-between">
-                      <span>งวดเดือน</span>
+                      <span>ประจำเดือน</span>
                       <span className="text-brand-navy font-bold">เดือน{item.monthName}</span>
                     </div>
                     <div className="mt-2 space-y-1.5 text-xs">
                       <div className="flex justify-between">
-                        <span className="text-slate-600">ปี พ.ศ. {yoyPrimaryYear} (ปีหลัก):</span>
+                        <span className="text-slate-600">ปี พ.ศ. {yoyPrimaryYear} (ปีที่เลือก):</span>
                         <span className="font-bold font-mono text-slate-900">
                           {item.primaryAmount !== null ? `฿${item.primaryAmount.toLocaleString('th-TH', { minimumFractionDigits: 2 })}` : '-'}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-600">ปี พ.ศ. {yoyBenchmarkYear} (ปีเทียบ):</span>
+                        <span className="text-slate-600">ปี พ.ศ. {yoyBenchmarkYear} (ปีเปรียบเทียบ):</span>
                         <span className="font-bold font-mono text-slate-700">
                           {item.benchmarkAmount !== null ? `฿${item.benchmarkAmount.toLocaleString('th-TH', { minimumFractionDigits: 2 })}` : '-'}
                         </span>
                       </div>
                       {hasBoth && item.diff !== null && item.pct !== null && (
                         <div className="flex justify-between pt-1 border-t border-slate-100 text-[11px]">
-                          <span className="text-slate-500">ผลต่าง (ปีหลัก - ปีเทียบ):</span>
+                          <span className="text-slate-500">ผลต่างการใช้จ่าย:</span>
                           <span className={`font-bold font-mono ${item.diff > 0 ? 'text-amber-800' : 'text-teal-800'}`}>
-                            {item.diff > 0 ? '+' : ''}฿{Math.abs(item.diff).toLocaleString('th-TH', { maximumFractionDigits: 0 })} ({item.pct > 0 ? '+' : ''}{item.pct.toFixed(1)}%)
+                            {item.diff > 0 ? '+' : ''}฿${Math.abs(item.diff).toLocaleString('th-TH', { maximumFractionDigits: 0 })} ({item.pct > 0 ? '+' : ''}{item.pct.toFixed(1)}%)
                           </span>
                         </div>
                       )}
@@ -98,7 +98,7 @@ export function YoYComparisonView({
           <Legend verticalAlign="top" align="right" wrapperStyle={{ paddingBottom: 6, fontSize: 11 }} />
           <Bar
             dataKey="primaryAmount"
-            name={`ปี พ.ศ. ${yoyPrimaryYear} (ปีหลัก)`}
+            name={`ปี พ.ศ. ${yoyPrimaryYear} (ปีที่เลือก)`}
             fill={THEME_COLORS.brandNavy}
             radius={[2, 2, 0, 0]}
             maxBarSize={28}
@@ -117,7 +117,7 @@ export function YoYComparisonView({
           </Bar>
           <Bar
             dataKey="benchmarkAmount"
-            name={`ปี พ.ศ. ${yoyBenchmarkYear} (ปีเทียบ)`}
+            name={`ปี พ.ศ. ${yoyBenchmarkYear} (ปีเปรียบเทียบ)`}
             fill={THEME_COLORS.brandTealLight}
             radius={[2, 2, 0, 0]}
             maxBarSize={28}
@@ -168,25 +168,25 @@ export function YoYComparisonView({
                 return (
                   <div className="bg-white border border-slate-300 rounded-xs p-2.5 shadow-md text-xs min-w-[220px]">
                     <div className="font-semibold text-slate-800 text-[11px] pb-1 border-b border-slate-100 flex items-center justify-between">
-                      <span>งวดเดือน</span>
+                      <span>ประจำเดือน</span>
                       <span className="text-brand-navy font-bold">เดือน{item.monthName}</span>
                     </div>
                     <div className="mt-2 space-y-1.5 text-xs">
                       <div className="flex justify-between">
-                        <span className="text-slate-600">ปี พ.ศ. {yoyPrimaryYear}:</span>
+                        <span className="text-slate-600">ปี พ.ศ. {yoyPrimaryYear} (ปีที่เลือก):</span>
                         <span className="font-bold font-mono text-slate-900">
                           {item.primaryAmount !== null ? `฿${item.primaryAmount.toLocaleString('th-TH', { minimumFractionDigits: 2 })}` : '-'}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-600">ปี พ.ศ. {yoyBenchmarkYear}:</span>
+                        <span className="text-slate-600">ปี พ.ศ. {yoyBenchmarkYear} (ปีเปรียบเทียบ):</span>
                         <span className="font-bold font-mono text-slate-700">
                           {item.benchmarkAmount !== null ? `฿${item.benchmarkAmount.toLocaleString('th-TH', { minimumFractionDigits: 2 })}` : '-'}
                         </span>
                       </div>
                       {hasBoth && item.diff !== null && item.pct !== null && (
                         <div className="flex justify-between pt-1 border-t border-slate-100 text-[11px]">
-                          <span className="text-slate-500">ผลต่าง:</span>
+                          <span className="text-slate-500">ผลต่างการใช้จ่าย:</span>
                           <span className={`font-bold font-mono ${item.diff > 0 ? 'text-amber-800' : 'text-teal-800'}`}>
                             {item.diff > 0 ? '+' : ''}฿{Math.abs(item.diff).toLocaleString('th-TH', { maximumFractionDigits: 0 })} ({item.pct > 0 ? '+' : ''}{item.pct.toFixed(1)}%)
                           </span>
@@ -203,7 +203,7 @@ export function YoYComparisonView({
           <Line
             type="monotone"
             dataKey="primaryAmount"
-            name={`ปี พ.ศ. ${yoyPrimaryYear} (ปีหลัก)`}
+            name={`ปี พ.ศ. ${yoyPrimaryYear} (ปีที่เลือก)`}
             stroke={THEME_COLORS.brandNavy}
             strokeWidth={2}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -232,7 +232,7 @@ export function YoYComparisonView({
           <Line
             type="monotone"
             dataKey="benchmarkAmount"
-            name={`ปี พ.ศ. ${yoyBenchmarkYear} (ปีเทียบ)`}
+            name={`ปี พ.ศ. ${yoyBenchmarkYear} (ปีเปรียบเทียบ)`}
             stroke={THEME_COLORS.brandTealLight}
             strokeWidth={2}
             strokeDasharray="3 3"

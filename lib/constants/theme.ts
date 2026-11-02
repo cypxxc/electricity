@@ -28,4 +28,3 @@ export const THEME_COLORS = {
   textMain: '#0f172a', // slate-900
 } as const;
 
-export type ThemeColors = typeof THEME_COLORS;

@@ -117,3 +117,15 @@ env/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Docker & Container Overrides
+# ------------------------------------------------------------------------------
+docker-compose.override.yml
+.docker/
+
+# Knip Report & Output Artifacts
+# ------------------------------------------------------------------------------
+knip-report.json
+knip-report.txt
+knip-report.md
+.knip/

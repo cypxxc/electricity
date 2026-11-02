@@ -56,11 +56,11 @@ export function YearlyTrendView({ data, onElementClick }: YearlyTrendViewProps) 
                     <div className="bg-white border border-slate-300 rounded-xs p-2.5 shadow-md text-xs min-w-[210px]">
                       <div className="font-semibold text-slate-800 text-[11px] pb-1 border-b border-slate-100 flex items-center justify-between">
                         <span>รอบปีงบประมาณ</span>
-                        <span className="text-brand-navy font-bold">ปีงบ {item.fyBe}</span>
+                        <span className="text-brand-navy font-bold">ปีงบประมาณ {item.fyBe}</span>
                       </div>
                       <div className="mt-2 space-y-1.5 text-xs">
                         <div className="flex justify-between">
-                          <span className="text-slate-600">ค่าไฟฟ้ารวมทั้งปี:</span>
+                          <span className="text-slate-600">ยอดรวมทั้งปี:</span>
                           <span className="font-bold font-mono text-slate-900">
                             ฿{item.totalAmount.toLocaleString('th-TH', { minimumFractionDigits: 2 })}
                           </span>
@@ -72,19 +72,19 @@ export function YearlyTrendView({ data, onElementClick }: YearlyTrendViewProps) 
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-slate-600">จำนวนงวดที่บันทึก:</span>
+                          <span className="text-slate-600">จำนวนเดือนที่บันทึก:</span>
                           <span className="font-mono text-slate-700">{item.recordedMonths}/12 เดือน</span>
                         </div>
                         {item.yoyChangeRate !== null && (
                           <div className="flex justify-between pt-1 border-t border-slate-100 text-[11px]">
-                            <span className="text-slate-500">เทียบปีงบก่อนหน้า:</span>
+                            <span className="text-slate-500">เทียบปีงบประมาณก่อนหน้า:</span>
                             <span className={`font-mono font-semibold ${item.yoyChangeRate > 0 ? 'text-amber-800' : 'text-teal-800'}`}>
                               {item.yoyChangeRate > 0 ? '+' : ''}{item.yoyChangeRate.toFixed(1)}%
                             </span>
                           </div>
                         )}
                         <div className="pt-1.5 mt-1 border-t border-slate-100 text-[10.5px] text-teal-800 font-medium flex items-center gap-1">
-                          <span>💡 คลิกแท่งกราฟเพื่อกรองเฉพาะปีนี้</span>
+                          <span>💡 คลิกที่แท่งกราฟเพื่อดูรายละเอียดปีนี้</span>
                         </div>
                       </div>
                     </div>

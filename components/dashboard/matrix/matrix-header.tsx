@@ -28,14 +28,14 @@ export function MatrixHeader({
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">
-              ตารางแจกแจงค่าไฟฟ้ารายเดือนและรอบปี (Expenditure Breakdown Matrix)
+              ตารางสรุปค่าไฟฟ้ารายเดือนและรายปี (Expenditure Breakdown Matrix)
             </h2>
             <span className="text-[10px] text-slate-500 font-mono">หน่วย: บาท (THB)</span>
           </div>
           <p className="text-[11px] text-slate-500 mt-0.5">
             {matrixMode === 'fiscal'
-              ? 'รอบปีงบประมาณไทยนับตั้งแต่ 1 ต.ค. (ปีก่อนหน้า) ถึง 30 ก.ย. (ปีงบประมาณ) • ข้อมูลครบถ้วน 12 เดือนทุกปี'
-              : 'มุมมองตามปีปฏิทิน พ.ศ. (ม.ค. - ธ.ค.) ตามโครงสร้างไฟล์ Excel ต้นฉบับ'}
+              ? 'รอบปีงบประมาณเริ่มตั้งแต่ 1 ต.ค. – 30 ก.ย. • ข้อมูลครบถ้วน 12 เดือนทุกปี'
+              : 'มุมมองตามปีปฏิทิน พ.ศ. (1 ม.ค. – 31 ธ.ค.)'}
           </p>
         </div>
 
@@ -53,7 +53,7 @@ export function MatrixHeader({
               }`}
             >
               <Building2 className="w-3 h-3 text-teal-400" />
-              <span>ปีงบประมาณ (ต.ค.–ก.ย.)</span>
+              <span>รอบปีงบประมาณ (ต.ค.–ก.ย.)</span>
             </button>
             <button
               type="button"
@@ -65,7 +65,7 @@ export function MatrixHeader({
               }`}
             >
               <Calendar className="w-3 h-3 text-slate-400" />
-              <span>ปีปฏิทิน (ม.ค.–ธ.ค.)</span>
+              <span>รอบปีปฏิทิน (ม.ค.–ธ.ค.)</span>
             </button>
           </div>
 
@@ -76,7 +76,7 @@ export function MatrixHeader({
               className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
             >
               <RotateCcw className="w-3 h-3 text-slate-500" />
-              <span>รีเซ็ตตัวกรอง</span>
+              <span>ล้างตัวกรอง</span>
             </button>
           )}
         </div>
@@ -86,15 +86,15 @@ export function MatrixHeader({
       {isFiltered && (
         <div className="px-4 py-1.5 bg-teal-50 border-b border-teal-200/80 flex items-center justify-between text-[11px] text-teal-900">
           <div className="flex items-center gap-2 font-mono">
-            <span className="font-semibold">สถานะการเชื่อมโยง:</span>
+            <span className="font-semibold">ตัวกรองที่เลือก:</span>
             {selectedYear !== 'all' && (
               <span className="bg-teal-100/80 border border-teal-300 px-1.5 rounded-2xs">
-                กรองปี: {matrixMode === 'fiscal' ? 'ปีงบ ' : 'พ.ศ. '}{selectedYear}
+                เลือกปี: {matrixMode === 'fiscal' ? 'ปีงบ ' : 'พ.ศ. '}{selectedYear}
               </span>
             )}
             {selectedMonth !== null && (
               <span className="bg-teal-100/80 border border-teal-300 px-1.5 rounded-2xs">
-                เน้นเดือน: {THAI_MONTHS[selectedMonth - 1]}
+                เลือกเดือน: {THAI_MONTHS[selectedMonth - 1]}
               </span>
             )}
           </div>

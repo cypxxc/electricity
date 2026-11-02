@@ -86,7 +86,7 @@ export function Navbar({ user }: NavbarProps) {
               }`}
             >
               <Database className="h-3.5 w-3.5 text-teal-400" />
-              จัดการฐานข้อมูล (Admin)
+              จัดการข้อมูลค่าไฟฟ้า (Admin)
             </Link>
           </nav>
 
@@ -115,7 +115,7 @@ export function Navbar({ user }: NavbarProps) {
                     className="inline-flex items-center gap-1 px-2 py-1 text-slate-300 hover:text-white hover:bg-red-950/60 hover:border-red-800/80 rounded-xs border border-transparent text-xs transition-colors ml-1"
                   >
                     <LogOut className="h-3.5 w-3.5 text-slate-400" />
-                    <span className="text-[11px]">ออก</span>
+                    <span className="text-[11px]">ออกจากระบบ</span>
                   </button>
                 </form>
               </div>

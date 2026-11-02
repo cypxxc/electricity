@@ -61,7 +61,7 @@ export function ExportDropdown() {
             <FileSpreadsheet className="w-4 h-4 text-emerald-700 shrink-0" />
             <div>
               <div className="font-medium text-slate-800">Microsoft Excel (.xlsx)</div>
-              <div className="text-[10px] text-slate-500">ตารางแยกปีและสรุปข้อมูล</div>
+              <div className="text-[10px] text-slate-500">ตารางสรุปรายเดือนและรายปี (.xlsx)</div>
             </div>
           </a>
           <a
@@ -73,7 +73,7 @@ export function ExportDropdown() {
             <FileText className="w-4 h-4 text-slate-600 shrink-0" />
             <div>
               <div className="font-medium text-slate-800">Comma-Separated (.csv)</div>
-              <div className="text-[10px] text-slate-500">ข้อมูลแถวรายระเบียน (Raw data)</div>
+              <div className="text-[10px] text-slate-500">ข้อมูลดิบรายเดือน (.csv)</div>
             </div>
           </a>
         </div>

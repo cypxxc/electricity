@@ -63,11 +63,11 @@ export function DashboardView({ analytics }: DashboardViewProps) {
                 รายงานสรุปและวิเคราะห์ค่าใช้จ่ายค่าไฟฟ้า
               </h1>
               <span className="inline-flex items-center px-2 py-0.5 rounded-xs text-[11px] font-mono font-medium bg-slate-100 text-slate-700 border border-slate-300">
-                รอบปีงบประมาณ {kpis.firstFiscalYearBe || 2563} – {kpis.latestFiscalYearBe || 2569} ({kpis.totalRecordsCount} งวดบันทึก รวม {kpis.totalFiscalYearsCount || fiscalYearComparison.length} ปีงบประมาณ)
+                ข้อมูลปีงบประมาณ {kpis.firstFiscalYearBe || 2563} – {kpis.latestFiscalYearBe || 2569} (รวม {kpis.totalFiscalYearsCount || fiscalYearComparison.length} ปีงบประมาณ • {kpis.totalRecordsCount} เดือน)
               </span>
             </div>
             <p className="text-xs text-slate-600 mt-1">
-              ข้อมูลการเบิกจ่ายค่าไฟฟ้าเฉพาะอาคารสำนักงานเขตสุขภาพที่ 7 ตามระบบปีงบประมาณไทย (1 ต.ค. – 30 ก.ย.)
+              ข้อมูลค่าไฟฟ้าอาคารสำนักงานเขตสุขภาพที่ 7 ตามรอบปีงบประมาณ (1 ต.ค. – 30 ก.ย.)
             </p>
           </div>
 

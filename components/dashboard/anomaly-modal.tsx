@@ -40,10 +40,10 @@ export function AnomalyModal({ anomaly, onClose, onFilterMonth }: AnomalyModalPr
             </div>
             <div>
               <h3 id="anomaly-modal-title" className="text-xs sm:text-sm font-bold text-slate-900">
-                รายละเอียดการตรวจพบค่าเบี่ยงเบนทางสถิติ (Statistical Anomaly Inspection)
+                รายงานการใช้ไฟฟ้าสูงผิดปกติ (Unusual Expenditure Analysis)
               </h3>
               <p className="text-[10.5px] text-slate-500 font-mono">
-                งวดประจำเดือน {anomaly.monthName} พ.ศ. {anomaly.yearBe}
+                ประจำเดือน {anomaly.monthName} พ.ศ. {anomaly.yearBe}
               </p>
             </div>
           </div>
@@ -61,33 +61,33 @@ export function AnomalyModal({ anomaly, onClose, onFilterMonth }: AnomalyModalPr
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
             <div className="bg-slate-50 border border-slate-200 rounded-xs p-2.5">
               <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block">
-                ยอดที่บันทึกจริง
+                ยอดค่าไฟฟ้าจริง
               </span>
               <span className="text-base font-bold font-mono text-slate-950 tabular-nums">
                 ฿{anomaly.amount.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
               {anomaly.isPeak && (
                 <span className="inline-block mt-1 text-[9.5px] font-semibold text-amber-900 bg-amber-100 border border-amber-300 px-1 rounded-2xs">
-                  ★ ยอดสูงสุดในประวัติศาสตร์
+                  ★ ยอดสูงสุดที่เคยบันทึก
                 </span>
               )}
             </div>
 
             <div className="bg-slate-50 border border-slate-200 rounded-xs p-2.5">
               <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block">
-                ค่าเฉลี่ยฐานข้อมูล (Mean)
+                ค่าเฉลี่ยปกติของระบบ (Mean)
               </span>
               <span className="text-base font-bold font-mono text-slate-800 tabular-nums">
                 ฿{anomaly.baselineMean.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
               <span className="text-[10px] text-slate-500 block mt-0.5">
-                SD: ฿{anomaly.baselineStdDev.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                ส่วนเบี่ยงเบนมาตรฐาน (SD): ฿{anomaly.baselineStdDev.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
               </span>
             </div>
 
             <div className="bg-slate-50 border border-slate-200 rounded-xs p-2.5 col-span-2 sm:col-span-1">
               <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block">
-                เกณฑ์ตรวจจับ (+2&sigma;)
+                เกณฑ์เฝ้าระวัง (+2SD)
               </span>
               <span className="text-base font-bold font-mono text-amber-800 tabular-nums">
                 ฿{anomaly.threshold.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -101,14 +101,14 @@ export function AnomalyModal({ anomaly, onClose, onFilterMonth }: AnomalyModalPr
           {/* Variance Breakdown */}
           <div className="bg-slate-50/70 border border-slate-200 rounded-xs p-3 space-y-1.5">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-600">ส่วนเบี่ยงเบนจากค่าเฉลี่ยระบบ:</span>
+              <span className="text-slate-600">ส่วนต่างที่สูงกว่าค่าเฉลี่ย:</span>
               <span className="font-mono font-bold text-amber-800 inline-flex items-center">
                 <ArrowUpRight className="w-3.5 h-3.5 mr-0.5" />
                 +฿{anomaly.deviationAmount.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (+{anomaly.deviationPct.toFixed(1)}%)
               </span>
             </div>
             <div className="flex items-center justify-between text-xs pt-1 border-t border-slate-200/80">
-              <span className="text-slate-600">เกณฑ์การพิจารณาความผิดปกติ:</span>
+              <span className="text-slate-600">เหตุผลการแจ้งเตือน:</span>
               <span className="font-medium text-slate-800">{anomaly.reason}</span>
             </div>
           </div>
@@ -117,13 +117,13 @@ export function AnomalyModal({ anomaly, onClose, onFilterMonth }: AnomalyModalPr
           <div className="p-3 bg-amber-50/70 border border-amber-200/80 rounded-xs text-[11px] space-y-1.5 text-amber-950">
             <div className="flex items-center gap-1.5 font-semibold text-amber-900">
               <Info className="w-3.5 h-3.5 shrink-0" />
-              <span>บริบทการวิเคราะห์เชิงปฏิบัติการ (Operational Context):</span>
+              <span>ข้อสังเกตและบริบทการใช้งานอาคาร:</span>
             </div>
             <p className="leading-relaxed">
               {anomaly.operationalContext}
             </p>
             <p className="text-[10.5px] text-amber-800/90 italic pt-1 border-t border-amber-200/50">
-              * ข้อควรระวัง: การจำแนกเป็นค่าเบี่ยงเบนทางสถิติ (Statistical Outlier) คำนวณจากเกณฑ์การกระจายตัวของข้อมูลเท่านั้น ไม่ถือเป็นหลักฐานความบกพร่องในการปฏิบัติงานหรือข้อผิดพลาดทางการเงินโดยอัตโนมัติ
+              * หมายเหตุ: รายการนี้ได้รับการตรวจพบจากเกณฑ์ทางสถิติเพื่อเฝ้าระวังการใช้พลังงานของอาคาร มิได้หมายถึงความผิดพลาดทางการเงินหรือการทุจริต
             </p>
           </div>
         </div>
@@ -139,7 +139,7 @@ export function AnomalyModal({ anomaly, onClose, onFilterMonth }: AnomalyModalPr
               }}
               className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-brand-navy hover:bg-brand-navy-light border border-brand-navy rounded-xs transition-colors shadow-2xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
             >
-              <span>กรองดูเฉพาะงวดนี้</span>
+              <span>ดูข้อมูลเฉพาะเดือนนี้</span>
             </button>
           ) : <div />}
 

@@ -68,7 +68,7 @@ function MiniSparkline({
       : null;
 
   return (
-    <div className={`shrink-0 ${className}`} title="เส้นแสดงแนวโน้มมิติเวลา (Trend Trajectory)">
+    <div className={`shrink-0 ${className}`} title="กราฟแนวโน้มรายเดือน">
       <svg
         viewBox={`0 0 ${width} ${height}`}
         className="w-24 h-7 overflow-visible"
@@ -109,7 +109,7 @@ interface ComparisonBadgeProps {
 function ComparisonBadge({
   rate,
   amount,
-  baselineLabel = 'ปีฐานอ้างอิง',
+  baselineLabel = 'ปีเริ่มต้น (ไม่มีปีก่อนหน้า)',
   reverseTone = true,
 }: ComparisonBadgeProps) {
   if (rate === null || rate === undefined) {
@@ -197,13 +197,13 @@ export function KPICards({
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* Metric 1: Selected FY Total with 12-month Sparkline */}
-        <div className="bg-white border border-slate-200 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
+        <div className="bg-white border border-slate-200 border-t-[3px] border-t-sky-500 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                ค่าไฟฟ้ารวมปีงบประมาณ {fyNum}
+                ยอดรวมปีงบประมาณ {fyNum}
               </span>
-              <Zap className="w-4 h-4 text-brand-navy" />
+              <Zap className="w-4 h-4 text-sky-600" />
             </div>
             <div className="mt-2.5 flex items-end justify-between gap-2">
               <div className="text-2xl font-bold font-mono text-slate-900 tracking-tight">
@@ -220,29 +220,29 @@ export function KPICards({
                 รอบ 1 ต.ค.–30 ก.ย.
               </span>
               <span className="text-[11px] text-slate-500 font-mono">
-                12 งวดเดือน
+                12 เดือน
               </span>
             </div>
           </div>
           <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-            <span>ความครอบคลุมข้อมูล</span>
+            <span>จำนวนเดือนที่บันทึก</span>
             <span className="font-mono font-medium text-slate-700">
-              {selectedFYSummary.recordedMonths} เดือน (ครบ 12 งวด)
+              {selectedFYSummary.recordedMonths} เดือน (ครบ 12 เดือน)
             </span>
           </div>
         </div>
 
         {/* Metric 2: YoY Comparison with Previous FY */}
-        <div className="bg-white border border-slate-200 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
+        <div className="bg-white border border-slate-200 border-t-[3px] border-t-emerald-500 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                เทียบปีงบประมาณ {prevFYNum} (YoY)
+                เทียบปีงบประมาณ {prevFYNum}
               </span>
               {isYoyPositive ? (
-                <TrendingUp className="w-4 h-4 text-slate-600" />
+                <TrendingUp className="w-4 h-4 text-emerald-600" />
               ) : (
-                <TrendingDown className="w-4 h-4 text-slate-600" />
+                <TrendingDown className="w-4 h-4 text-emerald-600" />
               )}
             </div>
             <div className="mt-2.5">
@@ -256,7 +256,7 @@ export function KPICards({
                 </div>
               ) : (
                 <div className="text-2xl font-bold font-mono text-slate-600 tracking-tight">
-                  ปีฐานอ้างอิง
+                  ปีเริ่มต้น (ไม่มีปีก่อนหน้า)
                 </div>
               )}
             </div>
@@ -265,23 +265,23 @@ export function KPICards({
             </div>
           </div>
           <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-            <span>ยอดปีงบ {prevFYNum}</span>
+            <span>ยอดรวมปีงบ {prevFYNum}</span>
             <span className="font-mono font-medium text-slate-700">
               {prevTotal !== null
                 ? `฿${prevTotal.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                : 'ไม่มีข้อมูลงวดก่อนหน้า'}
+                : 'ไม่มีข้อมูลปีก่อนหน้า'}
             </span>
           </div>
         </div>
 
         {/* Metric 3: Monthly Average for this FY */}
-        <div className="bg-white border border-slate-200 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
+        <div className="bg-white border border-slate-200 border-t-[3px] border-t-indigo-500 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                ค่าเฉลี่ยต่องวดปีงบ {fyNum}
+                เฉลี่ยต่อเดือน (ปีงบ {fyNum})
               </span>
-              <CalendarDays className="w-4 h-4 text-slate-600" />
+              <CalendarDays className="w-4 h-4 text-indigo-600" />
             </div>
             <div className="mt-2.5 text-2xl font-bold font-mono text-slate-900 tracking-tight">
               ฿{selectedFYSummary.averageMonthly.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -290,15 +290,15 @@ export function KPICards({
               <ComparisonBadge
                 rate={avgVsOverallRate}
                 amount={avgVsOverallAmt}
-                baselineLabel="เท่าเกณฑ์เฉลี่ย"
+                baselineLabel="เท่าค่าเฉลี่ย"
               />
               <span className="text-[11px] text-slate-500 font-mono">
-                เทียบเฉลี่ยระบบ
+                เทียบค่าเฉลี่ยรวม
               </span>
             </div>
           </div>
           <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-            <span>ฐานเฉลี่ยสะสมทั้งระบบ</span>
+            <span>ค่าเฉลี่ยต่อเดือนทั้งระบบ</span>
             <span className="font-mono font-medium text-slate-700">
               ฿{Math.round(kpis.monthlyAverage).toLocaleString('th-TH')} / เดือน
             </span>
@@ -306,27 +306,27 @@ export function KPICards({
         </div>
 
         {/* Metric 4: Peak Month for this FY */}
-        <div className="bg-white border border-slate-200 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
+        <div className="bg-white border border-slate-200 border-t-[3px] border-t-amber-500 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                งวดสูงสุดของปีงบ {fyNum}
+                เดือนที่ค่าไฟฟ้าสูงสุด (ปีงบ {fyNum})
               </span>
-              <Flame className="w-4 h-4 text-slate-600" />
+              <Flame className="w-4 h-4 text-amber-500" />
             </div>
             <div className="mt-2.5 text-2xl font-bold font-mono text-slate-900 tracking-tight">
               ฿{(selectedFYSummary.maxMonth?.amount || 0).toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
             <div className="mt-2 flex items-center gap-1.5">
               <span className="inline-flex items-center px-1.5 py-0.5 rounded-xs text-[10.5px] font-mono font-medium bg-amber-50 text-amber-800 border border-amber-200">
-                PEAK: {selectedFYSummary.maxMonth?.monthName} {selectedFYSummary.maxMonth?.yearBe}
+                สูงสุด: {selectedFYSummary.maxMonth?.monthName} {selectedFYSummary.maxMonth?.yearBe}
               </span>
             </div>
           </div>
           <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-            <span>สัดส่วนต่องบทั้งปี</span>
+            <span>สัดส่วนต่อยอดรวมทั้งปี</span>
             <span className="font-semibold text-slate-800 font-mono">
-              {maxMonthRatio ? `${maxMonthRatio}% ของยอดรวมปี` : '-'}
+              {maxMonthRatio ? `${maxMonthRatio}% ของยอดรวมทั้งปี` : '-'}
             </span>
           </div>
         </div>
@@ -359,13 +359,13 @@ export function KPICards({
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
       {/* Metric 1: Cumulative Expenditure with Multi-Year Sparkline */}
-      <div className="bg-white border border-slate-200 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
+      <div className="bg-white border border-slate-200 border-t-[3px] border-t-sky-500 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-              ค่าไฟฟ้ารวมสะสมทั้งหมด
+              ยอดรวมค่าไฟฟ้าทั้งหมด
             </span>
-            <Building2 className="w-4 h-4 text-brand-navy" />
+            <Building2 className="w-4 h-4 text-sky-600" />
           </div>
           <div className="mt-2.5 flex items-end justify-between gap-2">
             <div className="text-2xl font-bold font-mono text-slate-900 tracking-tight">
@@ -381,26 +381,26 @@ export function KPICards({
           </div>
           <div className="mt-2 flex items-center gap-1.5">
             <span className="text-[11px] text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-xs font-medium font-mono">
-              สะสมต่อเนื่อง {kpis.totalFiscalYearsCount || fiscalYearComparison.length || 7} ปีงบ
+              สะสมต่อเนื่อง {kpis.totalFiscalYearsCount || fiscalYearComparison.length || 7} ปีงบประมาณ
             </span>
           </div>
         </div>
         <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-          <span>ความครอบคลุมข้อมูล</span>
+          <span>จำนวนเดือนที่บันทึก</span>
           <span className="font-mono font-medium text-slate-700">
-            {kpis.totalRecordsCount} งวด (ปีงบ {kpis.firstFiscalYearBe || 2563}–{currentFY})
+            {kpis.totalRecordsCount} เดือน (ปีงบ {kpis.firstFiscalYearBe || 2563}–{currentFY})
           </span>
         </div>
       </div>
 
       {/* Metric 2: Current Fiscal Year Total with Comparison Badge */}
-      <div className="bg-white border border-slate-200 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
+      <div className="bg-white border border-slate-200 border-t-[3px] border-t-emerald-500 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-              ค่าไฟฟ้ารวมปีงบประมาณ {currentFY}
+              ยอดรวมปีงบประมาณ {currentFY}
             </span>
-            <Zap className="w-4 h-4 text-slate-600" />
+            <Zap className="w-4 h-4 text-emerald-600" />
           </div>
           <div className="mt-2.5 text-2xl font-bold font-mono text-slate-900 tracking-tight">
             ฿{currentFYTotal.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -408,12 +408,12 @@ export function KPICards({
           <div className="mt-2 flex items-center gap-1.5">
             <ComparisonBadge rate={fyRate} amount={fyDiff} />
             <span className="text-[11px] text-slate-500 font-mono">
-              เทียบปีงบ {prevFY}
+              เทียบปีงบประมาณ {prevFY}
             </span>
           </div>
         </div>
         <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-          <span>ยอดปีงบประมาณ {prevFY}</span>
+          <span>ยอดรวมปีงบประมาณ {prevFY}</span>
           <span className="font-mono font-medium text-slate-700">
             ฿{(kpis.previousFiscalYearTotal || 0).toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </span>
@@ -421,25 +421,25 @@ export function KPICards({
       </div>
 
       {/* Metric 3: Monthly Average */}
-      <div className="bg-white border border-slate-200 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
+      <div className="bg-white border border-slate-200 border-t-[3px] border-t-indigo-500 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-              ค่าเฉลี่ยต่องวดเดือน
+              ค่าเฉลี่ยต่อเดือน (ทั้งระบบ)
             </span>
-            <CalendarDays className="w-4 h-4 text-slate-600" />
+            <CalendarDays className="w-4 h-4 text-indigo-600" />
           </div>
           <div className="mt-2.5 text-2xl font-bold font-mono text-slate-900 tracking-tight">
             ฿{kpis.monthlyAverage.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
           <div className="mt-2 flex items-center gap-1.5">
             <span className="text-[11px] text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-xs font-medium font-mono">
-              เกณฑ์ฐานสะสม {kpis.totalRecordsCount} งวดบันทึก
+              คำนวณจากข้อมูลทั้งหมด {kpis.totalRecordsCount} เดือน
             </span>
           </div>
         </div>
         <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-          <span>งวดต่ำสุดในระบบ</span>
+          <span>ค่าไฟฟ้าต่ำสุดที่บันทึก</span>
           <span className="text-slate-700 font-medium font-mono">
             {kpis.minRecord?.monthName} {kpis.minRecord?.yearBe} (฿{(kpis.minRecord?.amount || 0).toLocaleString('th-TH', { maximumFractionDigits: 0 })})
           </span>
@@ -447,25 +447,25 @@ export function KPICards({
       </div>
 
       {/* Metric 4: Historical Peak */}
-      <div className="bg-white border border-slate-200 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
+      <div className="bg-white border border-slate-200 border-t-[3px] border-t-amber-500 rounded-xs p-3.5 shadow-2xs flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-              ยอดสูงสุดในประวัติศาสตร์
+              ค่าไฟฟ้าสูงสุดที่บันทึก
             </span>
-            <Flame className="w-4 h-4 text-slate-600" />
+            <Flame className="w-4 h-4 text-amber-500" />
           </div>
           <div className="mt-2.5 text-2xl font-bold font-mono text-slate-900 tracking-tight">
             ฿{(kpis.maxRecord?.amount || 0).toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
           <div className="mt-2 flex items-center gap-1.5">
             <span className="inline-flex items-center px-1.5 py-0.5 rounded-xs text-[10.5px] font-mono font-medium bg-amber-50 text-amber-800 border border-amber-200">
-              PEAK: {kpis.maxRecord?.monthName} {kpis.maxRecord?.yearBe} {kpis.maxRecord?.fyBe ? `(ปีงบ ${kpis.maxRecord.fyBe})` : ''}
+              สูงสุด: {kpis.maxRecord?.monthName} {kpis.maxRecord?.yearBe} {kpis.maxRecord?.fyBe ? `(ปีงบ ${kpis.maxRecord.fyBe})` : ''}
             </span>
           </div>
         </div>
         <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-          <span>สูงกว่าเกณฑ์เฉลี่ยสะสม</span>
+          <span>สูงกว่าค่าเฉลี่ยรวม</span>
           <span className="font-semibold text-amber-800 font-mono">
             {peakDiffVsAvgRate !== null ? `+${peakDiffVsAvgRate.toFixed(1)}%` : '-'}
           </span>

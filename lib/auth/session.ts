@@ -4,7 +4,7 @@ import { env } from '../env';
 
 const rawJwtSecret = env.JWT_SECRET;
 const encodedSecret = new TextEncoder().encode(rawJwtSecret);
-export const COOKIE_NAME = 'auth_session';
+const COOKIE_NAME = 'auth_session';
 
 export interface SessionPayload {
   userId: number;
@@ -12,7 +12,7 @@ export interface SessionPayload {
   role: string;
 }
 
-export async function createSessionToken(payload: SessionPayload): Promise<string> {
+async function createSessionToken(payload: SessionPayload): Promise<string> {
   return await new SignJWT({ ...payload })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
@@ -20,7 +20,7 @@ export async function createSessionToken(payload: SessionPayload): Promise<strin
     .sign(encodedSecret);
 }
 
-export async function verifySessionToken(token: string): Promise<SessionPayload | null> {
+async function verifySessionToken(token: string): Promise<SessionPayload | null> {
   try {
     const { payload } = await jwtVerify(token, encodedSecret);
     return {

@@ -56,12 +56,12 @@ export function RecordsTableView({
                 className="group inline-flex items-center gap-1.5 hover:text-slate-900 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 rounded-2xs"
                 title="คลิกเพื่อเรียงลำดับตามงวดเวลา (ปี/เดือน)"
               >
-                <span>งวดเวลา (ปี / เดือน)</span>
+                <span>ประจำงวด (ปี / เดือน)</span>
                 {renderSortIcon('period')}
               </button>
             </th>
             <th scope="col" className="py-2.5 px-3">
-              รอบปีงบประมาณ
+              ปีงบประมาณ / ไตรมาส
             </th>
             <th scope="col" aria-sort={getAriaSort('amount')} className="py-2.5 px-3 text-right">
               <button
@@ -70,7 +70,7 @@ export function RecordsTableView({
                 className="group inline-flex items-center gap-1.5 ml-auto hover:text-slate-900 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 rounded-2xs"
                 title="คลิกเพื่อเรียงลำดับตามยอดเงิน"
               >
-                <span>ยอดค่าไฟฟ้า (บาท)</span>
+                <span>ค่าไฟฟ้า (บาท)</span>
                 {renderSortIcon('amount')}
               </button>
             </th>
@@ -84,12 +84,12 @@ export function RecordsTableView({
                 className="group inline-flex items-center gap-1.5 hover:text-slate-900 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 rounded-2xs"
                 title="คลิกเพื่อเรียงลำดับตามวันที่อัปเดต"
               >
-                <span>อัปเดตเมื่อ</span>
+                <span>ปรับปรุงล่าสุด</span>
                 {renderSortIcon('updatedAt')}
               </button>
             </th>
             <th scope="col" className="py-2.5 px-3 text-center">
-              จัดการ
+              เครื่องมือจัดการ
             </th>
           </tr>
         </thead>
@@ -97,7 +97,7 @@ export function RecordsTableView({
           {records.length === 0 ? (
             <tr>
               <td colSpan={6} className="py-10 text-center text-xs text-slate-500">
-                <p className="font-medium text-slate-700">ไม่พบระเบียนข้อมูลที่ตรงกับเงื่อนไขการค้นหา</p>
+                <p className="font-medium text-slate-700">ไม่พบข้อมูลที่ตรงกับเงื่อนไขการค้นหา</p>
                 {isFilterActive && (
                   <button
                     type="button"

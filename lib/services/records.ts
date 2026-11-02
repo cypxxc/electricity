@@ -104,16 +104,6 @@ export async function getRecords(filter: RecordsFilter = {}): Promise<PaginatedR
   };
 }
 
-export async function getRecordById(id: number): Promise<ElectricityRecord | null> {
-  const [record] = await db
-    .select()
-    .from(electricityRecords)
-    .where(eq(electricityRecords.id, id))
-    .limit(1);
-
-  return record || null;
-}
-
 export async function createRecord(input: RecordInput): Promise<ElectricityRecord> {
   const isDuplicate = await checkDuplicateRecord(input.yearBe, input.month);
   if (isDuplicate) {

@@ -38,7 +38,7 @@ export function RecordsYearPills({
           <div className="flex items-center gap-1.5 text-slate-800">
             <CalendarDays className="w-4 h-4 text-teal-600" />
             <label htmlFor="admin-year-selector" className="text-xs font-bold tracking-tight text-slate-800">
-              เลือกรอบปี:
+              เลือกปี พ.ศ.:
             </label>
           </div>
 
@@ -50,14 +50,14 @@ export function RecordsYearPills({
               className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy/20 shadow-2xs cursor-pointer transition-colors"
             >
               <option value="all">
-                ภาพรวมทั้งหมด ({distinctYears.length} ปี • {totalRecordsCount} งวด)
+                ทุกปี พ.ศ. ({distinctYears.length} ปี • {totalRecordsCount} เดือน)
               </option>
               {distinctYears.map((y) => {
                 const info = yearCompletenessMap.get(y);
                 const isComplete = info?.isComplete;
                 return (
                   <option key={y} value={y.toString()}>
-                    ปี พ.ศ. {y} {isComplete ? '(ครบ 12 งวด)' : `(${info?.recordedCount || 0}/12 งวด)`}
+                    ปี พ.ศ. {y} {isComplete ? '(ครบ 12 เดือน)' : `(${info?.recordedCount || 0}/12 เดือน)`}
                   </option>
                 );
               })}
@@ -67,7 +67,7 @@ export function RecordsYearPills({
           {/* Status Badge */}
           {selectedYear === 'all' ? (
             <span className="text-[11px] text-slate-500 font-mono hidden md:inline-flex items-center gap-1">
-              (แสดงข้อมูลทั้งหมด {distinctYears.length} ปี รวม {totalRecordsCount} งวด)
+              (แสดงข้อมูลสะสมทั้งหมด {distinctYears.length} ปี รวม {totalRecordsCount} เดือน)
             </span>
           ) : isIncomplete ? (
             <div className="inline-flex items-center gap-2 text-[11px] text-amber-800 bg-amber-50 px-2 py-0.5 rounded-2xs border border-amber-300">
@@ -91,7 +91,7 @@ export function RecordsYearPills({
           ) : (
             <span className="inline-flex items-center gap-1 text-[11px] text-teal-800 font-semibold bg-teal-50 px-2 py-0.5 rounded-2xs border border-teal-200">
               <Filter className="w-3 h-3 text-teal-600" />
-              <span>กำลังจัดการข้อมูล: ปี พ.ศ. {selectedYear} (ครบ 12 เดือน)</span>
+              <span>แสดงเฉพาะ: ปี พ.ศ. {selectedYear} (ครบ 12 เดือน)</span>
             </span>
           )}
         </div>
@@ -106,7 +106,7 @@ export function RecordsYearPills({
               title="แสดงข้อมูลทุกปีทั้งหมด"
             >
               <RotateCcw className="w-3 h-3 text-slate-500" />
-              <span>ล้างตัวกรอง (ดูภาพรวม)</span>
+              <span>แสดงทุกปี (ดูภาพรวม)</span>
             </button>
           )}
 

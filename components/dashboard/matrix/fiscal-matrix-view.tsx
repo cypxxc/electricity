@@ -45,10 +45,10 @@ export function FiscalMatrixView({
         {/* Quarter Super-Header */}
         <tr className="bg-slate-200/80 border-b border-slate-300 text-slate-800 font-semibold text-[10px] text-center uppercase tracking-wider">
           <th className="py-1 px-3 sticky left-0 bg-slate-200 z-20 border-r border-slate-300 text-left shadow-[2px_0_4px_-2px_rgba(0,0,0,0.06)]">
-            รอบงบประมาณ
+            ปีงบประมาณ
           </th>
           <th colSpan={3} className="py-1 px-1 bg-amber-50/70 border-r border-slate-300 text-amber-950 font-bold">
-            ไตรมาส 1 (ต.ค.–ธ.ค. ปีก่อน)
+            ไตรมาส 1 (ต.ค.–ธ.ค.)
           </th>
           <th colSpan={3} className="py-1 px-1 bg-sky-50/70 border-r border-slate-300 text-sky-950 font-bold">
             ไตรมาส 2 (ม.ค.–มี.ค.)
@@ -60,7 +60,7 @@ export function FiscalMatrixView({
             ไตรมาส 4 (ก.ค.–ก.ย.)
           </th>
           <th colSpan={3} className="py-1 px-2 bg-slate-200/80 text-slate-800 font-bold">
-            สรุปผลรวมปีงบประมาณ
+            สรุปภาพรวมทั้งปี
           </th>
         </tr>
 
@@ -88,13 +88,13 @@ export function FiscalMatrixView({
             );
           })}
           <th className="py-2 px-2 text-center border-l border-slate-300 min-w-[48px] font-medium text-slate-600">
-            งวด
+            เดือน
           </th>
           <th className="py-2 px-3 text-right bg-slate-200/70 border-l border-slate-300 min-w-[110px] font-bold text-slate-950">
-            รวมทั้งปีงบ
+            ยอดรวมทั้งปี
           </th>
           <th className="py-2 px-3 text-right bg-slate-100 border-l border-slate-300 min-w-[95px] font-semibold text-slate-700">
-            เฉลี่ย/งวด
+            เฉลี่ยต่อเดือน
           </th>
         </tr>
       </thead>
@@ -121,7 +121,7 @@ export function FiscalMatrixView({
                 <td
                   onClick={() => onSelectYear(isRowSelected ? 'all' : row.fyBe.toString())}
                   className="py-2 px-3 font-bold font-mono text-slate-900 sticky left-0 bg-white hover:bg-slate-100 z-10 border-r border-slate-300 cursor-pointer shadow-[2px_0_4px_-2px_rgba(0,0,0,0.06)]"
-                  title="คลิกเพื่อกรองเฉพาะปีงบประมาณนี้"
+                  title="คลิกเพื่อดูเฉพาะปีงบประมาณนี้"
                 >
                   <div className="flex items-center gap-1.5">
                     <span>ปีงบ {row.fyBe}</span>
@@ -156,7 +156,7 @@ export function FiscalMatrixView({
                     cellStyle = 'font-bold text-slate-950 bg-amber-100/90 cursor-pointer ring-1 ring-amber-400 inset-0';
                     badge = (
                       <span
-                        title="ยอดสูงสุดในประวัติศาสตร์ (คลิกดูรายละเอียด)"
+                        title="ค่าไฟฟ้าสูงสุดที่บันทึก (คลิกดูรายละเอียด)"
                         className="ml-1 text-[10px] text-amber-900 font-bold"
                       >
                         ⯁
@@ -166,7 +166,7 @@ export function FiscalMatrixView({
                     cellStyle = 'font-semibold text-slate-900 bg-amber-50/80 cursor-pointer border-b border-amber-300';
                     badge = (
                       <span
-                        title="ค่าเบี่ยงเบนทางสถิติ > 2 SD (คลิกดูรายละเอียด)"
+                        title="ค่าไฟฟ้าสูงผิดปกติ (คลิกดูรายละเอียด)"
                         className="ml-0.5 text-[9px] text-amber-800"
                       >
                         ⯁
@@ -189,8 +189,8 @@ export function FiscalMatrixView({
                       className={`py-2 px-2 text-right font-mono tabular-nums transition-colors cursor-pointer hover:bg-teal-50/80 ${cellStyle}`}
                       title={
                         anomalyObj
-                          ? `ตรวจพบค่าเบี่ยงเบนทางสถิติ ฿${m.amount.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (คลิกเพื่อดูรายละเอียด)`
-                          : `${m.monthName} ${m.yearBe} (ปีงบ ${row.fyBe}): ฿${m.amount.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (คลิกเพื่อเน้นงวดนี้)`
+                          ? `ค่าไฟฟ้าสูงผิดปกติ ฿${m.amount.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (คลิกเพื่อดูรายละเอียด)`
+                          : `${m.monthName} ${m.yearBe} (ปีงบ ${row.fyBe}): ฿${m.amount.toLocaleString('th-TH', { minimumFractionDigits: 2 })} (คลิกเพื่อเน้นเดือนนี้)`
                       }
                     >
                       <span>{m.amount.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
@@ -222,7 +222,7 @@ export function FiscalMatrixView({
       <tfoot>
         <tr className="bg-slate-100 border-t-2 border-slate-400 font-bold text-slate-900 text-[11px]">
           <td className="py-2.5 px-3 sticky left-0 bg-slate-100 z-10 border-r border-slate-300 font-mono shadow-[2px_0_4px_-2px_rgba(0,0,0,0.06)]">
-            รวมทุกปีงบ
+            ยอดรวมทุกปี
           </td>
           {fiscalMonthlyTotals.map((sum, idx) => (
             <td key={idx} className="py-2.5 px-2 text-right font-mono tabular-nums text-slate-800">

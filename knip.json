@@ -1,0 +1,10 @@
+{
+  "$schema": "https://unpkg.com/knip@5/overview/config.json",
+  "entry": [
+    "app/**/{page,layout,loading,error,not-found,route,default}.{ts,tsx}",
+    "scripts/**/*.{ts,js,sh}",
+    "tests/**/*.{ts,js}"
+  ],
+  "project": ["**/*.{ts,tsx,js,mjs}"],
+  "ignoreDependencies": ["tailwindcss"]
+}

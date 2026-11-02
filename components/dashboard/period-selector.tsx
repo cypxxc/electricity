@@ -37,7 +37,7 @@ export function PeriodSelector({
         <div className="flex items-center gap-1.5 text-slate-800">
           <CalendarDays className="w-4 h-4 text-teal-600" />
           <label htmlFor="period-selector-year" className="text-xs font-bold tracking-tight text-slate-800">
-            เลือกช่วงเวลาวิเคราะห์:
+            เลือกปีงบประมาณ:
           </label>
         </div>
 
@@ -49,7 +49,7 @@ export function PeriodSelector({
             className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy/20 shadow-2xs cursor-pointer transition-colors"
           >
             <option value="all">
-              ภาพรวมทั้งหมด ({fiscalYears.length} ปีงบประมาณ • {totalRecordsCount} งวด)
+              ทุกปีงบประมาณ ({fiscalYears.length} ปี • {totalRecordsCount} เดือน)
             </option>
             {sortedFiscalYears.map((fy) => {
               const isLatest = fy.fyBe === maxFY;
@@ -65,12 +65,12 @@ export function PeriodSelector({
         {/* Status Indicator Badge */}
         {selectedYear === 'all' ? (
           <span className="text-[11px] text-slate-500 font-mono hidden md:inline-flex items-center gap-1">
-            (แสดงภาพรวมสะสม {fiscalYears.length} ปีงบประมาณ รวม {totalRecordsCount} งวด)
+            (แสดงข้อมูลสะสม {fiscalYears.length} ปีงบประมาณ รวม {totalRecordsCount} เดือน)
           </span>
         ) : (
           <span className="inline-flex items-center gap-1 text-[11px] text-teal-800 font-semibold bg-teal-50 px-2 py-0.5 rounded-2xs border border-teal-200">
             <Filter className="w-3 h-3 text-teal-600" />
-            <span>กำลังคำนวณเฉพาะ: ปีงบประมาณ {selectedYear}</span>
+            <span>แสดงเฉพาะ: ปีงบประมาณ {selectedYear}</span>
           </span>
         )}
       </div>
@@ -81,10 +81,10 @@ export function PeriodSelector({
           onClick={onReset}
           type="button"
           className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-slate-900 border border-slate-300 hover:border-slate-400 rounded-xs shadow-2xs transition-colors self-start sm:self-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 print:hidden"
-          title="ล้างตัวกรองและแสดงภาพรวมทั้งหมด"
+          title="แสดงข้อมูลทุกปีงบประมาณ"
         >
           <RotateCcw className="w-3 h-3 text-slate-500" />
-          <span>ล้างตัวกรอง (ดูภาพรวม)</span>
+          <span>แสดงทุกปี (ดูภาพรวม)</span>
         </button>
       )}
     </div>

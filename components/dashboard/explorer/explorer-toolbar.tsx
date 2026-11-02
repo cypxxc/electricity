@@ -48,12 +48,12 @@ export function ExplorerToolbar({
       <div>
         <div className="flex flex-wrap items-center gap-2">
           <h2 className="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">
-            ระบบกราฟวิเคราะห์แนวโน้มค่าใช้จ่ายไฟฟ้า (Electricity Expenditure Explorer)
+            กราฟวิเคราะห์แนวโน้มค่าไฟฟ้า (Expenditure Trend Explorer)
           </h2>
           <span className="text-[10px] text-slate-500 font-mono">หน่วย: บาท (THB)</span>
         </div>
         <p className="text-[11px] text-slate-500 mt-0.5">
-          เลือกดูข้อมูลรายเดือนของปีที่ต้องการ เปรียบเทียบรายเดือนระหว่างปี หรือวิเคราะห์แนวโน้มรายปี
+          เลือกดูแนวโน้มรายเดือน เปรียบเทียบระหว่างปี หรือวิเคราะห์ภาพรวมรายปีงบประมาณ
         </p>
       </div>
 
@@ -62,7 +62,7 @@ export function ExplorerToolbar({
         {/* Main Chart View Selector Dropdown */}
         <div className="flex items-center gap-1.5">
           <label htmlFor="chart-view-mode" className="text-xs font-semibold text-slate-700">
-            โหมดกราฟ:
+            รูปแบบกราฟ:
           </label>
           <select
             id="chart-view-mode"
@@ -70,9 +70,9 @@ export function ExplorerToolbar({
             onChange={(e) => setViewMode(e.target.value as ChartViewMode)}
             className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy/20 shadow-2xs cursor-pointer transition-colors"
           >
-            <option value="yearly">รายปี (Yearly Trend)</option>
+            <option value="yearly">รายปีงบประมาณ (Yearly Trend)</option>
             <option value="monthly">รายเดือน (Monthly Trend)</option>
-            <option value="yoy">เปรียบเทียบรายเดือนระหว่างปี (Year-over-Year Comparison)</option>
+            <option value="yoy">เปรียบเทียบระหว่างปี (Year-over-Year Comparison)</option>
           </select>
         </div>
 
@@ -84,11 +84,11 @@ export function ExplorerToolbar({
               onChange={(e) => setSelectedCalendarYear(e.target.value)}
               className="text-xs font-semibold border border-slate-300 hover:border-slate-400 bg-white text-slate-800 rounded-xs px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-navy/20 shadow-2xs cursor-pointer transition-colors"
             >
-              <optgroup label="ช่วงเวลาย้อนหลัง (Rolling Window)">
-                <option value="recent_12">12 เดือนล่าสุด (1 ปีล่าสุด)</option>
-                <option value="recent_24">24 เดือนล่าสุด (2 ปีล่าสุด)</option>
+              <optgroup label="ช่วงเวลาย้อนหลัง">
+                <option value="recent_12">12 เดือนล่าสุด</option>
+                <option value="recent_24">24 เดือนล่าสุด</option>
                 <option value="all">
-                  แสดงต่อเนื่องทุกปี ({availableYears[availableYears.length - 1] || 2562} - {availableYears[0] || 2569})
+                  แสดงข้อมูลทุกปี (ทั้งหมด)
                 </option>
               </optgroup>
               <optgroup label="เลือกตามปี พ.ศ.">
@@ -110,7 +110,7 @@ export function ExplorerToolbar({
                     : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
-                รายงวด
+                รายเดือน
               </button>
               <button
                 type="button"
@@ -121,7 +121,7 @@ export function ExplorerToolbar({
                     : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
-                ยอดสะสมในรอบปี
+                สะสมในรอบปี
               </button>
             </div>
           </div>
@@ -131,7 +131,7 @@ export function ExplorerToolbar({
         {viewMode === 'yoy' && (
           <div className="flex items-center gap-1.5">
             <div className="flex items-center gap-1 text-[11px]">
-              <span className="text-slate-600 font-semibold">ปีหลัก:</span>
+              <span className="text-slate-600 font-semibold">ปีที่เลือก:</span>
               <select
                 value={yoyPrimaryYear}
                 onChange={(e) => setYoyPrimaryYear(parseInt(e.target.value, 10))}
@@ -146,7 +146,7 @@ export function ExplorerToolbar({
             </div>
 
             <div className="flex items-center gap-1 text-[11px]">
-              <span className="text-slate-600 font-semibold">ปีเทียบ:</span>
+              <span className="text-slate-600 font-semibold">ปีเปรียบเทียบ:</span>
               <select
                 value={yoyBenchmarkYear}
                 onChange={(e) => setYoyBenchmarkYear(parseInt(e.target.value, 10))}
@@ -170,7 +170,7 @@ export function ExplorerToolbar({
                     : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
-                แท่งคู่
+                กราฟแท่ง
               </button>
               <button
                 type="button"
@@ -181,7 +181,7 @@ export function ExplorerToolbar({
                     : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
-                เส้นคู่
+                กราฟเส้น
               </button>
             </div>
           </div>
@@ -226,7 +226,7 @@ export function ExplorerToolbar({
                     : 'text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 font-medium'
                 }`}
               >
-                เฉลี่ย/งวด
+                เฉลี่ยต่อเดือน
               </button>
             </div>
           </div>

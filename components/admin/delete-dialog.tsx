@@ -68,7 +68,7 @@ export function DeleteDialog({
         <div className="flex items-center gap-2.5 text-rose-700 mb-2.5">
           <AlertTriangle className="w-5 h-5 shrink-0" />
           <h3 id="delete-dialog-title" className="text-sm font-bold text-slate-900">
-            ยืนยันการลบระเบียนข้อมูล
+            ยืนยันการลบข้อมูล
           </h3>
         </div>
 
@@ -82,7 +82,7 @@ export function DeleteDialog({
           ) หรือไม่?
         </p>
         <p className="text-[11px] text-rose-700 font-medium mt-2">
-          * การดำเนินการนี้จะลบระเบียนออกจากฐานข้อมูลอย่างถาวร
+          * ข้อมูลนี้จะถูกลบออกจากระบบอย่างถาวรและไม่สามารถกู้คืนได้
         </p>
 
         {error && (

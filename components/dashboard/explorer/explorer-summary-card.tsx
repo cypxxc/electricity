@@ -29,7 +29,7 @@ export function ExplorerSummaryCard({
           ) : (
             <Layers className="w-3.5 h-3.5 text-teal-700" />
           )}
-          <span>บทสรุปแนวโน้มจากการคำนวณจริง (Analytical Summary)</span>
+          <span>สรุปภาพรวมแนวโน้ม (Analytical Summary)</span>
         </div>
 
         {/* Quick Metrics Badge Row */}
@@ -41,7 +41,7 @@ export function ExplorerSummaryCard({
               </span>
               <span className="text-slate-300">|</span>
               <span className="text-slate-600">
-                เฉลี่ย: <strong className="text-slate-900">฿{monthlyStats.avg.toLocaleString('th-TH', { maximumFractionDigits: 0 })}</strong>
+                เฉลี่ยต่อเดือน: <strong className="text-slate-900">฿{monthlyStats.avg.toLocaleString('th-TH', { maximumFractionDigits: 0 })}</strong>
               </span>
               {monthlyStats.maxMonth && (
                 <>
@@ -79,7 +79,7 @@ export function ExplorerSummaryCard({
               </span>
               <span className="text-slate-300">|</span>
               <span className="text-slate-600 font-sans">
-                เทียบ {yoyStats.comparedMonthsCount} เดือนตรงกัน
+                เปรียบเทียบ {yoyStats.comparedMonthsCount} เดือน
               </span>
             </>
           )}

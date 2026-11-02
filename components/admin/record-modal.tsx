@@ -114,10 +114,10 @@ function RecordModalDialog({
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-slate-50">
           <div>
             <h3 id="record-modal-title" className="text-xs sm:text-sm font-bold text-slate-900">
-              {isEditing ? 'แก้ไขระเบียนข้อมูลค่าไฟฟ้า' : 'เพิ่มระเบียนข้อมูลค่าไฟฟ้า'}
+              {isEditing ? 'แก้ไขข้อมูลค่าไฟฟ้า' : 'เพิ่มข้อมูลค่าไฟฟ้า'}
             </h3>
             <p className="text-[11px] text-slate-500">
-              {isEditing ? `แก้ไขข้อมูลประจำปี พ.ศ. ${recordToEdit.yearBe}` : 'บันทึกยอดการใช้จ่ายค่าไฟฟ้ารายเดือน'}
+              {isEditing ? `แก้ไขข้อมูลประจำปี พ.ศ. ${recordToEdit.yearBe}` : 'บันทึกข้อมูลค่าไฟฟ้าประจำเดือน'}
             </p>
           </div>
           <button
@@ -179,7 +179,7 @@ function RecordModalDialog({
           <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-xs flex items-center justify-between text-[11px] text-slate-700">
             <div className="flex items-center gap-1.5">
               <Building2 className="w-3.5 h-3.5 text-teal-700" />
-              <span className="font-semibold text-slate-900">การจัดสรรปีงบประมาณไทย:</span>
+              <span className="font-semibold text-slate-900">ปีงบประมาณที่สังกัด:</span>
             </div>
             <div className="font-mono bg-white px-2 py-0.5 rounded-2xs border border-slate-300 text-teal-900 font-bold">
               ปีงบประมาณ {fiscalYear} ({fiscalQuarter.shortLabel})
@@ -189,7 +189,7 @@ function RecordModalDialog({
           <div>
             <div className="flex items-center justify-between mb-1">
               <label htmlFor="record-amount-input" className="text-xs font-semibold text-slate-700">
-                ยอดค่าไฟฟ้า (บาท) <span className="text-rose-600">*</span>
+                ค่าไฟฟ้า (บาท) <span className="text-rose-600">*</span>
               </label>
               {currencyPreview && !currencyPreview.isError && (
                 <span className="text-[11px] font-mono font-bold text-teal-800">
@@ -228,7 +228,7 @@ function RecordModalDialog({
             <input
               type="text"
               name="note"
-              placeholder="ระบุข้อสังเกตหรือสาเหตุการใช้จ่าย (ถ้ามี)"
+              placeholder="ระบุข้อสังเกตหรือรายละเอียดเพิ่มเติม (ถ้ามี)"
               defaultValue={recordToEdit?.note || ''}
               className="w-full px-3 py-1.5 text-xs border border-slate-300 hover:border-slate-400 rounded-xs focus:outline-none focus:ring-2 focus:ring-brand-navy/20 focus:border-brand-navy transition-colors shadow-2xs"
             />

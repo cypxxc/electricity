@@ -28,9 +28,11 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgrespassword@postgres:5432/electricity_db?client_encoding=utf8}
-      JWT_SECRET: ${JWT_SECRET:-super-secret-jwt-key-min-32-chars-long-12345}
+      JWT_SECRET: ${JWT_SECRET:-super-production-secret-jwt-key-min-32-chars-long-secure-2026}
       ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-adminpassword123}
       COOKIE_SECURE: ${COOKIE_SECURE:-false}

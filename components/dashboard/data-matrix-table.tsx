@@ -155,9 +155,9 @@ export function DataMatrixTable({
       {/* 3. Audit Footnote & Provenance */}
       <div className="px-4 py-2.5 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-[11px] text-slate-600">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <span className="font-semibold text-slate-700">คำอธิบายทางระเบียบการเงิน:</span>
+          <span className="font-semibold text-slate-700">หมายเหตุประกอบข้อมูล:</span>
           <span className="inline-flex items-center gap-1 font-mono text-slate-700">
-            <span>📅 ปีงบประมาณไทย = 1 ต.ค. (ปีก่อนหน้า) – 30 ก.ย. (ปีงบประมาณ)</span>
+            <span>📅 รอบปีงบประมาณไทย: 1 ต.ค. (ปีก่อนหน้า) – 30 ก.ย. (ปีงบประมาณ)</span>
           </span>
           <span className="inline-flex items-center gap-1 font-mono">
             <span className="text-amber-800 font-bold">⯁</span> ยอดสูงสุด (฿{maxAmount.toLocaleString('th-TH', { minimumFractionDigits: 2 })} พ.ค. {maxYear})
@@ -169,7 +169,7 @@ export function DataMatrixTable({
               className="inline-flex items-center gap-1 text-amber-800 hover:text-amber-950 underline font-semibold cursor-pointer ml-1"
             >
               <AlertTriangle className="w-3 h-3 text-amber-700" />
-              <span>ตรวจสอบความผิดปกติ ({anomalies.length} งวด)</span>
+              <span>รายการค่าไฟฟ้าสูงผิดปกติ ({anomalies.length} เดือน)</span>
             </button>
           )}
         </div>

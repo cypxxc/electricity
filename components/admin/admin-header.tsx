@@ -21,14 +21,14 @@ export function AdminHeader({ totalRecords }: AdminHeaderProps) {
       <div>
         <div className="flex items-center gap-2">
           <h1 className="text-lg sm:text-xl font-bold tracking-tight text-slate-900">
-            ระบบจัดการฐานข้อมูลค่าไฟฟ้า (Database Administration)
+            ระบบจัดการข้อมูลค่าไฟฟ้า (Data Management)
           </h1>
           <span className="px-2 py-0.5 text-[11px] font-mono font-medium bg-slate-100 text-slate-700 rounded-xs border border-slate-300">
             ทั้งหมด {totalRecords} รายการ
           </span>
         </div>
         <p className="text-xs text-slate-600 mt-1">
-          บันทึก แก้ไข ตรวจสอบความสมบูรณ์ของงวดเดือน และนำเข้า/ส่งออกข้อมูลค่าไฟฟ้ารายเดือน
+          บันทึก แก้ไข ตรวจสอบความถูกต้อง และนำเข้า/ส่งออกข้อมูลค่าไฟฟ้า
         </p>
       </div>
 

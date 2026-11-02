@@ -38,10 +38,10 @@ export function LoginForm() {
 
           <div>
             <h1 className="text-base font-bold text-slate-900 tracking-tight leading-tight">
-              เข้าสู่ระบบผู้ดูแลข้อมูล (Admin)
+              เข้าสู่ระบบจัดการข้อมูล (Admin)
             </h1>
             <p className="text-[11px] text-slate-500 leading-tight mt-0.5">
-              ระบบติดตามและจัดการข้อมูลค่าไฟฟ้า สำนักงานเขตสุขภาพที่ 7
+              ระบบสารสนเทศวิเคราะห์ค่าใช้จ่ายค่าไฟฟ้า สำนักงานเขตสุขภาพที่ 7
             </p>
           </div>
         </div>
@@ -96,7 +96,7 @@ export function LoginForm() {
                   กำลังตรวจสอบสิทธิ์...
                 </>
               ) : (
-                'เข้าสู่ระบบตรวจสอบและจัดการ'
+                'เข้าสู่ระบบ'
               )}
             </button>
           </div>

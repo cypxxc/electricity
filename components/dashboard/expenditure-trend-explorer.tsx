@@ -403,7 +403,7 @@ export function ExpenditureTrendExplorer({
       {(selectedYear !== 'all' || selectedMonth !== null) && (
         <div className="px-3 py-1.5 bg-teal-50 border border-teal-200 rounded-xs flex items-center justify-between text-[11px] text-teal-900 font-mono">
           <div className="flex items-center gap-2">
-            <span className="font-semibold">ตัวกรองตารางที่เลือก:</span>
+            <span className="font-semibold">ตัวกรองที่เลือก:</span>
             {selectedYear !== 'all' && (
               <span className="bg-teal-100 border border-teal-300 px-1.5 rounded-2xs">
                 ปี {selectedYear}

@@ -39,9 +39,3 @@ export const recordInputSchema = z.object({
 
 export type RecordInput = z.infer<typeof recordInputSchema>;
 
-export const loginSchema = z.object({
-  username: z.string().min(1, 'กรุณากรอกชื่อผู้ใช้'),
-  password: z.string().min(1, 'กรุณากรอกรหัสผ่าน'),
-});
-
-export type LoginInput = z.infer<typeof loginSchema>;

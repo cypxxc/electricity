@@ -29,7 +29,7 @@ export function TrendNarrativeBanner({
     const isYoyPositive = (yoyRate || 0) > 0;
 
     let trendDir: 'increasing' | 'decreasing' | 'stable' = 'stable';
-    let trendDirTh = 'แนวโน้มคงที่ใกล้เคียงปีก่อนหน้า';
+    let trendDirTh = 'แนวโน้มคงที่ (ใกล้เคียงปีก่อนหน้า)';
     if (yoyRate !== null) {
       if (yoyRate < -1.0) {
         trendDir = 'decreasing';
@@ -39,13 +39,13 @@ export function TrendNarrativeBanner({
         trendDirTh = 'แนวโน้มเพิ่มขึ้นจากปีก่อนหน้า';
       }
     } else {
-      trendDirTh = 'ปีฐานเริ่มต้นในระบบ';
+      trendDirTh = 'ปีเริ่มต้นในระบบ (ไม่มีข้อมูลเปรียบเทียบ)';
     }
 
     const yoySummaryText =
       yoyRate !== null
-        ? `เปรียบเทียบกับปีงบประมาณ ${prevFYNum} มียอดเปลี่ยนแปลง ${yoyRate > 0 ? '+' : ''}${yoyRate.toFixed(1)}% (${yoyAmt && yoyAmt > 0 ? '+' : ''}฿${yoyAmt?.toLocaleString('th-TH', { maximumFractionDigits: 0 })} บาท)`
-        : `เป็นปีแรกสุดในฐานข้อมูลที่บันทึกครบถ้วน (ปีฐานเริ่มต้น)`;
+        ? `เมื่อเทียบกับปีงบประมาณ ${prevFYNum} มียอดเปลี่ยนแปลง ${yoyRate > 0 ? '+' : ''}${yoyRate.toFixed(1)}% (${yoyAmt && yoyAmt > 0 ? '+' : ''}฿${yoyAmt?.toLocaleString('th-TH', { maximumFractionDigits: 0 })} บาท)`
+        : `เป็นปีแรกสุดในฐานข้อมูลที่บันทึกครบถ้วน`;
 
     const maxMonthStr = selectedFYSummary.maxMonth
       ? `${selectedFYSummary.maxMonth.monthName} ${selectedFYSummary.maxMonth.yearBe} (฿${selectedFYSummary.maxMonth.amount.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})`
@@ -62,7 +62,7 @@ export function TrendNarrativeBanner({
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-teal-600" />
             <h2 className="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">
-              บทวิเคราะห์แนวโน้มและทิศทางการใช้จ่าย (Expenditure Trend Intelligence)
+              สรุปแนวโน้มการใช้จ่ายค่าไฟฟ้า (Expenditure Trend Summary)
             </h2>
           </div>
 
@@ -90,7 +90,7 @@ export function TrendNarrativeBanner({
             {/* Selected FY Badge */}
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-xs text-[10.5px] font-mono text-teal-900 bg-teal-50 border border-teal-200">
               <Filter className="w-3 h-3 text-teal-600" />
-              <span>โฟกัส: ปีงบประมาณ {fyNum} (ครบ {selectedFYSummary.recordedMonths} งวด)</span>
+              <span>มุมมอง: ปีงบประมาณ {fyNum} (ครบ {selectedFYSummary.recordedMonths} เดือน)</span>
             </span>
           </div>
         </div>
@@ -100,7 +100,7 @@ export function TrendNarrativeBanner({
           {/* Tile 1: Total for FY */}
           <div className="bg-slate-50 border border-slate-200/80 rounded-xs p-2.5">
             <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
-              ยอดรวมปีงบ {fyNum}
+              ยอดรวมปีงบประมาณ {fyNum}
             </div>
             <div className="mt-1 text-base sm:text-lg font-bold font-mono text-slate-900 tabular-nums">
               ฿{selectedFYSummary.totalAmount.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -113,7 +113,7 @@ export function TrendNarrativeBanner({
           {/* Tile 2: YoY Change */}
           <div className="bg-slate-50 border border-slate-200/80 rounded-xs p-2.5">
             <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
-              เทียบปีงบ {prevFYNum} (YoY)
+              เทียบปีงบประมาณ {prevFYNum}
             </div>
             <div className="mt-1 flex items-baseline gap-1.5">
               {yoyRate !== null ? (
@@ -126,18 +126,18 @@ export function TrendNarrativeBanner({
                   {yoyRate > 0 ? '+' : ''}{yoyRate.toFixed(1)}%
                 </span>
               ) : (
-                <span className="text-base font-bold font-mono text-slate-600">ปีฐาน</span>
+                <span className="text-base font-bold font-mono text-slate-600">ปีเริ่มต้น</span>
               )}
             </div>
             <div className="text-[10px] font-mono text-slate-500 mt-0.5">
-              {yoyAmt !== null ? `${yoyAmt > 0 ? '+' : ''}฿${Math.abs(yoyAmt).toLocaleString('th-TH', { maximumFractionDigits: 0 })}` : 'งวดเริ่มแรก'}
+              {yoyAmt !== null ? `${yoyAmt > 0 ? '+' : ''}฿${Math.abs(yoyAmt).toLocaleString('th-TH', { maximumFractionDigits: 0 })}` : 'ปีเริ่มต้น'}
             </div>
           </div>
 
           {/* Tile 3: Peak Month */}
           <div className="bg-slate-50 border border-slate-200/80 rounded-xs p-2.5">
             <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider truncate">
-              งวดสูงสุด (Peak Month)
+              เดือนที่ค่าไฟสูงสุด (Peak Month)
             </div>
             <div className="mt-1 text-base sm:text-lg font-bold font-mono text-slate-900 tabular-nums truncate">
               ฿{(selectedFYSummary.maxMonth?.amount || 0).toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -150,7 +150,7 @@ export function TrendNarrativeBanner({
           {/* Tile 4: Min Month */}
           <div className="bg-slate-50 border border-slate-200/80 rounded-xs p-2.5">
             <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider truncate">
-              งวดประหยัดสุด (Lowest)
+              เดือนที่ค่าไฟต่ำสุด (Lowest Month)
             </div>
             <div className="mt-1 text-base sm:text-lg font-bold font-mono text-slate-900 tabular-nums truncate">
               ฿{(selectedFYSummary.minMonth?.amount || 0).toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -164,7 +164,7 @@ export function TrendNarrativeBanner({
         {/* Factual Narrative Paragraph */}
         <div className="px-3 py-2 bg-slate-100/70 border border-slate-200 rounded-xs text-[11.5px] text-slate-700 leading-relaxed font-sans">
           <strong className="text-slate-900 font-semibold mr-1.5">สรุปภาพรวมปีงบประมาณ {fyNum}:</strong>
-          บันทึกข้อมูลค่าไฟฟ้าครบ 12 งวดเดือน ยอดใช้จ่ายรวม ฿{selectedFYSummary.totalAmount.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} บาท เฉลี่ยเดือนละ ฿{selectedFYSummary.averageMonthly.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} บาท {yoySummaryText} โดยงวดที่มีค่าใช้จ่ายสูงสุดคือ {maxMonthStr} และงวดที่ประหยัดที่สุดคือ {minMonthStr}
+          บันทึกข้อมูลค่าไฟฟ้าครบ 12 เดือน ยอดใช้จ่ายรวม ฿{selectedFYSummary.totalAmount.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} บาท เฉลี่ยเดือนละ ฿{selectedFYSummary.averageMonthly.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} บาท {yoySummaryText} โดยเดือนที่มีค่าไฟฟ้าสูงสุดคือ {maxMonthStr} และเดือนที่มีค่าไฟฟ้าต่ำสุดคือ {minMonthStr}
         </div>
       </div>
     );
@@ -198,7 +198,7 @@ export function TrendNarrativeBanner({
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-teal-600" />
           <h2 className="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">
-            บทวิเคราะห์แนวโน้มและทิศทางการใช้จ่าย (Expenditure Trend Intelligence)
+            สรุปแนวโน้มการใช้จ่ายค่าไฟฟ้า (Expenditure Trend Summary)
           </h2>
         </div>
 
@@ -226,7 +226,7 @@ export function TrendNarrativeBanner({
           {/* Coverage Badge */}
           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-xs text-[10.5px] font-mono text-slate-600 bg-slate-100 border border-slate-200">
             <ShieldCheck className="w-3 h-3 text-slate-500" />
-            <span>ฐานข้อมูลสะสม {dataCoverage.totalRecords} งวด ({dataCoverage.startLabel} – {dataCoverage.endLabel})</span>
+            <span>ข้อมูลสะสม {dataCoverage.totalRecords} เดือน ({dataCoverage.startLabel} – {dataCoverage.endLabel})</span>
           </span>
         </div>
       </div>
@@ -236,13 +236,13 @@ export function TrendNarrativeBanner({
         {/* Tile 1: Latest Month */}
         <div className="bg-slate-50 border border-slate-200/80 rounded-xs p-2.5">
           <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
-            งวดล่าสุด ({latestMonth.periodLabel})
+            เดือนล่าสุด ({latestMonth.periodLabel})
           </div>
           <div className="mt-1 text-base sm:text-lg font-bold font-mono text-slate-900 tabular-nums">
             ฿{latestMonth.amount.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
           <div className="text-[10px] text-slate-500 mt-0.5">
-            ค่าใช้จ่ายจริงประจำเดือน
+            ยอดค่าไฟฟ้าประจำเดือน
           </div>
         </div>
 
@@ -289,7 +289,7 @@ export function TrendNarrativeBanner({
         {/* Tile 4: Fiscal Year Cumulative */}
         <div className="bg-slate-50 border border-slate-200/80 rounded-xs p-2.5">
           <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider truncate">
-            ปีงบ {currentFiscalYear.fyBe} เทียบ {previousFiscalYear.fyBe}
+            ปีงบประมาณ {currentFiscalYear.fyBe} เทียบ {previousFiscalYear.fyBe}
           </div>
           <div className="mt-1 flex items-baseline gap-1.5">
             <span
@@ -309,7 +309,7 @@ export function TrendNarrativeBanner({
 
       {/* Factual Narrative Paragraph */}
       <div className="px-3 py-2 bg-slate-100/70 border border-slate-200 rounded-xs text-[11.5px] text-slate-700 leading-relaxed font-sans">
-        <strong className="text-slate-900 font-semibold mr-1.5">ข้อสรุปการวิเคราะห์เชิงตัวเลข:</strong>
+        <strong className="text-slate-900 font-semibold mr-1.5">สรุปสาระสำคัญ:</strong>
         {trendSummaryTh}
       </div>
     </div>

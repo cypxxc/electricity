@@ -129,3 +129,16 @@ knip-report.json
 knip-report.txt
 knip-report.md
 .knip/
+
+# Local Documentation Media & Screenshots
+# ------------------------------------------------------------------------------
+docs/uat_screenshots/
+
+# AI Agent Specific Configuration & Local Skills
+# ------------------------------------------------------------------------------
+.agents/
+AGENTS.md
+
+# Deployment Examples / Templates
+# ------------------------------------------------------------------------------
+nginx.conf.example
